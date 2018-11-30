@@ -87,7 +87,7 @@ const tx = txb.buildIncomplete()
 
 Now we can update the transaction with the unlocking script, providing a solution to the maths problem.
 
-We provide `2 + 3` as an answer, plus the redeem script. 
+We provide `02` and `03` as an answer, plus the redeem script. 
 ```javascript
 const InputScriptP2SH = bitcoin.script.compile([bitcoin.opcodes.OP_2, bitcoin.opcodes.OP_3, p2sh.redeem.output])
 tx.setInputScript(0, InputScriptP2SH)
@@ -122,12 +122,12 @@ $ getrawtransaction "txid" true
 
 ## Observations
 
-We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`
-You will notice that it is the concatenation of the answer `02 + 03` and the redeem script `OP_ADD 05 OP_EQUAL`.
+We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`.
+You will notice that it is the concatenation of the corresponding hex value of the specified opcodes, `OP_2`, `OP_3` and 
+the redeem script `OP_ADD OP_5 OP_EQUAL`.
 
-Be aware that the hex script is the serialized version, so before the redeem script it specifies its byte length. 
+Be aware that the hex script is the serialized version, which precede the redeem script by its byte length. 
 In order to decode the script we need to remove this byte length.
 ```
-$ ~~decodescript 525303935587~~
 $ decodescript 5253935587
 ``` 

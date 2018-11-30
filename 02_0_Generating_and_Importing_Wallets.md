@@ -7,7 +7,9 @@ For that purpose we will use the script **_[generate_wallets.js](code/generate_w
 BIP32 HD wallets (Alice, Bob, Carol, Dave, Eve and Mallory) with three distinct key pairs and derive the all three 
 different types of addresses for each of them.
 
-Then we import all the private keys into Bitcoin Core using the **_[import_privkeys.sh](code/import_privkeys.sh)_** Bash script.
+Then we import all the private keys into Bitcoin Core using the **_[import_privkeys.sh](code/import_privkeys.sh)_** Bash 
+script.
+Each address is marked by a label `autogen_[wallet_name]`, which you can list with the `listlabels` command.   
 Note that we currently can't import a mnemonic or a seed to Bitcoin Core.
 
 We start the derivation process for each wallet from a 128 bits entropy. 

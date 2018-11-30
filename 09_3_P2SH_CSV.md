@@ -6,8 +6,8 @@
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement 
 
 Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode.
-The script is almost the same as **_10.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH_** but with a relative timelock 
-of 5 blocks.
+The script is almost the same as **_[9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](09_1_P2SH_CLTV.md)_** but with 
+a relative timelock of 5 blocks.
 
 > To read more about OP_CHECKSEQUENCEVERIFY 
 >   * [BIP112 - CHECKSEQUENCEVERIFY](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki)

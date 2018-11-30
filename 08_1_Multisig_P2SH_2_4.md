@@ -121,6 +121,6 @@ $ getrawtransaction "txid" true
 ## Observations
 
 We can see that the unlocking script contains 
-  * a useless but mandatory `00` value due to a Bitcoin bug
+  * a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
   * Alice_0 and Bob_0 signatures
   * and our redeem script

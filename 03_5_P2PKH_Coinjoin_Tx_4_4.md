@@ -24,6 +24,11 @@ each input-output match. With Coinjoin, only one single transaction is recorded.
 were paid from A, C, and E addresses to B, D, and F. By masking the deals made by all parties, an observer can’t, with 
 full certainty, determine who sent bitcoins to whom.
 
+> To read more about Coinjoin
+> * [Bitcoin Developer Guide - Coinjoin](https://bitcoin.org/en/developer-guide#coinjoin)
+> * Top-notch fungibility framework [ZeroLink](https://github.com/nopara73/ZeroLink)
+> * The current most advanced Coinjoin wallet [Wasabi Wallet](https://www.wasabiwallet.io)
+
 
 ## What we will do
 
@@ -78,6 +83,8 @@ $ gettransaction "txid"
 ## Creating the Coinjoin transaction
 
 Now let's spend the UTXOs and create new ones.
+A facilitator, let's say Alice_0, will create the transaction, sign his input, then pass the partially-signed transaction 
+to the next participant and so on until everybody has signed and someone broadcast it.
 
 Create a key pair for each spender (Alice_0, Carol_0, Eve_0, Mallory_1), so that they can sign. 
 ```javascript
@@ -143,6 +150,8 @@ txb.addOutput(p2pkhMallory1.address, 1e7 - 5e4)
 > = 100 000
 > 100 000 satoshis equals 0,001 BTC, this is the mining fee.
 
+Each participant signs their input with the default `SIGHASH_ALL` flag, which prevents inputs or outputs from being 
+manipulated after the fact.
 ```javascript
 txb.sign(0, keyPairAlice0)
 txb.sign(1, keyPairCarol0)

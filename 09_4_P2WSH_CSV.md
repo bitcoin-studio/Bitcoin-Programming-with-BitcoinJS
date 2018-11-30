@@ -7,8 +7,8 @@
 
 Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock 
 opcode.
-The script is almost the same as **_10.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH_** but with a relative 
-timelock of 5 blocks.
+The script is almost the same as **_[9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](09_2_P2WSH_CLTV.md)_** 
+but with a relative timelock of 5 blocks.
 
 > To read more about OP_CHECKSEQUENCEVERIFY 
 > * [BIP112 - CHECKSEQUENCEVERIFY](https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki)

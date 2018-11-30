@@ -13,7 +13,7 @@ Doing so, P2SH also alleviate blockchain data storage since the redeem script is
 Finally, P2SH shifts the burden in data storage for the long script from the present time (locking of funds) to a future 
 time (spending of funds).
 
-However puzzles that doesn't require a signature are insecure. 
-When a transaction is not signed, an attacker can rewrite it to instead send the value to his address. 
+However puzzles that doesn't require a signature are insecure.
+When a transaction is not signed, an attacker can rewrite it to instead send the value to his address.
 
 Except for hard computational puzzles, if we have the redeemScript, we can find the unlocking script.

@@ -56,9 +56,9 @@ const txb = new bitcoin.TransactionBuilder(network)
 Create the input by providing the outpoint but also the script of the previous transaction (vout > scriptPubKey > hex).
 Adding the prevTxScript is a specificity of P2WPKH spending.
 > The script is composed as follow: <version program 00> PUSHBYTES_14 <witness program>
-> The HASH160 of the public key must match the 20-bytes witness program.
-> `$ bx bitcoin160 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d`
-> fb8820f35effa054399540b8ca86040d8ddaa4d5
+> The HASH160 of the public key must match the 20-bytes witness program. <br/>
+> `$ bx bitcoin160 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d` <br/>
+> fb8820f35effa054399540b8ca86040d8ddaa4d5 <br/>
 > or with bitcoinJS
 > bitcoin.crypto.hash160(Buffer.from('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex')).toString('hex')
 ```javascript

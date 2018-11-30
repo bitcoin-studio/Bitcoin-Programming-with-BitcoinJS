@@ -137,6 +137,6 @@ bitcoin.crypto.hash160(Buffer.from('00205b07dcc35fc2b29db80be059e495c88f5b7609c1
 After checking hash equality, the script interpreter recognize that it is actually a Segwit transaction thanks to the 
 version byte and triggers execution of the witness data.
 The witness, located in the `txinwitness` field contains
-  * an empty string that will convert to a useless but mandatory `00` value due to a Bitcoin bug
+  * an empty string that will convert to a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
   * Alice_0 and Bob_0 signatures
   * and our redeem script

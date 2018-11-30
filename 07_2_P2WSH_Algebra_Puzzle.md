@@ -94,7 +94,7 @@ const tx = txb.buildIncomplete()
 
 Now we can update the transaction with the witness stack, providing a solution to the maths problem.
 
-We provide `2` and `3` as an answer, plus the redeem script. 
+We provide `02` and `03` as an answer, plus the redeem script. 
 > Note that we are pushing the integer values, not the corresponding opcode values.
 ```javascript
 const witnessStack = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]

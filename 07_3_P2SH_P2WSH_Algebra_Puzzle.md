@@ -114,7 +114,7 @@ bitcoin.crypto.hash160(scriptSig.slice(1)).toString('hex')
 // '31c74d4132ecfdb577695cd23be18346f048cb24'
 ```
 
-We create the witness stack, providing `2` and `3` as an answer, plus the redeem script. 
+We create the witness stack, providing `02` and `03` as an answer, plus the redeem script. 
 > Note that we are pushing the integer values, not the corresponding opcode values.
 ```javascript
 const witnessStack = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]
