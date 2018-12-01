@@ -124,3 +124,9 @@ We can see that the unlocking script contains
   * a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
   * Alice_0 and Bob_0 signatures
   * and our redeem script
+
+  
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [8.2: Multi-signature Native Segwit 2 of 4](08_2_Multisig_P2WSH_P2MS_2_4.md).
+  

@@ -137,3 +137,8 @@ The SHA256 hash of the redeem script, last item in `txinwitness`, has to match t
 spending.
 
 The witness stack is then executed.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH](07_3_P2SH_P2WSH_Algebra_Puzzle.md).

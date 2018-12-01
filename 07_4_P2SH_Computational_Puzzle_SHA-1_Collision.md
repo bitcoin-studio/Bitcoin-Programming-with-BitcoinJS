@@ -159,3 +159,8 @@ Both returns the same hash, `f92d74e3874587aaf443d1db961d4e26dde13e9c`.
 
 Peter Todd's other bounties (SHA256, RIPEMD160, RIPEMD160-SHA256, SHA256-SHA256) remain unclaimed at the time of this writing. 
 They're all written in the same manner as the SHA-1 example above.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [8.0: Multi-signature Transactions](08_0_Multisig_Transactions.md).

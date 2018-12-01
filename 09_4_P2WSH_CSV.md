@@ -223,4 +223,3 @@ For the second scenario, we note that our witness stack contains
   * Bob_0 signature
   * an empty string, which is equivalent to OP_FALSE
   * the redeem script, that we can decode with `decodescript`
-  

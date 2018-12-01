@@ -13,3 +13,8 @@ If it is 20 bytes long
 * Witness must be `<sig> <pubKey>`
 * HASH160 of the public key must match the 20-byte witness program
 * The signature is verified against the public key with CHECKSIG operation
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.1: Spend a Native Segwit P2WPKH UTXO](04_1_P2WPKH_Spend_1_1.md).

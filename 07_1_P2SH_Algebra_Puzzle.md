@@ -131,3 +131,8 @@ In order to decode the script we need to remove this byte length.
 ```
 $ decodescript 5253935587
 ``` 
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [7.2: Algebra Puzzle - Native Segwit P2WSH](07_2_P2WSH_Algebra_Puzzle.md).

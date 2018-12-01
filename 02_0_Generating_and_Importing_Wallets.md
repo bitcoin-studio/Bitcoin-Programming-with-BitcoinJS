@@ -23,3 +23,8 @@ Generate six wallets, create a `wallets.json` file and import all private keys t
 
 > `generate_wallets.sh` is simply in this repository for demonstration purpose. It uses `bx` for the key derivation, but
 > we can't use it because current `bx` v3 doesn't support Segwit. 
+
+
+## What's Next?
+
+Advance through "PART TWO: PAY TO PUBLIC KEY HASH" with [3.0: Legacy P2PKH](03_0_P2PKH.md).

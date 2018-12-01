@@ -126,3 +126,8 @@ We can see that the scriptSig unlocking script is empty and instead all the data
   * an empty string that will convert to a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
   * Alice_0 and Bob_0 signatures
   * and our redeem script
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [8.3: Multi-signature Embedded Segwit 2 of 4](08_3_Multisig_P2SH_P2WSH_P2MS_2_4.md).

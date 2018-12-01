@@ -17,3 +17,8 @@ However puzzles that doesn't require a signature are insecure.
 When a transaction is not signed, an attacker can rewrite it to instead send the value to his address.
 
 Except for hard computational puzzles, if we have the redeemScript, we can find the unlocking script.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [7.1: Algebra Puzzle - Legacy P2SH](07_1_P2SH_Algebra_Puzzle.md).

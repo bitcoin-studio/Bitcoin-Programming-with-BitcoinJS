@@ -112,3 +112,8 @@ To decode the OP_RETURN data we can use the `xxd` library in a terminal which ma
 ```
 $ echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
 ```
+
+
+## What's Next?
+
+Advance through "PART THREE: PAY TO SCRIPT HASH" with [7.0: Bitcoin Script Puzzles or Pay to Script Hash](07_0_Bitcoin_Script_Puzzles.md).

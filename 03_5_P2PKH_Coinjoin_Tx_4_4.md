@@ -183,3 +183,8 @@ Inspect the transaction.
 ```
 $ getrawtransaction "txid" true
 ```
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.0: Native Segwit P2WPKH](04_0_P2WPKH.md).

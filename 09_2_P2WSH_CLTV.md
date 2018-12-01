@@ -234,3 +234,8 @@ For the second scenario, we note that our witness stack contains
   * Bob_0 signature
   * an empty string, which is equivalent to OP_FALSE
   * the redeem script, that we can decode with `decodescript`
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [9.3: Script with CHECKSEQUENCEVERIFY - Legacy P2SH](09_3_P2SH_CSV.md).

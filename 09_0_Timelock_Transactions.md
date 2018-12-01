@@ -42,3 +42,8 @@ provided to the CSV opcode. Since an input may only be included in a valid block
 this ensures the CSV-based timelock has expired before the transaction may be included in a valid block.
 
 CSV is used by Lightning Network transactions.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](09_1_P2SH_CLTV.md).

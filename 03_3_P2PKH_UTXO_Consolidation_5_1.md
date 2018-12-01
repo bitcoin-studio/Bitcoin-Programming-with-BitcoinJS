@@ -139,3 +139,8 @@ $ getrawtransaction "txid" true
 We note that each input contains a 71 bytes signature (on average), resulting in a large and costly transaction.
 Spending Segwit UTXOs results in much smaller transaction since the inputs are empty.
 Also, the implementation of Schnorr signatures into Bitcoin would allow to aggregate all those signatures into one.  
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.4: Batching Transaction (1 input, 5 outputs) - Legacy P2PKH](03_4_P2PKH_Batching_Tx_1_5.md).

@@ -16,3 +16,8 @@ transferred. These are often referred to as M-of-N transactions.
 
 The idea is that bitcoins become "encumbered" by providing addresses of multiple parties, thus requiring cooperation of 
 those parties in order to do anything with them. These parties can be people, institutions or programmed scripts.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [8.1: Multi-signature Legacy 2 of 4](08_1_Multisig_P2SH_2_4.md).

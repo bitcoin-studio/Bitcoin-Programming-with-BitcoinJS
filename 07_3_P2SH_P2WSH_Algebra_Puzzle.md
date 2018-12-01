@@ -161,3 +161,8 @@ bitcoin.crypto.hash160(Buffer.from('00200afd85470f76425c9f81a91d37f9ee8ac0289d47
 ```
 
 ScriptSig is then interpreted as a P2WSH and triggers the witnessScript which is executed.
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [7.4: Computational Puzzle: SHA-1 Collision - Legacy P2SH](07_4_P2SH_Computational_Puzzle_SHA-1_Collision.md).

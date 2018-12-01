@@ -120,3 +120,8 @@ $ getrawtransaction "txid" true
 ## Observations
 
 We note that we have five outputs, locking 0.2 BTC each to five different public key hash / addresses. 
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.5: Coinjoin Transaction (4 inputs, 4 outputs) - Legacy P2PKH](03_5_P2PKH_Coinjoin_Tx_4_4.md).

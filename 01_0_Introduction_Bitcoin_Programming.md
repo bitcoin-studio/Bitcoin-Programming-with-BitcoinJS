@@ -11,8 +11,9 @@ We will also use the Bitcoin Core command-line interface in Regtest mode for var
 sending raw transaction, getting address information, decoding Bitcoin script, funding addresses, ...).
 You can download the software at [bitcoin.org - Bitcoin Core Download Page](https://bitcoin.org/en/download) or at 
 [bitcoincore.org - Bitcoin Core Download Page](https://bitcoincore.org/en/download/).
+
 You are able to use the integrated console of Bitcoin Core GUI (_Help > Debug window > Console_). The GUI also gives you 
-the ability to check your wallet and transactions. 
+the ability to check your wallet and transaction details. 
 Otherwise you can type the commands into `bitcoin-cli` which connects to the `bitcoind` daemon.
 Check the documentation of the two websites cited above if you need more help.
 
@@ -25,10 +26,16 @@ You need to make sure that your bitcoin configuration file is set to run Bitcoin
 your default configuration with the one in **_[code/bitcoin.conf](code/bitcoin.conf)_**. Make sure it suits your needs 
 before running the software.
 
-Lastly, the Regtest mode replicates the 100-block maturation time rule, forcing us to wait 101 confirmations to spend a 
+The Regtest mode replicates the 100-block maturation time rule, forcing us to wait 101 confirmations to spend a 
 coinbase transaction. So, to be able to start spending coins we need to generate 101 blocks.
 ```
 $ generate 101
+```
+
+Install the javascript libraries. 
+```
+$ cd code
+$ npm install
 ```
 
 
@@ -81,3 +88,8 @@ Native Segwit outputs comprise P2WPKH and P2WSH.
 
 Embedded Segwit has been developed to ensure a smooth transition to Segwit. The idea is to embed P2WPKH or P2WSH into a 
 regular P2SH. The two resulting types are abbreviated in P2SH-P2WPKH and P2SH-P2WSH. 
+
+
+## What's Next?
+
+Continue "PART ONE: PREPARING THE WORK ENVIRONMENT" with [2.0: Generating and Importing Wallets](02_0_Generating_and_Importing_Wallets.md).

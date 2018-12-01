@@ -115,3 +115,8 @@ In the vin section we note that `scriptSig` is empty and that we have an additio
 Alice signature and public key.
 
 In the vout section we have two `witness_v0_keyhash` outputs, which is the code name for native Segwit.
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO](05_0_P2SH_P2WPKH_Spend_1_1.md).

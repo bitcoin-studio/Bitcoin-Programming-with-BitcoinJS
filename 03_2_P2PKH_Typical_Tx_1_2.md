@@ -110,3 +110,8 @@ $ sendrawtransaction "hexstring"
 ```
 $ getrawtransaction "txid" true
 ```
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.3: UTXO Consolidation (5 inputs, 1 output) - Legacy P2PKH](03_3_P2PKH_UTXO_Consolidation_5_1.md).

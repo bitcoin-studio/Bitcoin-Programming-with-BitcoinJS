@@ -205,3 +205,8 @@ On the second scenario, we note that our scriptSig contains
   * Bob_0 signature
   * 0, which is equivalent to OP_FALSE
   * the redeem script, that we can decode with `decodescript`
+
+
+## What's Next?
+
+Continue "PART THREE: PAY TO SCRIPT HASH" with [9.4: Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](09_4_P2WSH_CSV.md).

@@ -114,3 +114,8 @@ In the vin section we note that `scriptSig` is empty and that we have an additio
 Alice signature and public key.
 
 In the vout section we have one `witness_v0_keyhash` output, which is the code name for native Segwit.
+
+
+## What's Next?
+
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.2: Typical Transaction (1 input, 2 outputs) - Native Segwit P2WPKH](04_2_P2WPKH_Typical_Tx_1_2.md).
