@@ -72,4 +72,7 @@ and are licensed [CC-BY](./LICENSE-CC-BY-4.0.md).
   * [9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](09_2_P2WSH_CLTV.md)
   * [9.3: Script with CHECKSEQUENCEVERIFY - Legacy P2SH](09_3_P2SH_CSV.md)
   * [9.4: Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](09_4_P2WSH_CSV.md)
-  
+
+
+Please consider making a donation so that I can continue producing free educational content <br/>
+[Donate with Bitcoin | 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](bitcoin_donation.png)
