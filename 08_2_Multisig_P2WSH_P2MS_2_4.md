@@ -125,7 +125,7 @@ $ getrawtransaction "txid" true
 We can see that the scriptSig unlocking script is empty and instead all the data are located in the `txinwitness` field
   * an empty string that will convert to a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
   * Alice_0 and Bob_0 signatures
-  * and our redeem script
+  * and our witness script
 
 
 ## What's Next?

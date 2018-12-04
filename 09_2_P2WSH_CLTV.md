@@ -8,6 +8,8 @@
 Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKLOCKTIMEVERIFY` absolute timelock opcode.
 
 > Read more about OP_CHECKLOCKTIMEVERIFY in [BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
+> Read more about P2WSH in [BIP141 - Segregated Witness](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh)
+
 
 Here is the script.
 Either Alice can redeem the output of the P2WSH after the timelock expiry (set 6 hours in the past), or Bob and Alice
@@ -65,19 +67,20 @@ const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
 console.log('lockTime  ', lockTime)
 ```
 
-Generate the redeemScript with CLTV. 
+Generate the witnessScript with CLTV. 
+> In a P2WSH context, a redeem script is called a witness script.
 > If you do it multiple times you will notice that the hex script is never the same, this is because of the timestamp.
 ```javascript
-const redeemScript = cltvCheckSigOutput(keyPairAlice0, keyPairBob0, lockTime)
-console.log('redeemScript  ', redeemScript.toString('hex'))
+const witnessScript = cltvCheckSigOutput(keyPairAlice0, keyPairBob0, lockTime)
+console.log('witnessScript  ', witnessScript.toString('hex'))
 ```
 
 You can decode the script in Bitcoin Core CLI with `decodescript`.
 
 Generate the P2WSH.
-> If you do it multiple times you will notice that the P2WSH address is never the same, this is because of redeemScript.
+> If you do it multiple times you will notice that the P2WSH address is never the same, this is because of witnessScript.
 ```javascript
-const p2wsh = bitcoin.payments.p2wsh({redeem: {output: redeemScript, network}, network})
+const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
 console.log('P2WSH address  ', p2wsh.address)
 ```
 
@@ -91,10 +94,10 @@ Get the output index so that we have the outpoint (txid / vout).
 $ getrawtransaction "txid" true
 ```
 
-The output of our funding transaction has a locking script composed of <version byte> + <32-bytes hash>.
-This 32 bytes hash is the SHA256 of our redeem script.
+The output of our funding transaction has a locking script composed of <00 version byte> + <32-byte hash witness program>.
+SHA256 of the witnessScript must match the 32-byte witness program.
 ```javascript
-bitcoin.crypto.sha256(redeemScript).toString('hex')
+bitcoin.crypto.sha256(witnessScript).toString('hex')
 ```
 
 
@@ -108,7 +111,7 @@ const txb = new bitcoin.TransactionBuilder(network)
 ```
 
 We need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV.
-You can use the same value as in the redeemScript.
+You can use the same value as in the witnessScript.
 > Because CLTV actually uses nLocktime enforcement consensus rules 
 > the time is checked indirectly by comparing redeem transaction nLocktime with the CLTV value.
 > nLocktime must be <= present time and >= CLTV timelock
@@ -143,7 +146,7 @@ We generate the hash that will be used to produce the signatures.
 > Note that we use a special method `hashForWitnessV0` for Segwit transactions.
 ```javascript
 // hashForWitnessV0(inIndex, prevOutScript, value, hashType)
-const signatureHash = tx.hashForWitnessV0(0, redeemScript, 1e8, hashType)
+const signatureHash = tx.hashForWitnessV0(0, witnessScript, 1e8, hashType)
 ```
 
 There are two ways to redeem the funds, either Alice after the timelock expiry or Alice and Bob at any time.
@@ -157,7 +160,7 @@ const witnessStackFirstBranch = bitcoin.payments.p2wsh({
       bitcoin.script.signature.encode(keyPairAlice0.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_TRUE,
     ]),
-    output: redeemScript
+    output: witnessScript
   }
 }).witness
 
@@ -173,7 +176,7 @@ const witnessStackSecondBranch = bitcoin.payments.p2wsh({
       bitcoin.script.signature.encode(keyPairBob0.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_FALSE
     ]),
-    output: redeemScript
+    output: witnessScript
   }
 }).witness
 
@@ -227,13 +230,13 @@ For both scenarios we note that our scriptSig is empty.
 For the first scenario, we note that our witness stack contains
   * Alice_0 signature
   * 1, which is equivalent to OP_TRUE
-  * the redeem script, that we can decode with `decodescript` 
+  * the witness script, that we can decode with `decodescript` 
   
 For the second scenario, we note that our witness stack contains
   * Alice_0 signature
   * Bob_0 signature
   * an empty string, which is equivalent to OP_FALSE
-  * the redeem script, that we can decode with `decodescript`
+  * the witness script, that we can decode with `decodescript`
 
 
 ## What's Next?

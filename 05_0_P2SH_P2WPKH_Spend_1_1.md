@@ -70,8 +70,8 @@ txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2wpkhBob0.address, 999e5)
 ```
 
-We pass the redeem script here, which is the same as the prevOutScript `p2wpkhAlice0.output` in 05_1, a 00 version byte 
-and a 20 bytes witness program, HASH160 of Alice_0 public key.
+The redeem script is composed of a `0` version byte and a 20 bytes witness program, HASH160 of Alice_0 public key.
+It is the same as the prevOutScript `p2wpkhAlice0.output` in [4.1: Spend a Native Segwit P2WPKH UTXO](04_1_P2WPKH_Spend_1_1.md).
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
 txb.sign(0, keyPairAlice0, p2shAlice0.redeem.output, null, 1e8)

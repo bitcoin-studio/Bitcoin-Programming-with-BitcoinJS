@@ -75,7 +75,7 @@ txb.addOutput(p2pkhBob0.address, 999e5)
 > 100 000 000 - 99 900 000 = 100 000
 > 100 000 satoshis equals 0,001 BTC, this is the miner fee.
 
-No redeem script needed because we are spending a native segwit UTXO, not a P2SH-P2WPKH.
+We don't have to specify any redeem or witness scripts here, since we are spending a native segwit UTXO.
 But we need to sign the input value.
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
