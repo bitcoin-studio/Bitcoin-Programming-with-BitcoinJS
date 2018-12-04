@@ -7,7 +7,8 @@ In this guide we will explain how to create various types of Bitcoin transaction
 We will use the Bitcoin Core command-line interface in Regtest mode for various common tasks, as well as some 
 complementary libraries like `bx` aka [Libbitcoin Explorer](https://github.com/libbitcoin/libbitcoin-explorer).
 
-Throughout this guide, we want to provide you with sufficient explanation to each command to understand it without drowning in information. You can refer to additional resources to better understand the Bitcoin protocol. 
+Throughout this guide, we want to provide you with sufficient explanation to each command to understand it without drowning 
+in information. You can refer to additional resources to better understand the Bitcoin protocol. 
 For example, check out our [Bitcoin Studio presentations](https://www.bitcoin-studio.com/resources).
 
 At the moment, Bitcoin Javascript tutorials are still very scarce, but we believe it doesn't have to be this way. 
@@ -16,7 +17,8 @@ The following guide intends to address this problem.
 
 ## Requirements
 
-Having prior theoretical knowledge of the Bitcoin protocol will surely help, but we provide comprehensive explanation throughout this guide so it fits for beginners.  
+Having prior theoretical knowledge of the Bitcoin protocol will surely help, but we provide comprehensive explanation 
+throughout this guide so it fits for beginners.  
 
 Technical requirements
 * Node v10.x or superior
@@ -29,6 +31,14 @@ Technical requirements
 
 Unless otherwise noted, the contents of this repository are Copyright ©2018 by [Bitcoin Studio](https://www.bitcoin-studio.com) 
 and are licensed [CC-BY](./LICENSE-CC-BY-4.0.md).
+
+
+## Disclaimer
+
+* This guide is not an official documentation
+* You must check the BitcoinJS repository for up-to-date code
+* Non-standard scripts are exposed for educational purposes
+* The author of this guide is not responsible for any loss of funds 
 
 
 ## Table of Contents
@@ -71,6 +81,7 @@ and are licensed [CC-BY](./LICENSE-CC-BY-4.0.md).
   * [9.3: Script with CHECKSEQUENCEVERIFY - Legacy P2SH](09_3_P2SH_CSV.md)
   * [9.4: Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](09_4_P2WSH_CSV.md)
 
+<br/>
 
 Please consider making a donation so that I can continue producing free educational content <br/>
 [Donate with Bitcoin | 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](bitcoin_donation.png)
