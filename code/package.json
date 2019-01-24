@@ -1,7 +1,7 @@
 {
   "name": "bitcoin_programming_guide_bitcoinjs",
   "version": "1.0.0",
-  "description": "Bitcoin Programming with BitcoinJS and Bitcoin Core",
+  "description": "Bitcoin Programming with BitcoinJS and Bitcoin Core - tutorial",
   "main": "",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -13,6 +13,6 @@
     "bip39": "^2.5.0",
     "bip65": "^1.0.3",
     "bip68": "^1.0.4",
-    "bitcoinjs-lib": "github:bitcoinjs/bitcoinjs-lib#9a8552acda9c1881c43b3b6a9b42fb6b46ebd424"
+    "bitcoinjs-lib": "github:bitcoinjs/bitcoinjs-lib#74f492b786bae22c391440edf22369d1471b9770"
   }
 }
