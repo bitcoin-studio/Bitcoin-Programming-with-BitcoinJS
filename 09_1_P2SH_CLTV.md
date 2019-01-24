@@ -10,8 +10,12 @@ Let's create a legacy P2SH transaction with a script that contains the `OP_CHECK
 > Read more about OP_CHECKLOCKTIMEVERIFY in [BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
 
 Here is the script.
-Either Alice can redeem the output of the P2SH after the timelock expiry (set 6 hours in the past), or Bob and Alice
-can redeem the funds at any time. 
+Either Alice can redeem the output of the P2SH after the timelock expiry, or Bob and Alice can redeem the funds at any time. 
+We will set the timelock 6 hours in the past. In real life it should be set in the future, but we don't want to wait for the 
+timelock to expire in order to complete the tutorial.   
+> The `generate` command, which produce blocks on demand on regtest, will not move forward the `mediantime`.
+> It sets the `mediantime` to the current local time of your computer.
+
 We will run both scenarios.
 ```javascript
 function cltvCheckSigOutput (aQ, bQ, lockTime) {
@@ -60,6 +64,7 @@ const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
 ```
 
 Encode the lockTime value according to BIP65 specification (now - 6 hours).
+> Method argument is a UNIX timestamp.
 ```javascript
 const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
 console.log('lockTime  ', lockTime)
@@ -188,17 +193,23 @@ $ decoderawtransaction "hexstring"
 
 ## Broadcasting the transaction
 
-> Beware of the `mediantime` of our node to be more than the timelock value.
-> ```
-> $ getblockchaininfo
-> ```
-> On regtest the mediantime is quite unpredictable. 
-> So you just need to generate enough blocks, can't tell you how many. 
-> ```
-> $ generate 10
-> ```
+If you are spending the P2SH as Alice + timelock after expiry, you must have the node's `mediantime` to be higher than 
+the timelock value.
+> `mediantime` is the median timestamp of the previous 11 blocks. Check out 
+> **_[BIP113](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki)_** for more information.
 
-It's time to broadcast the transaction via Bitcoin Core CLI.
+Check the current mediantime 
+```
+$ getblockchaininfo
+```
+
+You need to generate some blocks in order to have the node's `mediantime` synchronized with your computer local time.
+> It is not possible to give you an exact number. 20 should be enough.
+```
+$ generate 20
+```
+
+It's now time to broadcast the transaction via Bitcoin Core CLI.
 ```
 $ sendrawtransaction "hexstring"
 ```
