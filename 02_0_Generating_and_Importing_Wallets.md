@@ -8,10 +8,11 @@ We currently can't import a mnemonic or a HD wallet seed to Bitcoin Core. So we 
 Carol, Dave, Eve and Mallory), each containing three distinct ECDSA key pairs. From each public key is derived three 
 Bitcoin addresses for each type of PKH output.
 The script writes all the keys and addresses in `wallets.json` file.
-Then the script import all the private keys into Bitcoin Core (make sure the software is launched). 
-The JS script is using the **_[import_privkeys.sh](code/import_privkeys.sh)_** Bash script internally. 
+Then the script import all the private keys into Bitcoin Core (make sure the software is launched) by calling the 
+**_[import_privkeys.sh](code/import_privkeys.sh)_** Bash script internally. 
+> If you are on a Windows system you can use a Bash interpreter like Cygwin or Windows Subsystem for Linux (WSL) on Windows 10.
 
-> Each bitcoin address is marked by a label `autogen_[wallet_name]`, which you can list with the `listlabels` command.
+Each bitcoin address is marked by a label `autogen_[wallet_name]`, which you can list with the `listlabels` command.
 
 In order to create a HD wallet we start from a 128 bits entropy value.
 If you want to use the same addresses as the ones used throughout this guide you can just keep the current entropy values 
