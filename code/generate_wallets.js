@@ -20,7 +20,8 @@ const { exec } = require('child_process')
 const bitcoin = require('bitcoinjs-lib')
 const bip32 = require('bip32')
 const bip39 = require('bip39')
-// Change the network appropriately
+const bs58 = require('bs58')
+// Change the network appropriately (bitcoin, testnet, regtest)
 const network = bitcoin.networks.regtest
 
 // Replace these values
@@ -65,18 +66,41 @@ wallets.map((wallet, wallet_index) => {
   ;[...Array(3)].map((u, i) => {
     // Get child node
     let child = master.derivePath(`m/0'/0'/${i}'`)
+    // Get child EC private key
+    console.log(`${Object.keys(wallet)} child ${i} privKey  `, child.privateKey.toString('hex'))
     // Get child wif private key
     let wif = child.toWIF()
     console.log(`${Object.keys(wallet)} child ${i} wif  `, wif)
     // Get child extended private key
     console.log(`${Object.keys(wallet)} child ${i} xpriv  `, child.toBase58())
-    // Get child EC private key
-    console.log(`${Object.keys(wallet)} child ${i} privKey  `, child.privateKey.toString('hex'))
-    // Get child extended public key
-    console.log(`${Object.keys(wallet)} child ${i} xpub  `, child.neutered().toBase58())
     // Get child EC public key
     let ECPubKey =  child.publicKey.toString('hex')
     console.log(`${Object.keys(wallet)} child ${i} pubKey  `, ECPubKey)
+    // Get child EC public key hash
+    let ECPubKeyHash = bitcoin.crypto.hash160(child.publicKey)
+    console.log(`${Object.keys(wallet)} child ${i} pubKey hash `, ECPubKeyHash.toString('hex'))
+    // Get child extended public key
+    console.log(`${Object.keys(wallet)} child ${i} xpub  `, child.neutered().toBase58())
+
+    /*
+    // Creating a P2PKH address in Base58Check encoding from the public key hash
+    let versionAndHash160 = Buffer.concat([Buffer.alloc(1, network.pubKeyHash), ECPubKeyHash])
+    console.log('versionAndHash160 --', versionAndHash160)
+    let doubleSHA = bitcoin.crypto.hash256(versionAndHash160)
+    console.log('doubleSHA --', doubleSHA)
+    let addressChecksum = doubleSHA.slice(0, 4)
+    console.log('addressChecksum --', addressChecksum)
+    let unencodedAddress = Buffer.concat([versionAndHash160, addressChecksum])
+    console.log('unencodedAddress --', unencodedAddress)
+    let addressP2PKH = bs58.encode(unencodedAddress)
+    console.log('result address P2PKH --', addressP2PKH)
+
+    // Retrieving the public key hash from a Base58Check address
+    let unencodedAddressRetrieved = bs58.decode(addressP2PKH)
+    console.log('unencodedAddressRetrieved --', unencodedAddressRetrieved)
+    let pubKeyHashRetrieved = unencodedAddressRetrieved.slice(1, 21)
+    console.log('pubKeyHashRetrieved --', pubKeyHashRetrieved)
+    */
 
     // Addresses
     // P2PKH

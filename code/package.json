@@ -13,6 +13,8 @@
     "bip39": "^2.5.0",
     "bip65": "^1.0.3",
     "bip68": "^1.0.4",
-    "bitcoinjs-lib": "github:bitcoinjs/bitcoinjs-lib#74f492b786bae22c391440edf22369d1471b9770"
+    "bitcoinjs-lib": "github:bitcoinjs/bitcoinjs-lib#74f492b786bae22c391440edf22369d1471b9770",
+    "bs58": "^4.0.1",
+    "bs58check": "^2.1.2"
   }
 }
