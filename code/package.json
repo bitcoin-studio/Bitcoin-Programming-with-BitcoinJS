@@ -4,7 +4,8 @@
   "description": "Bitcoin Programming with BitcoinJS and Bitcoin Core - tutorial",
   "main": "",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "Base58CheckEncodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
+    "Base58CheckDecodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'"
   },
   "author": "Stéphane Roche - https://www.bitcoin-studio.com",
   "license": "ISC",

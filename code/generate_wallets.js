@@ -20,7 +20,6 @@ const { exec } = require('child_process')
 const bitcoin = require('bitcoinjs-lib')
 const bip32 = require('bip32')
 const bip39 = require('bip39')
-const bs58 = require('bs58')
 // Change the network appropriately (bitcoin, testnet, regtest)
 const network = bitcoin.networks.regtest
 
@@ -77,30 +76,10 @@ wallets.map((wallet, wallet_index) => {
     let ECPubKey =  child.publicKey.toString('hex')
     console.log(`${Object.keys(wallet)} child ${i} pubKey  `, ECPubKey)
     // Get child EC public key hash
-    let ECPubKeyHash = bitcoin.crypto.hash160(child.publicKey)
-    console.log(`${Object.keys(wallet)} child ${i} pubKey hash `, ECPubKeyHash.toString('hex'))
+    let ECPubKeyHash = bitcoin.crypto.hash160(child.publicKey).toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} pubKey hash `, ECPubKeyHash)
     // Get child extended public key
     console.log(`${Object.keys(wallet)} child ${i} xpub  `, child.neutered().toBase58())
-
-    /*
-    // Creating a P2PKH address in Base58Check encoding from the public key hash
-    let versionAndHash160 = Buffer.concat([Buffer.alloc(1, network.pubKeyHash), ECPubKeyHash])
-    console.log('versionAndHash160 --', versionAndHash160)
-    let doubleSHA = bitcoin.crypto.hash256(versionAndHash160)
-    console.log('doubleSHA --', doubleSHA)
-    let addressChecksum = doubleSHA.slice(0, 4)
-    console.log('addressChecksum --', addressChecksum)
-    let unencodedAddress = Buffer.concat([versionAndHash160, addressChecksum])
-    console.log('unencodedAddress --', unencodedAddress)
-    let addressP2PKH = bs58.encode(unencodedAddress)
-    console.log('result address P2PKH --', addressP2PKH)
-
-    // Retrieving the public key hash from a Base58Check address
-    let unencodedAddressRetrieved = bs58.decode(addressP2PKH)
-    console.log('unencodedAddressRetrieved --', unencodedAddressRetrieved)
-    let pubKeyHashRetrieved = unencodedAddressRetrieved.slice(1, 21)
-    console.log('pubKeyHashRetrieved --', pubKeyHashRetrieved)
-    */
 
     // Addresses
     // P2PKH
@@ -117,9 +96,9 @@ wallets.map((wallet, wallet_index) => {
 
     // No comma for the last derivation
     if (i === 2) {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"}`
+      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyHash": "${ECPubKeyHash}","p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"}`
     } else {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"},`
+      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyHash": "${ECPubKeyHash}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"},`
     }
   })
 

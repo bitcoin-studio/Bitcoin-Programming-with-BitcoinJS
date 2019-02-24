@@ -80,6 +80,12 @@ and are licensed [CC-BY](./LICENSE-CC-BY-4.0.md).
   * [9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](09_2_P2WSH_CLTV.md)
   * [9.3: Script with CHECKSEQUENCEVERIFY - Legacy P2SH](09_3_P2SH_CSV.md)
   * [9.4: Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](09_4_P2WSH_CSV.md)
+  
+  
+**MISCELLANEOUS**  
+
+* [10.1: Base58Check encoding and decoding of P2PKH address](10_1_Base58Check_Address_Encoding.md)
+
 
 <br/>
 
