@@ -29,8 +29,8 @@ Technical requirements
 
 ## Copyright
 
-Unless otherwise noted, the contents of this repository are Copyright ©2018 by [Bitcoin Studio](https://www.bitcoin-studio.com) 
-and are licensed [CC-BY](./LICENSE-CC-BY-4.0.md).
+Unless otherwise noted, the contents of this repository are Copyright ©2019 by [Bitcoin Studio](https://www.bitcoin-studio.com) 
+and are licensed [GPL v3](./LICENSE).
 
 
 ## Disclaimer
