@@ -175,7 +175,7 @@ const witnessStackSecondBranch = bitcoin.payments.p2wsh({
   }
 }).witness
 
-console.log('First branch witness stack  ', witnessStackSecondBranch.map(x => x.toString('hex')))
+console.log('Second branch witness stack  ', witnessStackSecondBranch.map(x => x.toString('hex')))
 ```
 
 We provide the witness stack that BitcoinJS prepared for us. 
