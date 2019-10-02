@@ -10,11 +10,11 @@
   "author": "Stéphane Roche - https://www.bitcoin-studio.com",
   "license": "ISC",
   "dependencies": {
-    "bip32": "^1.0.2",
-    "bip39": "^2.5.0",
+    "bip32": "^2.0.4",
+    "bip39": "^3.0.2",
     "bip65": "^1.0.3",
     "bip68": "^1.0.4",
-    "bitcoinjs-lib": "github:bitcoinjs/bitcoinjs-lib#74f492b786bae22c391440edf22369d1471b9770",
+    "bitcoinjs-lib": "^4.0.5",
     "bs58": "^4.0.1",
     "bs58check": "^2.1.2"
   }

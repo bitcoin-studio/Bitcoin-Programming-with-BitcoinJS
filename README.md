@@ -21,9 +21,9 @@ Having prior theoretical knowledge of the Bitcoin protocol will surely help, but
 throughout this guide so it fits for beginners.  
 
 Technical requirements
-* Node v10.x or superior
-* BitcoinJS v4.x or superior
-* Bitcoin Core v17.x or superior
+* Node v10 or superior
+* BitcoinJS v4
+* Bitcoin Core v17 or superior
 * Libbitcoin Explorer v3.4.x or superior
 
 
