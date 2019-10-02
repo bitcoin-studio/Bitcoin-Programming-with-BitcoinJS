@@ -3,7 +3,7 @@
     {
       "wif": "cQBwuzEBYQrbWKFZZFpgitRpdDDxUrT1nzvhDWhxMmFtWdRnrCSm",
       "pubKey": "03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d",
-      "pubKeyHash": "fb8820f35effa054399540b8ca86040d8ddaa4d5",
+      "pubKeyFingerprint": "fb8820f3",
       "p2pkh": "n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq",
       "p2sh-p2wpkh": "2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6",
       "p2wpkh": "bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g"
@@ -11,7 +11,7 @@
     {
       "wif": "cNSs88aArgZeHrq7wpq8B56k1LGi4BVbSHqzYDic9ztju6TruHM5",
       "pubKey": "02b233055e060a554201d227a0b9d019cf24468ab1a7d9446c423a198cfbf956d5",
-      "pubKeyHash": "0b85d9b75f55ad9d42ea2ae9a245568ca34932f6",
+      "pubKeyFingerprint": "0b85d9b7",
       "p2pkh": "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc",
       "p2sh-p2wpkh": "2N95xbaytPcRBwi2HmUTumE7YSfLBk8po99",
       "p2wpkh": "bcrt1qpwzand6l2kke6sh29t56y32k3j35jvhkrn9s5l"
@@ -19,7 +19,7 @@
     {
       "wif": "cTp88sXB3ZDrWNnD1BtShjREFrw8eCs87bZncrZitryhFbiT2mmQ",
       "pubKey": "0220f2d0315bf811009bf82069dc6be7225cab598d0f3504695539d631711b6252",
-      "pubKeyHash": "f1c63bbd3d0a20865c43406fcfc09ad953b23aa0",
+      "pubKeyFingerprint": "f1c63bbd",
       "p2pkh": "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk",
       "p2sh-p2wpkh": "2NC9jSfJyLLAKQgzxSJ7QGrq4X3Wgh34kCb",
       "p2wpkh": "bcrt1q78rrh0fapgsgvhzrgphulsy6m9fmyw4q2ehuh6"
@@ -29,7 +29,7 @@
     {
       "wif": "cNaEjitvA19JZxWAFyCFMsm16TvGEmVAW3AkPnVr8E9vgwdZWMGV",
       "pubKey": "027efbabf425077cdbceb73f6681c7ebe2ade74a65ea57ebcf0c42364d3822c590",
-      "pubKeyHash": "03f338e0f898ef40f1eb6734dc1f5aa72a4161f8",
+      "pubKeyFingerprint": "03f338e0",
       "p2pkh": "mfsqh18UT3XjpJ8yVeiM7YX1mLxq5REG9d",
       "p2sh-p2wpkh": "2N8QRLVT9VTa5ryoqSbGhGqq1x3FKp9SfoJ",
       "p2wpkh": "bcrt1qq0en3c8cnrh5pu0tvu6dc8665u4yzc0cw9nweq"
@@ -37,7 +37,7 @@
     {
       "wif": "cMhhNRoKiJP37jwwDjoXBhMRk8aEiTTe7fLbFNUc3HwD4jLciNfd",
       "pubKey": "02d8698e38dc413e175c60290b223c0cf175d15f22c889bc98849e81548e1a3168",
-      "pubKeyHash": "1bf41b0d5729e00b36bf0237a84d0b9746fcc1cd",
+      "pubKeyFingerprint": "1bf41b0d",
       "p2pkh": "mi4kxzYMgjqdqjvfLkHGPi7R1ZrLMx2BH7",
       "p2sh-p2wpkh": "2N6j5eEZzeouYMkHLXU5vU4BorXPhAR43NZ",
       "p2wpkh": "bcrt1qr06pkr2h98sqkd4lqgm6sngtjar0eswdrpttw7"
@@ -45,7 +45,7 @@
     {
       "wif": "cSr7dfYATGQzMaS66caTGX3n2owEr5YcMUdmHSc3prj8zfusFz4s",
       "pubKey": "03091bf7a5f90630c7c6c10d68d5555917668d307565ed7ba458e69d137b33f86b",
-      "pubKeyHash": "8236b4b6e79b48df5ca2617c6bb73fa281a83e07",
+      "pubKeyFingerprint": "8236b4b6",
       "p2pkh": "msPTg2SY8YasMCcCxgA4LocqdxP9SDz8uu",
       "p2sh-p2wpkh": "2NEBdHDRNphUosaHENxyxs3Qp498NHgVtUz",
       "p2wpkh": "bcrt1qsgmtfdh8ndyd7h9zv97xhdel52q6s0s8597nzc"
@@ -55,7 +55,7 @@
     {
       "wif": "cQj5thuudcupEQo5WTYqVzs6ZtPGkdfCepNUpgJe6VAFeKFfhMtW",
       "pubKey": "023a11cfcedb993ff2e7523f92e359c4454072a66d42e8b74b4b27a8a1258abddd",
-      "pubKeyHash": "1053863792b523fff2252ea687da9ebcd402ead1",
+      "pubKeyFingerprint": "10538637",
       "p2pkh": "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R",
       "p2sh-p2wpkh": "2MyfuZkCtYeSEA4LjJAkkxW6zxdyhKnVyBX",
       "p2wpkh": "bcrt1qzpfcvdujk53llu3996ng0k57hn2q96k3dwmytw"
@@ -63,7 +63,7 @@
     {
       "wif": "cP3NxUDcpQGmSEftJ9VVznpMXh8AHkyj9qczSUz2HHjweK2PjcsJ",
       "pubKey": "03e3aee22cc50638083afa8bd60da82cc351588619610566ca28cc50620e3f8cd9",
-      "pubKeyHash": "ed67278516aa8e224479150d8648ca2e0a2c0e9a",
+      "pubKeyFingerprint": "ed672785",
       "p2pkh": "n3AE1ou9qaJvM8yyhEKg8ktDKYY2aJbGcK",
       "p2sh-p2wpkh": "2MttMce5bYsZu22bFvXCKcosef9aJ4Bg36s",
       "p2wpkh": "bcrt1qa4nj0pgk428zy3rez5xcvjx29c9zcr5654qqzm"
@@ -71,7 +71,7 @@
     {
       "wif": "cQkx12ymQJW4yiqRUefqFrYZR6oxHrNBoD7SBcuLTRTRAneFKgTH",
       "pubKey": "03db4f9fadddee79aa79591a55548bbb74018ec82460718bba4e46746d5b5e4d32",
-      "pubKeyHash": "9c936f4d8104d3fe2749497d53e01eee9e074bd3",
+      "pubKeyFingerprint": "9c936f4d",
       "p2pkh": "munrKvk5qGsG63be82rBk34hJqqSnSHWEk",
       "p2sh-p2wpkh": "2Mt8ZpgtsnRnY3Lxed4KTExCvJxgePYwuPy",
       "p2wpkh": "bcrt1qnjfk7nvpqnfluf6ff9748cq7a60qwj7n99m3l6"
@@ -81,7 +81,7 @@
     {
       "wif": "cNjvpAG2cEqnD8WUb9mpGyqYAczBKHZR5Gj7hWPd9CJGxVoWU1K1",
       "pubKey": "02e9d617f38f8c3ab9a6bde36ce991bafb295d7adba457699f8620c8160ec9e87a",
-      "pubKeyHash": "9838d506490d8039a446256c1a20a719d873e9c8",
+      "pubKeyFingerprint": "9838d506",
       "p2pkh": "muPq5yf84ot8JE7FWvaXfqG3YZGpZx9Zg7",
       "p2sh-p2wpkh": "2NASxJxnyuV5NgurasHoa6bfAfE8aZwz41T",
       "p2wpkh": "bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r"
@@ -89,7 +89,7 @@
     {
       "wif": "cRorU4b9uwAYuBMdHtLYrfX73hbYGPdedgMQHUJ8Vffz53hDmxn1",
       "pubKey": "03a5c879a6456564f3a09374ab8027e3014517a1a54bceeddc3e29916602b2932b",
-      "pubKeyHash": "6fccd5594854cca3368a2ebc171a0cdd5a79c7b8",
+      "pubKeyFingerprint": "6fccd559",
       "p2pkh": "mqi6gRN8Faaaf6C9YGgKXXNDEuFiRNTCUM",
       "p2sh-p2wpkh": "2MtjZ41f2ELewgXu1FvY4cxEV4ezEU2Y6E7",
       "p2wpkh": "bcrt1qdlxd2k2g2nx2xd52967pwxsvm4d8n3acvwg04s"
@@ -97,7 +97,7 @@
     {
       "wif": "cQQS9rEkW5Gi3TWCysdGGaKSZdQKR7qbBStxQtcA8mb7xipGGq45",
       "pubKey": "024bbf83821c4102c4bc41846ef02434b78e37a448e8c55a3e6ef0ad701258a755",
-      "pubKeyHash": "413bf36c4f490f9b86b59a79616b291617db57cd",
+      "pubKeyFingerprint": "413bf36c",
       "p2pkh": "mmTt2ywcvRo91RvutobovP9Q8YZsmpoMTi",
       "p2sh-p2wpkh": "2Mw9fS8Zghno4StubxM3X7oQBFkGAg76KrR",
       "p2wpkh": "bcrt1qgyalxmz0fy8ehp44nfukz6efzctak47dyxlcv5"
@@ -107,7 +107,7 @@
     {
       "wif": "cTxFj3T9nfEjCM21WdYz67yU3FwyptYkXVuznvUS54admvLuNQ6C",
       "pubKey": "03556bb5a184b64757b70e54c6f067420709971ab4178aebffa338bf6a1db2e3ab",
-      "pubKeyHash": "6e8f348d0aa3a3ee16440b9496f3d3c0ccf66f6b",
+      "pubKeyFingerprint": "6e8f348d",
       "p2pkh": "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt",
       "p2sh-p2wpkh": "2N5AemJdXmQbLwF1ndhBtLRocE1UhP2Ja9M",
       "p2wpkh": "bcrt1qd68nfrg25w37u9jypw2fdu7ncrx0vmmtwgeht9"
@@ -115,7 +115,7 @@
     {
       "wif": "cUvcvLkMU6RsTkJNr7JE1rrVPaprPDQCGSELSmmUEWkxUnXUBcHZ",
       "pubKey": "025c459bb32a91d73cad6923de83b7a67887516ce37d7b00947cdeb0c1218d6953",
-      "pubKeyHash": "40f4168cf1d7aa67906875f089f1b3ada928fc03",
+      "pubKeyFingerprint": "40f4168c",
       "p2pkh": "mmSPwsM5Hb7fp8qoXosGJSZJu1rjwh7CzR",
       "p2sh-p2wpkh": "2Mv9PBWD2aeN69TrgTg8ebTKEoAXRtaTdzV",
       "p2wpkh": "bcrt1qgr6pdr83674x0yrgwhcgnudn4k5j3lqrseu8hw"
@@ -123,7 +123,7 @@
     {
       "wif": "cQ7iqwQsmNYL4SefBytLZ7pG54PwZrtnXVqXcpaarK6XRf1mspRb",
       "pubKey": "0286d90b1ac602ebf284124fa0176805a082a96142174e873b78ed1b45de12aff1",
-      "pubKeyHash": "9d9d7e65ba7d3570427bcb76afcad36441d8f1d8",
+      "pubKeyFingerprint": "9d9d7e65",
       "p2pkh": "mutM42bNg6771m5snDwtydYc8Qu8f5s1W4",
       "p2sh-p2wpkh": "2Msw3vdHpm76YsqzCFbgbRka2NEecnSFHZe",
       "p2wpkh": "bcrt1qnkwhued6056hqsnmedm2ljknv3qa3uwcdzza8r"
@@ -133,7 +133,7 @@
     {
       "wif": "cRWLzy2pD7cLnERzUk1vy4ouDdjXjjVbWgUg3VZ2PatAZzgtJFPc",
       "pubKey": "020055836de77cc0836ea3d713879929dd4ed4e619b92b607111c6de23c3553a73",
-      "pubKeyHash": "b2289f5c18e6af46b6786d9e53ed3124b36ff070",
+      "pubKeyFingerprint": "b2289f5c",
       "p2pkh": "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh",
       "p2sh-p2wpkh": "2N7HGKwJF8R2qVCGm3NnZrnFLZzHfudQirj",
       "p2wpkh": "bcrt1qkg5f7hqcu6h5ddncdk098mf3yjeklurs02ny62"
@@ -141,7 +141,7 @@
     {
       "wif": "cWA4h9h9h1rBKEkGFWD31TAWC4z5JVybBenGNZsJQBTC5wL6wDxM",
       "pubKey": "02273553c876ea756448a71d85b52f8d10e3413202cbf60865ee078987e82a9594",
-      "pubKeyHash": "b7e4a67d7519e27fe055e8f510757e4579274938",
+      "pubKeyFingerprint": "b7e4a67d",
       "p2pkh": "mxHHs4fNt1mBh4gz5MWegw4KYbGwPLXSUk",
       "p2sh-p2wpkh": "2Mx5KXS8zWPdSZ85JDYeBWi2HZZ5oTpy8bT",
       "p2wpkh": "bcrt1qklj2vlt4r838lcz4ar63qat7g4ujwjfcq44j54"
@@ -149,7 +149,7 @@
     {
       "wif": "cQz7nqBJBK2ciUBDnwyu5Abe6RhV5o64DjfGyGeTzW1YJaS1bEUD",
       "pubKey": "02095c5d50d7baf0ba1de83e2991a17462b42ea9aa996dcea97e428f23fef56d3f",
-      "pubKeyHash": "8a8e8595c370c147f5692bc88c61d40bae4c2df5",
+      "pubKeyFingerprint": "8a8e8595",
       "p2pkh": "mt9aH7gacU77TpobHcbMtkBZZ5PmjGryvn",
       "p2sh-p2wpkh": "2N8AXBf2RBTA1vBJnHphihrDF9pgAiyim3y",
       "p2wpkh": "bcrt1q328gt9wrwrq50atf90ygccw5pwhyct04vdwxnw"

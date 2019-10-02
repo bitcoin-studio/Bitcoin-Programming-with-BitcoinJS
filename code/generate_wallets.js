@@ -46,7 +46,7 @@ wallets.map((wallet, wallet_index) => {
   let mnemonic = bip39.entropyToMnemonic(wallet[Object.keys(wallet)])
   console.log(`${Object.keys(wallet)} mnemonic  `, mnemonic)
   // Get seed from mnemonic
-  let seed = bip39.mnemonicToSeed(mnemonic)
+  let seed = bip39.mnemonicToSeedSync(mnemonic)
   console.log(`${Object.keys(wallet)} seed  `, seed.toString('hex'))
   // Get master BIP32 master from seed
   let master = bip32.fromSeed(seed, network)
@@ -56,6 +56,13 @@ wallets.map((wallet, wallet_index) => {
   console.log(`${Object.keys(wallet)} master xpriv  `, master.toBase58())
   // Get BIP32 extended public key
   console.log(`${Object.keys(wallet)} master xpub  `, master.neutered().toBase58())
+  // Get master public key
+  let ECPubKeyMaster =  master.publicKey.toString('hex')
+  console.log(`${Object.keys(wallet)} master pubKey  `, ECPubKeyMaster)
+  // Get master public key fingerprint
+  let ECPubKeyFingerprintMaster = bitcoin.crypto.hash160(master.publicKey).slice(0,4).toString('hex')
+  console.log(`${Object.keys(wallet)} master pubKey fingerprint `, ECPubKeyFingerprintMaster)
+
   console.log()
 
   /**
@@ -75,9 +82,9 @@ wallets.map((wallet, wallet_index) => {
     // Get child EC public key
     let ECPubKey =  child.publicKey.toString('hex')
     console.log(`${Object.keys(wallet)} child ${i} pubKey  `, ECPubKey)
-    // Get child EC public key hash
-    let ECPubKeyHash = bitcoin.crypto.hash160(child.publicKey).toString('hex')
-    console.log(`${Object.keys(wallet)} child ${i} pubKey hash `, ECPubKeyHash)
+    // Get child EC public key fingerprint
+    let ECPubKeyFingerprint = bitcoin.crypto.hash160(child.publicKey).slice(0,4).toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} pubKey fingerprint `, ECPubKeyFingerprint)
     // Get child extended public key
     console.log(`${Object.keys(wallet)} child ${i} xpub  `, child.neutered().toBase58())
 
@@ -96,9 +103,9 @@ wallets.map((wallet, wallet_index) => {
 
     // No comma for the last derivation
     if (i === 2) {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyHash": "${ECPubKeyHash}","p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"}`
+      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyFingerprint": "${ECPubKeyFingerprint}","p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"}`
     } else {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyHash": "${ECPubKeyHash}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"},`
+      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyFingerprint": "${ECPubKeyFingerprint}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"},`
     }
   })
 
