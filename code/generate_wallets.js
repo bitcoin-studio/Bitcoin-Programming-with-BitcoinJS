@@ -40,53 +40,81 @@ let walletsJSON="{"
 
 // Iterate on wallets
 wallets.map((wallet, wallet_index) => {
-  walletsJSON += `"${Object.keys(wallet)}": [`
-  console.log(`${Object.keys(wallet)} entropy  `, wallet[Object.keys(wallet)])
+  // Entropy
+  let entropy = wallet[Object.keys(wallet)]
+  console.log(`${Object.keys(wallet)} entropy  `, entropy)
   // Get mnemonic from entropy
   let mnemonic = bip39.entropyToMnemonic(wallet[Object.keys(wallet)])
   console.log(`${Object.keys(wallet)} mnemonic  `, mnemonic)
   // Get seed from mnemonic
   let seed = bip39.mnemonicToSeedSync(mnemonic)
   console.log(`${Object.keys(wallet)} seed  `, seed.toString('hex'))
+
   // Get master BIP32 master from seed
   let master = bip32.fromSeed(seed, network)
-  // Get private key WIF
-  console.log(`${Object.keys(wallet)} master wif  `, master.toWIF())
-  // Get BIP32 extended private key
-  console.log(`${Object.keys(wallet)} master xpriv  `, master.toBase58())
-  // Get BIP32 extended public key
-  console.log(`${Object.keys(wallet)} master xpub  `, master.neutered().toBase58())
-  // Get master public key
-  let ECPubKeyMaster =  master.publicKey.toString('hex')
-  console.log(`${Object.keys(wallet)} master pubKey  `, ECPubKeyMaster)
-  // Get master public key fingerprint
-  let ECPubKeyFingerprintMaster = bitcoin.crypto.hash160(master.publicKey).slice(0,4).toString('hex')
-  console.log(`${Object.keys(wallet)} master pubKey fingerprint `, ECPubKeyFingerprintMaster)
 
+  // Get BIP32 extended private key
+  let xprivMaster = master.toBase58()
+  console.log(`${Object.keys(wallet)} master xpriv  `, xprivMaster)
+  // Get master EC private key
+  let privKeyMaster = master.privateKey.toString('hex')
+  console.log(`${Object.keys(wallet)} master privKey  `, privKeyMaster)
+  // Get private key WIF
+  let wifMaster = master.toWIF()
+  console.log(`${Object.keys(wallet)} master wif  `, wifMaster)
+
+  // Get BIP32 extended master public key
+  let xpubMaster = master.neutered().toBase58()
+  console.log(`${Object.keys(wallet)} master xpub  `, xpubMaster)
+  // Get master public key
+  let pubKeyMaster =  master.publicKey.toString('hex')
+  console.log(`${Object.keys(wallet)} master pubKey  `, pubKeyMaster)
+  // Get master public key fingerprint
+  let pubKeyFingerprintMaster = bitcoin.crypto.hash160(master.publicKey).slice(0,4).toString('hex')
+  console.log(`${Object.keys(wallet)} master pubKey fingerprint `, pubKeyFingerprintMaster)
   console.log()
 
+  // Add cryptographic materials to JSON
+  walletsJSON +=
+    `"${Object.keys(wallet)}": [{
+      "entropy": "${entropy}",
+      "mnemonic": "${mnemonic}",
+      "seed": "${seed.toString('hex')}", 
+      "xprivMaster": "${xprivMaster}",
+      "privKeyMaster": "${privKeyMaster}",
+      "wifMaster": "${wifMaster}",
+      "xpubMaster": "${xpubMaster}", 
+      "pubKeyMaster": "${pubKeyMaster}",
+      "pubKeyFingerprintMaster": "${pubKeyFingerprintMaster}"
+    },`
+
   /**
-   * Bitcoin Core derivation - m/0'/0'/${index}'
+   * Bitcoin Core BIP32 derivation path - m/0'/0'/${index}'
    * Derive 3 sets of addresses
    */
   ;[...Array(3)].map((u, i) => {
     // Get child node
     let child = master.derivePath(`m/0'/0'/${i}'`)
+
+    // Get child extended private key
+    let xpriv = child.toBase58()
+    console.log(`${Object.keys(wallet)} child ${i} xpriv  `, xpriv)
     // Get child EC private key
-    console.log(`${Object.keys(wallet)} child ${i} privKey  `, child.privateKey.toString('hex'))
+    let privKey = child.privateKey.toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} privKey  `, privKey)
     // Get child wif private key
     let wif = child.toWIF()
     console.log(`${Object.keys(wallet)} child ${i} wif  `, wif)
-    // Get child extended private key
-    console.log(`${Object.keys(wallet)} child ${i} xpriv  `, child.toBase58())
-    // Get child EC public key
-    let ECPubKey =  child.publicKey.toString('hex')
-    console.log(`${Object.keys(wallet)} child ${i} pubKey  `, ECPubKey)
-    // Get child EC public key fingerprint
-    let ECPubKeyFingerprint = bitcoin.crypto.hash160(child.publicKey).slice(0,4).toString('hex')
-    console.log(`${Object.keys(wallet)} child ${i} pubKey fingerprint `, ECPubKeyFingerprint)
+
     // Get child extended public key
-    console.log(`${Object.keys(wallet)} child ${i} xpub  `, child.neutered().toBase58())
+    let xpub = child.neutered().toBase58()
+    console.log(`${Object.keys(wallet)} child ${i} xpub  `, xpub)
+    // Get child EC public key
+    let pubKey =  child.publicKey.toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} pubKey  `, pubKey)
+    // Get child EC public key fingerprint
+    let pubKeyFingerprint = bitcoin.crypto.hash160(child.publicKey).slice(0,4).toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} pubKey fingerprint `, pubKeyFingerprint)
 
     // Addresses
     // P2PKH
@@ -103,9 +131,31 @@ wallets.map((wallet, wallet_index) => {
 
     // No comma for the last derivation
     if (i === 2) {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyFingerprint": "${ECPubKeyFingerprint}","p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"}`
+      walletsJSON +=
+        `{
+          "xpriv": "${xpriv}",
+          "privKey": "${privKey}",
+          "wif": "${wif}", 
+          "xpub": "${xpub}",
+          "pubKey": "${pubKey}", 
+          "pubKeyFingerprint": "${pubKeyFingerprint}",
+          "p2pkh": "${p2pkh}", 
+          "p2sh-p2wpkh": "${p2sh_p2wpkh}", 
+          "p2wpkh": "${p2wpkhAddress}"
+        }`
     } else {
-      walletsJSON += `{"wif": "${wif}", "pubKey": "${ECPubKey}", "pubKeyFingerprint": "${ECPubKeyFingerprint}", "p2pkh": "${p2pkh}", "p2sh-p2wpkh": "${p2sh_p2wpkh}", "p2wpkh": "${p2wpkhAddress}"},`
+      walletsJSON +=
+        `{
+          "xpriv": "${xpriv}",
+          "privKey": "${privKey}",
+          "wif": "${wif}", 
+          "xpub": "${xpub}",
+          "pubKey": "${pubKey}", 
+          "pubKeyFingerprint": "${pubKeyFingerprint}",
+          "p2pkh": "${p2pkh}", 
+          "p2sh-p2wpkh": "${p2sh_p2wpkh}", 
+          "p2wpkh": "${p2wpkhAddress}"
+        },`
     }
   })
 
