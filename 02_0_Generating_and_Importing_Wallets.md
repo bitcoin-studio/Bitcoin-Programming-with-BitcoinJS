@@ -41,4 +41,4 @@ $ node generate_wallets.js
 
 ## What's Next?
 
-Advance through "PART TWO: PAY TO PUBLIC KEY HASH" with [3.0: Legacy P2PKH](03_0_P2PKH.md).
+Continue "PART ONE: PREPARING THE WORK ENVIRONMENT" with [2.1: Generating Blocks](02_1_Generating_Blocks.md).

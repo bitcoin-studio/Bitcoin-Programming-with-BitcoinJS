@@ -3,22 +3,22 @@ const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 
 // Signer
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 
 // Change address
-const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2pkhAlice1 = bitcoin.payments.p2pkh({pubkey: keyPairAlice1.publicKey, network})
+const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
+const p2pkhAlice2 = bitcoin.payments.p2pkh({pubkey: keyPairAlice2.publicKey, network})
 
 // Recipient
-const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
-const p2pkhBob0 = bitcoin.payments.p2pkh({pubkey: keyPairBob0.publicKey, network})
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
+const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
 
 const txb = new bitcoin.TransactionBuilder(network)
-txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2pkhBob0.address, 5e7) // the actual "spend"
-txb.addOutput(p2pkhAlice1.address, 499e5) // Alice's change
+txb.addInput('f262b6fc5ec0f7d27e9ed21888dfa8fc6e405d70972263e538e3b1d220b56f89', 0)
+txb.addOutput(p2pkhBob1.address, 5e7) // the actual "spend"
+txb.addOutput(p2pkhAlice2.address, 499e5) // Alice's change
 
-txb.sign(0, keyPairAlice0)
+txb.sign(0, keyPairAlice1)
 
 const tx = txb.build()
 console.log('tx.toHex()  ', tx.toHex())

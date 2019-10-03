@@ -26,12 +26,6 @@ You need to make sure that your bitcoin configuration file is set to run Bitcoin
 your default configuration with the one in **_[code/bitcoin.conf](code/bitcoin.conf)_**. Make sure it suits your needs 
 before running the software.
 
-The Regtest mode replicates the 100-block maturation time rule, forcing us to wait 101 confirmations to spend a 
-coinbase transaction. So, to be able to start spending coins we need to generate 101 blocks.
-```
-$ generate 101
-```
-
 Install the javascript libraries. 
 > Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch.
 > This is why the package.json references a github commit.
