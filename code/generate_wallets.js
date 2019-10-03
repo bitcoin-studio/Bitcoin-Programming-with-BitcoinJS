@@ -1,19 +1,8 @@
 /**
- * Generate wallets (Alice, Bob, Carol), create a json file and import private keys to Bitcoin Core
- *
- * BIP32 methods
- *  - fromBase58
- *  - fromPrivateKey
- *  - fromPublicKey
- *  - fromSeed
- *
- * BIP39 methods
- *  - mnemonicToSeed
- *  - mnemonicToSeedHex
- *  - mnemonicToEntropy
- *  - entropyToMnemonic
- *  - generateMnemonic
- *  - validateMnemonic
+ * Features
+ * - Generate wallets (Alice, Bob, Carol, Dave Eve, Mallory)
+ * - Create a json file with all cryptographic materials
+ * - Import private keys to Bitcoin Core
  */
 
 const { exec } = require('child_process')
@@ -23,8 +12,8 @@ const bip39 = require('bip39')
 // Change the network appropriately (bitcoin, testnet, regtest)
 const network = bitcoin.networks.regtest
 
-// Replace these values
-// 128 bit entropy => 12 words mnemonic
+// Replace these values if you want to
+// 128 bit entropy will produce a 12 words mnemonic
 // bx seed -b 128
 const wallets = [
   {alice: '182301471f6892728ae56bb95b54396e'},
@@ -39,7 +28,7 @@ const wallets = [
 let walletsJSON="{"
 
 // Iterate on wallets
-wallets.map((wallet, wallet_index) => {
+wallets.forEach((wallet, wallet_index) => {
   // Entropy
   let entropy = wallet[Object.keys(wallet)]
   console.log(`${Object.keys(wallet)} entropy  `, entropy)
@@ -74,7 +63,7 @@ wallets.map((wallet, wallet_index) => {
   console.log(`${Object.keys(wallet)} master pubKey fingerprint `, pubKeyFingerprintMaster)
   console.log()
 
-  // Add cryptographic materials to JSON
+  // Add cryptographic materials to json file
   walletsJSON +=
     `"${Object.keys(wallet)}": [{
       "entropy": "${entropy}",
@@ -89,10 +78,12 @@ wallets.map((wallet, wallet_index) => {
     },`
 
   /**
-   * Bitcoin Core BIP32 derivation path - m/0'/0'/${index}'
-   * Derive 3 sets of addresses
+   * We use the Bitcoin Core BIP32 derivation path
+   * m/0'/0'/i'
+   *
+   * We derive 3 child nodes (keypairs, addresses, etc) per wallet
    */
-  ;[...Array(3)].map((u, i) => {
+  ;[...Array(3)].forEach((u, i) => {
     // Get child node
     let child = master.derivePath(`m/0'/0'/${i}'`)
 
@@ -112,6 +103,9 @@ wallets.map((wallet, wallet_index) => {
     // Get child EC public key
     let pubKey =  child.publicKey.toString('hex')
     console.log(`${Object.keys(wallet)} child ${i} pubKey  `, pubKey)
+    // Get child EC public key hash
+    let pubKeyHash = bitcoin.crypto.hash160(child.publicKey).toString('hex')
+    console.log(`${Object.keys(wallet)} child ${i} pubKey hash `, pubKeyHash)
     // Get child EC public key fingerprint
     let pubKeyFingerprint = bitcoin.crypto.hash160(child.publicKey).slice(0,4).toString('hex')
     console.log(`${Object.keys(wallet)} child ${i} pubKey fingerprint `, pubKeyFingerprint)
@@ -129,34 +123,22 @@ wallets.map((wallet, wallet_index) => {
     console.log(`${Object.keys(wallet)} child ${i} address p2sh-p2wpkh  `, p2sh_p2wpkh)
     console.log()
 
-    // No comma for the last derivation
-    if (i === 2) {
-      walletsJSON +=
-        `{
+    walletsJSON +=
+      `{
           "xpriv": "${xpriv}",
           "privKey": "${privKey}",
           "wif": "${wif}", 
           "xpub": "${xpub}",
           "pubKey": "${pubKey}", 
+          "pubKeyHash": "${pubKeyHash}",
           "pubKeyFingerprint": "${pubKeyFingerprint}",
           "p2pkh": "${p2pkh}", 
           "p2sh-p2wpkh": "${p2sh_p2wpkh}", 
           "p2wpkh": "${p2wpkhAddress}"
         }`
-    } else {
-      walletsJSON +=
-        `{
-          "xpriv": "${xpriv}",
-          "privKey": "${privKey}",
-          "wif": "${wif}", 
-          "xpub": "${xpub}",
-          "pubKey": "${pubKey}", 
-          "pubKeyFingerprint": "${pubKeyFingerprint}",
-          "p2pkh": "${p2pkh}", 
-          "p2sh-p2wpkh": "${p2sh_p2wpkh}", 
-          "p2wpkh": "${p2wpkhAddress}"
-        },`
-    }
+
+    // Add comma for all derivations but not last
+    if (i < 2) walletsJSON += `,`
   })
 
   // No comma for last wallet
@@ -165,9 +147,8 @@ wallets.map((wallet, wallet_index) => {
 })
 
 
-
-// Write a json file with main info
 exec(
+  // Write the json file
   `echo '${walletsJSON}' | jq . > wallets.json`, (error, stdout, stderr) => {
     if (error) {
       console.error('stderr', stderr)
