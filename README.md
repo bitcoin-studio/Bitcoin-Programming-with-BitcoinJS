@@ -21,10 +21,11 @@ Having prior theoretical knowledge of the Bitcoin protocol will surely help, but
 throughout this guide so it fits for beginners.  
 
 Technical requirements
-* Node v10 or superior
+* Node v10 recommended
 * BitcoinJS v4
-* Bitcoin Core v17 or superior
-* Libbitcoin Explorer v3.4.x or superior
+* Bitcoin Core v18
+* Bash or a Bash interpreter like Cygwin or Windows Subsystem for Linux (WSL)
+* Libbitcoin Explorer v3 (optional)
 
 
 ## Copyright
@@ -47,6 +48,7 @@ and are licensed [GPL v3](./LICENSE).
 
 * [1.0: Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](01_0_Introduction_Bitcoin_Programming.md)
 * [2.0: Generating and Importing Wallets](02_0_Generating_and_Importing_Wallets.md)
+* [2.1: Generating Blocks](02_1_Generating_Blocks.md)
 
 
 **PART TWO: PAY TO PUBLIC KEY HASH**
@@ -54,7 +56,7 @@ and are licensed [GPL v3](./LICENSE).
 * [3.0: Legacy P2PKH](03_0_P2PKH.md)
   * [3.1: Simple Transaction (1 input, 1 output) - Legacy P2PKH](03_1_P2PKH_Simple_Tx_1_1.md)
   * [3.2: Typical Transaction (1 input, 2 outputs) - Legacy P2PKH](03_2_P2PKH_Typical_Tx_1_2.md)
-  * [3.3: UTXO Consolidation (5 inputs, 1 output) - Legacy P2PKH](03_3_P2PKH_UTXO_Consolidation_5_1.md)   
+  * [3.3: UTXO Consolidation (3 inputs, 1 output) - Legacy P2PKH](03_3_P2PKH_UTXO_Consolidation_3_1.md)   
   * [3.4: Batching Transaction (1 input, 5 outputs) - Legacy P2PKH](03_4_P2PKH_Batching_Tx_1_5.md)   
   * [3.5: Coinjoin Transaction (4 inputs, 4 outputs) - Legacy P2PKH](03_5_P2PKH_Coinjoin_Tx_4_4.md)
 * [4.0: Native Segwit P2WPKH](04_0_P2WPKH.md)
