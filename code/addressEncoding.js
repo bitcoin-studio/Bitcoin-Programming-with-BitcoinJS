@@ -19,13 +19,13 @@ function Base58CheckEncodeP2PKH(ECPubKeyHash) {
   console.log('doubleSHA --', doubleSHA)
   // Take the first 4 bytes
   let addressChecksum = doubleSHA.slice(0, 4)
-  console.log('addressChecksum --', addressChecksum)
+  console.log('Address checksum --', addressChecksum)
   // Append the checksum at the end
   let unencodedAddress = Buffer.concat([versionAndHash160, addressChecksum])
-  console.log('unencodedAddress --', unencodedAddress)
+  console.log('Unencoded address --', unencodedAddress)
   // Encode in Base58
   let address = bs58.encode(unencodedAddress)
-  console.log('result address --', address)
+  console.log('P2PKH address --', address)
 }
 
 /**

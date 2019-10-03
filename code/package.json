@@ -1,14 +1,19 @@
 {
   "name": "bitcoin_programming_guide_bitcoinjs",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "Bitcoin Programming with BitcoinJS and Bitcoin Core - tutorial",
   "main": "",
   "scripts": {
     "Base58CheckEncodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
-    "Base58CheckDecodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'"
+    "Base58CheckDecodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'",
+    "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'"
   },
-  "author": "Stéphane Roche - https://www.bitcoin-studio.com",
-  "license": "ISC",
+  "author": {
+    "name": "Stephane Roche",
+    "email": "bitcoin-studio@protonmail.com",
+    "url": "https://bitcoin-studio.com"
+  },
+  "license": "MIT",
   "dependencies": {
     "bip32": "^2.0.4",
     "bip39": "^3.0.2",
