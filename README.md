@@ -86,8 +86,8 @@ and are licensed [GPL v3](./LICENSE).
   
 **MISCELLANEOUS**  
 
-* [10.1: Base58Check encoding and decoding of P2PKH address](10_1_Base58Check_Address_Encoding.md)
-
+* [10.1: Base58Check Encoding and Decoding of P2PKH Address](10_1_Base58Check_Address_Encoding.md)
+* [10.2: Data Length and Base Conversion](10_2_Data_Length_Base_Conversion.md)
 
 <br/>
 
