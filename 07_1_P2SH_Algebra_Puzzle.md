@@ -56,10 +56,10 @@ $ gettransaction "txid"
 
 Now let's prepare the spending transaction by setting input and output.
 
-Alice_0 wants to send the funds to her P2WPKH address.
+Alice_1 wants to send the funds to her P2WPKH address.
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object.
@@ -74,7 +74,7 @@ txb.addInput('TX_ID', TX_VOUT)
 
 Create the output, leaving 100 000 satoshis as mining fees.
 ```javascript
-txb.addOutput(p2wpkhAlice0.address, 999e5)
+txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
@@ -126,8 +126,8 @@ We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`.
 You will notice that it is the concatenation of the corresponding hex value of the specified opcodes, `OP_2`, `OP_3` and 
 the redeem script `OP_ADD OP_5 OP_EQUAL`.
 
-Be aware that the hex script is the serialized version, which precede the redeem script by its byte length. 
-In order to decode the script we need to remove this byte length.
+Be aware that the hex script is the serialized version, which includes a <PUSHBYTES_3> before the redeem script. 
+In order to decode the script we need to remove this pushbyte.
 ```
 $ decodescript 5253935587
 ``` 

@@ -44,10 +44,10 @@ $ gettransaction "txid"
 
 Now let's create our OP_RETURN P2PKH UTXO.
 
-Create a bitcoinJS key pair object for the spender Alice_0 and a P2WPKH, address that we will use for the change.
+Create a bitcoinJS key pair object for the spender alice_1 and a P2WPKH address that we will use for the change.
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object.
@@ -59,7 +59,7 @@ Fill in the outpoint.
 Don't forget the prevTxScript, necessary because we are spending a P2WPKH.
 ```javascript
 // txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice0.output)
+txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
 ```
 
 Create an OP_RETURN output with BitcoinJS `embed` payment method.
@@ -70,13 +70,13 @@ Create a second output to get back the change. 100 000 000 - 100 000(fees) = 99 
 const data = Buffer.from('Programmable money FTW!', 'utf8')
 const embed = bitcoin.payments.embed({data: [data]})
 txb.addOutput(embed.output, 0)
-txb.addOutput(p2wpkhAlice0.address, 99900000)
+txb.addOutput(p2wpkhAlice1.address, 99900000)
 ```
 
-Don't forget the input value, necessary because we are spending a P2WPKH.
+Don't forget the bitcoin value of the UTXO we are spending, necessary because we are spending a P2WPKH.
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice0, null, null, 1e8)
+txb.sign(0, keyPairAlice1, null, null, 1e8, null)
 ```
 
 Finally we can build the transaction and get the raw hex serialization.

@@ -14,6 +14,7 @@ We can then list all the generated UTXOs using an output descriptor.
 ```
 $ scantxoutset start '["addr(bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r)"]' 
 ```
+We can't use `listunspent` here because immature UTXOs aren't returned.
 
 
 ## What's Next?

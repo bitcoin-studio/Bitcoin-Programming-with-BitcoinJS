@@ -18,9 +18,8 @@ const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ```
 
-Send 1 BTC to Alice_0 native Segwit P2WPKH address in order to create a P2WPKH UTXO.
-> Check out **_[02_0: Generating and Importing Wallets](02_0_Generating_and_Importing_Wallets.md)_** and your `wallets.json`
-> file in the `code` directory. Replace the address if necessary.
+Send 1 BTC to alice_1 native Segwit P2WPKH address in order to create a P2WPKH UTXO.
+> Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 ```
 $ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 ```
@@ -36,16 +35,16 @@ $ gettransaction "txid"
 
 Now let's spend the UTXO with BitcoinJS.
 
-Create a bitcoinJS key pair object for Alice_0, the spender of our new UTXO, and the only one capable of spending it. 
+Create a bitcoinJS keypair object for alice_1, the spender of our new UTXO, and the only one capable of spending it. 
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
-Create a key pair object and a P2PKH address for the recipient Bob_0.
+Create a key pair object and a P2PKH address for the recipient bob_1.
 ```javascript
-const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
-const p2pkhBob0 = bitcoin.payments.p2pkh({pubkey: keyPairBob0.publicKey, network})
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
+const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object.
@@ -62,13 +61,13 @@ Adding the prevTxScript is a specificity of P2WPKH spending.
 > or with bitcoinJS
 > bitcoin.crypto.hash160(Buffer.from('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex')).toString('hex')
 ```javascript
-// txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice0.output) 
+// txb.addInput(prevTx, vout, sequence, prevTxScript)
+txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output) 
 ```
 
-Pay 0.999 BTC to Bob_0 public key hash
+Pay 0.999 BTC to bob_1 public key hash
 ```javascript
-txb.addOutput(p2pkhBob0.address, 999e5)
+txb.addOutput(p2pkhBob1.address, 999e5)
 ```
 
 > The miner fee is calculated by subtracting the outputs from the inputs.
@@ -79,7 +78,7 @@ We don't have to specify any redeem or witness scripts here, since we are spendi
 But we need to sign the input value.
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice0, null, null, 1e8)
+txb.sign(0, keyPairAlice1, null, null, 1e8, null)
 ```
 
 Finally we can build the transaction and get the raw hex serialization.
@@ -111,7 +110,8 @@ $ getrawtransaction "txid" true
 ## Observations
 
 In the vin section we note that `scriptSig` is empty and that we have an additional `txinwitness` field which contains 
-Alice signature and public key.
+Alice signature and public key. The semantics of P2WPKH is the same as the semantics of P2PKH, except that the signature 
+is not placed at the same location as before.
 
 In the vout section we have one `witness_v0_keyhash` output, which is the code name for native Segwit.
 

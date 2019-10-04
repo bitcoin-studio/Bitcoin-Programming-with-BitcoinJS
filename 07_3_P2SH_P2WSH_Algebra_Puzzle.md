@@ -48,9 +48,9 @@ $ sendtoaddress 2MwnRrQxKhCdr8e3vbL7ymhtzQFYPTx9xww 1
 > We can note that anyone can create this script and generate the corresponding address, it will always result in the same 
 > address.
 
-Generate one block so that we can spend the UTXO.
+Generate one block to dave_1's P2WPKH address so that we can spend the UTXO.
 ```
-$ generate 1
+$ generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
   
 Get the output index so that we have the outpoint (txid / vout).
@@ -64,10 +64,10 @@ $ gettransaction "txid"
 
 Now let's prepare the spending transaction by setting input and output.
 
-Alice_0 wants to send the funds to her P2WPKH address.
+Alice_1 wants to send the funds to her P2WPKH address.
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object.
@@ -82,7 +82,7 @@ txb.addInput('TX_ID', TX_VOUT)
 
 Create the output, leaving 100 000 satoshis as mining fees.
 ```javascript
-txb.addOutput(p2wpkhAlice0.address, 999e5)
+txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
