@@ -5,6 +5,6 @@ const convert = {
   dec2hex : s => parseInt(s, 10).toString(16),
   hex2bin : s => parseInt(s, 16).toString(2),
   hex2dec : s => parseInt(s, 16).toString(10),
-  lenBytesDec: bin => (bin.length/8).toString(10),
-  lenBytesHex: bin => (bin.length/8).toString(16),
+  lenBytesDec: s => (s.length / 2),
+  lenBytesHex: s => convert.dec2hex(s.length / 2),
 }
