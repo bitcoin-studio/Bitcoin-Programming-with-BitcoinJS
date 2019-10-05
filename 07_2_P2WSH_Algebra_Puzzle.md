@@ -1,7 +1,8 @@
 # 7.2: Algebra Puzzle - Native Segwit P2WSH
 
-> To follow along this tutorial and enter the commands step-by-step
-> * Type `node` in a terminal after `cd` into `./code` for a Javascript prompt
+> To follow along this tutorial
+> * Execute all the transaction code in one go by typing `node code/filename.js`   
+> * Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL   
 > * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement 
 

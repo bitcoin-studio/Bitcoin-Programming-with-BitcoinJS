@@ -1,9 +1,10 @@
 # 3.1: Simple Transaction (1 input, 1 output) - Legacy P2PKH
 
-> To follow along this tutorial and enter the commands step-by-step
-> * Type `node` in a terminal after `cd` into `./code` for a Javascript prompt
-> * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
-> * Use `bx` aka `Libbitcoin-explorer` as a handy complement 
+> To follow along this tutorial
+> * Execute all the transaction code in one go by typing `node code/filename.js`   
+> * Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL   
+> * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands   
+> * Use `bx` aka `Libbitcoin-explorer` as a handy complement   
   
 Let's create a legacy P2PKH transaction with 1 input and 1 output.
 
