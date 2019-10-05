@@ -72,10 +72,10 @@ $ gettransaction "txid"
 
 Now let's prepare the spending transaction by setting input and output.
 
-Alice_0 wants to send the funds to her P2WPKH address.
+Alice_1 wants to send the funds to her P2WPKH address.
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object.
@@ -87,7 +87,7 @@ Create the input by referencing the outpoint of our P2SH funding transaction.
 Create the output, leaving 100 000 satoshis as mining fees.
 ```javascript
 txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2wpkhAlice0.address, 999e5)
+txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
@@ -115,12 +115,13 @@ const InputScriptP2SH = bitcoin.script.compile([
 ])
 tx.setInputScript(0, InputScriptP2SH)
 ```
-> In order to push data we should use OP_PUSHDATA 
-> Here, regarding the length of the values, we should use OP_PUSHDATA2, followed by two bytes that contain the number of 
-> bytes to be pushed onto the stack in little endian order.
-> Fortunately, BitcoinJS is taking care of that for us. 
-> If you inspect `InputScriptP2SH`, you will see that the values are preceded by `4d4001`.
-> `4d` is the OP_PUSHDATA2 opcode
+> In order to push data we should use OP_PUSHDATA    
+> Here, regarding the length of the values, we should use OP_PUSHDATA2, followed by two bytes that contain the number of    
+> bytes to be pushed onto the stack in little endian order.   
+> Fortunately, BitcoinJS is taking care of that for us.    
+> If you inspect `InputScriptP2SH`, you will see that the values are preceded by `4d4001`.    
+> `4d` is the OP_PUSHDATA2 opcode, which states that the next two bytes contain the number of bytes to be pushed onto the stack in little endian order.   
+> `0140` is 320 in decimal, which is the length of the values.      
 
 We don't need to sign this transaction since the redeem script doesn't ask for a signature.
 

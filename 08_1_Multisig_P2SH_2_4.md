@@ -18,28 +18,28 @@ const { alice, bob, carol, dave } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ```
 
-Prepare four key pairs.
-```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
-const keyPairCarol0 = bitcoin.ECPair.fromWIF(carol[0].wif, network)
-const keyPairDave0 = bitcoin.ECPair.fromWIF(dave[0].wif, network)
-```
-
-And an other one for Alice that will redeem the multi-signature funds.
+Prepare four keypairs.
 ```javascript
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
+const keyPairCarol1 = bitcoin.ECPair.fromWIF(carol[1].wif, network)
+const keyPairDave1 = bitcoin.ECPair.fromWIF(dave[1].wif, network)
+```
+
+And an other alice_2 that will redeem the multi-signature funds.
+```javascript
+const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
+const p2wpkhAlice2 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice2.publicKey, network})
 ```
 
 Create the locking script with the special `p2ms` payment method.
 ```javascript
 const p2ms = bitcoin.payments.p2ms({
   m: 2, pubkeys: [
-    keyPairAlice0.publicKey,
-    keyPairBob0.publicKey,
-    keyPairCarol0.publicKey,
-    keyPairDave0.publicKey], network})
+    keyPairAlice1.publicKey,
+    keyPairBob1.publicKey,
+    keyPairCarol1.publicKey,
+    keyPairDave1.publicKey], network})
 ```
 
 Check the locking script.
@@ -73,7 +73,7 @@ $ gettransaction "txid"
 
 Now let's prepare the spending transaction by setting input and output and having two people (private keys) to sign the 
 transaction. 
-Here Alice_0 ad Bob_0 will redeem the P2SH multi-signature and send the funds to Alice_1 P2WPKH address.
+Here alice_1 ad bob_1 will redeem the P2SH multi-signature and send the funds to alice_2 P2WPKH address.
 
 Create a BitcoinJS transaction builder object.
 ```javascript
@@ -81,18 +81,18 @@ const txb = new bitcoin.TransactionBuilder(network)
 ```
 
 Create the input by referencing the outpoint of our P2SH funding transaction.
-Create the output that will send the funds to Alice_1 P2WPKH address, leaving 100 000 satoshis as mining fees.
+Create the output that will send the funds to alice_2 P2WPKH address, leaving 100 000 satoshis as mining fees.
 ```javascript
 txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2wpkhAlice1.address, 999e5)
+txb.addOutput(p2wpkhAlice2.address, 999e5)
 ```
 
-Alice_0 and Bob_0 now sign the transaction.
-Note that we need to provide the locking script as redeemScript third parameter of the `sign` method.
+Alice_1 and bob_1 now sign the transaction.
+Note that we need to provide the redeemScript as third parameter of the `sign` method.
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice0, p2sh.redeem.output)
-txb.sign(0, keyPairBob0, p2sh.redeem.output)
+txb.sign(0, keyPairAlice1, p2sh.redeem.output)
+txb.sign(0, keyPairBob1, p2sh.redeem.output)
 ```
 
 Build the transaction and get the raw hex serialization.
@@ -122,8 +122,8 @@ $ getrawtransaction "txid" true
 ## Observations
 
 We can see that the unlocking script contains 
-  * a useless but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
-  * Alice_0 and Bob_0 signatures
+  * a useless dummy but mandatory `00` value due to a bug in `OP_CHECKMULTISIG`
+  * Alice_1 and bob_1 signatures
   * and our redeem script
 
   

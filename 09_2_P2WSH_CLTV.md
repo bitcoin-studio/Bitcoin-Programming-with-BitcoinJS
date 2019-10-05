@@ -12,14 +12,12 @@ Let's create a native Segwit P2WSH transaction with a script that contains the `
 > Read more about P2WSH in [BIP141 - Segregated Witness](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh)
 
 
-Here is the script.
-Either Alice can redeem the output of the P2WSH after the timelock expiry, or Bob and Alice can redeem the funds at any time. 
+Either alice_1 can redeem the funds after the timelock has expired, or bob_1 and alice_1 can redeem the funds at any time. 
 We will set the timelock 6 hours in the past. In real life it should be set in the future, but we don't want to wait for the 
-timelock to expire in order to complete the tutorial.   
-> The `generate` command, which produce blocks on demand on regtest, will not move forward the `mediantime`.
+timelock to expire in order to complete the tutorial.     
+> The `generatetoaddress` command, which produce blocks on demand on regtest, will not move forward the `mediantime`.
 > It sets the `mediantime` to the current local time of your computer.
 
-We will run both scenarios.
 ```javascript
 function cltvCheckSigOutput (aQ, bQ, lockTime) {
   return bitcoin.script.compile([
@@ -55,15 +53,15 @@ We also need an additional library to help us with BIP65 absolute timelock encod
 const bip65 = require('bip65')
 ```
 
-In both scenarios Alice_0 will get back the funds.
+Signers
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 ```
 
-Create a key pair for Bob_0.
+In both scenarios alice_1 P2WPKH address will get back the funds.
 ```javascript
-const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Encode the lockTime value according to BIP65 specification (now - 6 hours).
@@ -77,7 +75,7 @@ Generate the witnessScript with CLTV.
 > In a P2WSH context, a redeem script is called a witness script.
 > If you do it multiple times you will notice that the hex script is never the same, this is because of the timestamp.
 ```javascript
-const witnessScript = cltvCheckSigOutput(keyPairAlice0, keyPairBob0, lockTime)
+const witnessScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
 console.log('witnessScript  ', witnessScript.toString('hex'))
 ```
 
@@ -100,10 +98,15 @@ Get the output index so that we have the outpoint (txid / vout).
 $ getrawtransaction "txid" true
 ```
 
-The output of our funding transaction has a locking script composed of <00 version byte> + <32-byte hash witness program>.
-SHA256 of the witnessScript must match the 32-byte witness program.
+The output script of our funding transaction is a versioned witness program. 
+It is composed as follow: <00 version byte> + <32-byte hash witness program>.   
+The SHA256 hash of the witness script (in the witness of the spending tx) must match the 32-byte witness program (in prevTxOut).
 ```javascript
 bitcoin.crypto.sha256(witnessScript).toString('hex')
+```
+or
+```
+$ bx sha256 <witnessScript>
 ```
 
 
@@ -133,9 +136,9 @@ enabled and RBF is not signaled.
 txb.addInput('TX_ID', TX_VOUT, 0xfffffffe)
 ```
 
-Alice_0 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
+Alice_1 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
 ```javascript
-txb.addOutput(p2wpkhAlice0.address, 999e5)
+txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
@@ -155,7 +158,7 @@ We generate the hash that will be used to produce the signatures.
 const signatureHash = tx.hashForWitnessV0(0, witnessScript, 1e8, hashType)
 ```
 
-There are two ways to redeem the funds, either Alice after the timelock expiry or Alice and Bob at any time.
+There are two ways to redeem the funds, either alice_1 after the timelock expiry or alice_1 and bob_1 at any time.
 We control which branch of the script we want to run by ending our unlocking script with a boolean value.
 
 First branch: {Alice's signature} OP_TRUE
@@ -163,7 +166,7 @@ First branch: {Alice's signature} OP_TRUE
 const witnessStackFirstBranch = bitcoin.payments.p2wsh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice0.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_TRUE,
     ]),
     output: witnessScript
@@ -178,8 +181,8 @@ Second branch: {Alice's signature} {Bob's signature} OP_FALSE
 const witnessStackSecondBranch = bitcoin.payments.p2wsh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice0.sign(signatureHash), hashType),
-      bitcoin.script.signature.encode(keyPairBob0.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairBob1.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_FALSE
     ]),
     output: witnessScript
@@ -191,7 +194,7 @@ console.log('Second branch witness stack  ', witnessStackSecondBranch.map(x => x
 
 We provide the witness stack that BitcoinJS prepared for us. 
 ```javascript
-tx.setWitness(0, [witnessStackFirstBranch OR witnessStackSecondBranch])
+tx.setWitness(0, witnessStackFirstBranch || witnessStackSecondBranch)
 ```
 
 Get the raw hex serialization.
@@ -208,7 +211,7 @@ $ decoderawtransaction "hexstring"
 
 ## Broadcasting the transaction
 
-If you are spending the P2WSH as Alice + timelock after expiry, you must have the node's `mediantime` to be higher than 
+If you are spending the P2WSH as alice_1 + timelock after expiry, you must have the node's `mediantime` to be higher than 
 the timelock value.
 > `mediantime` is the median timestamp of the previous 11 blocks. Check out 
 > **_[BIP113](https://github.com/bitcoin/bips/blob/master/bip-0113.mediawiki)_** for more information.
@@ -220,8 +223,9 @@ $ getblockchaininfo
 
 You need to generate some blocks in order to have the node's `mediantime` synchronized with your computer local time.
 > It is not possible to give you an exact number. 20 should be enough.
+> Dave_1 is our miner
 ```
-$ generate 20
+$ generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
@@ -240,15 +244,17 @@ $ getrawtransaction "txid" true
 For both scenarios we note that our scriptSig is empty.
 
 For the first scenario, we note that our witness stack contains
-  * Alice_0 signature
+  * Alice_1 signature
   * 1, which is equivalent to OP_TRUE
   * the witness script, that we can decode with `decodescript` 
+  * The SHA256 hash of the witness script (in the witness of the spending tx) match the 32-byte witness program (in prevTxOut)
   
 For the second scenario, we note that our witness stack contains
-  * Alice_0 signature
-  * Bob_0 signature
+  * Alice_1 signature
+  * Bob_1 signature
   * an empty string, which is equivalent to OP_FALSE
   * the witness script, that we can decode with `decodescript`
+  * The SHA256 hash of the witness script (in the witness of the spending tx) must match the 32-byte witness program (in prevTxOut)
 
 
 ## What's Next?

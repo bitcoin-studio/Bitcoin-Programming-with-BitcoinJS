@@ -1,3 +1,18 @@
+/**
+ * You have to run this script twice!
+ * After first run: take note the lockTime value and send coins to the P2SH address
+ * Before second run: replace TX_ID, TX_VOUT and locktime
+ * Generate 20 blocks
+ * Send transaction
+ * */
+
+//
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+const hashType = bitcoin.Transaction.SIGHASH_ALL
+const bip68 = require('bip68')
+
 function csvCheckSigOutput(aQ, bQ, sequence) {
   return bitcoin.script.compile([
     bitcoin.opcodes.OP_IF,
@@ -15,12 +30,7 @@ function csvCheckSigOutput(aQ, bQ, sequence) {
   ])
 }
 
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-const hashType = bitcoin.Transaction.SIGHASH_ALL
 
-const bip68 = require('bip68')
 
 const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
 const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})

@@ -7,17 +7,15 @@
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement 
 
 Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKLOCKTIMEVERIFY` absolute timelock opcode.
-
 > Read more about OP_CHECKLOCKTIMEVERIFY in [BIP65](https://github.com/bitcoin/bips/blob/master/bip-0065.mediawiki)
 
-Here is the script.
-Either Alice can redeem the output of the P2SH after the timelock expiry, or Bob and Alice can redeem the funds at any time. 
+
+Either alice_1 can redeem the funds after the timelock has expired, or bob_1 and alice_1 can redeem the funds at any time. 
 We will set the timelock 6 hours in the past. In real life it should be set in the future, but we don't want to wait for the 
 timelock to expire in order to complete the tutorial.   
-> The `generate` command, which produce blocks on demand on regtest, will not move forward the `mediantime`.
+> The `generatetoaddress` command, which produce blocks on demand on regtest, will not move forward the `mediantime`.
 > It sets the `mediantime` to the current local time of your computer.
 
-We will run both scenarios.
 ```javascript
 function cltvCheckSigOutput (aQ, bQ, lockTime) {
   return bitcoin.script.compile([
@@ -53,16 +51,17 @@ We also need an additional library to help us with BIP65 absolute timelock encod
 const bip65 = require('bip65')
 ```
 
-In both scenarios Alice_0 will get back the funds.
+Signers   
 ```javascript
-const keyPairAlice0 = bitcoin.ECPair.fromWIF(alice[0].wif, network)
-const p2wpkhAlice0 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice0.publicKey, network})
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 ```
 
-Create a key pair for Bob_0.
+In both scenarios alice_1 P2WPKH address will get back the funds.
 ```javascript
-const keyPairBob0 = bitcoin.ECPair.fromWIF(bob[0].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
+
 
 Encode the lockTime value according to BIP65 specification (now - 6 hours).
 > Method argument is a UNIX timestamp.
@@ -72,9 +71,9 @@ console.log('lockTime  ', lockTime)
 ```
 
 Generate the redeemScript with CLTV. 
-> If you do it multiple times you will notice that the hex script is never the same, this is because of the timestamp.
+> If you do it multiple times you will notice that the hex script is never the same, this is because of the locktime.
 ```javascript
-const redeemScript = cltvCheckSigOutput(keyPairAlice0, keyPairBob0, lockTime)
+const redeemScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
 console.log('redeemScript  ', redeemScript.toString('hex'))
 ```
 
@@ -121,13 +120,13 @@ Create the input by referencing the outpoint of our P2SH funding transaction.
 The input-level nSequence value needs to be change to `0xfffffffe`, which means that nSequence is disabled, nLocktime is 
 enabled and RBF is not signaled.
 ```javascript
-// txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, 0xfffffffe)
+// txb.addInput(prevTx, vout, sequence, prevTxScript)
+txb.addInput('TX_ID', TX_VOUT, 0xfffffffe, null)
 ```
 
-Alice_0 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
+Alice_1 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
 ```javascript
-txb.addOutput(p2wpkhAlice0.address, 999e5)
+txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
@@ -153,7 +152,7 @@ First branch: {Alice's signature} OP_TRUE
 const inputScriptFirstBranch = bitcoin.payments.p2sh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice0.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_TRUE,
     ]),
     output: redeemScript
@@ -166,8 +165,8 @@ Second branch: {Alice's signature} {Bob's signature} OP_FALSE
 const inputScriptSecondBranch = bitcoin.payments.p2sh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice0.sign(signatureHash), hashType),
-      bitcoin.script.signature.encode(keyPairBob0.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairBob1.sign(signatureHash), hashType),
       bitcoin.opcodes.OP_FALSE
     ]),
     output: redeemScript
@@ -175,9 +174,9 @@ const inputScriptSecondBranch = bitcoin.payments.p2sh({
 }).input
 ```
 
-Update the transaction with the unlocking script.
+Update the transaction with the input script you have chosen.
 ```javascript
-tx.setInputScript(0, [inputScriptFirstBranch or inputScriptSecondBranch])
+tx.setInputScript(0, inputScriptFirstBranch || inputScriptSecondBranch)
 ```
 
 Get the raw hex serialization.
@@ -206,8 +205,9 @@ $ getblockchaininfo
 
 You need to generate some blocks in order to have the node's `mediantime` synchronized with your computer local time.
 > It is not possible to give you an exact number. 20 should be enough.
+> Dave_1 is our miner
 ```
-$ generate 20
+$ generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
@@ -224,13 +224,13 @@ $ getrawtransaction "txid" true
 ## Observations
 
 For the first scenario, we note that our scriptSig contains
-  * Alice_0 signature
+  * Alice_1 signature
   * 1, which is equivalent to OP_TRUE
   * the redeem script, that we can decode with `decodescript` 
   
 For the second scenario, we note that our scriptSig contains
-  * Alice_0 signature
-  * Bob_0 signature
+  * Alice_1 signature
+  * Bob_1 signature
   * 0, which is equivalent to OP_FALSE
   * the redeem script, that we can decode with `decodescript`
 
