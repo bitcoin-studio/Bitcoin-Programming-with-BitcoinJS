@@ -51,7 +51,7 @@ We also need an additional library to help us with BIP65 absolute timelock encod
 const bip65 = require('bip65')
 ```
 
-Signers   
+Alice_1 and bob_1 are the signers.   
 ```javascript
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
