@@ -19,7 +19,7 @@ const p2pkhMallory1 = bitcoin.payments.p2pkh({pubkey: keyPairMallory1.publicKey,
 
 // Create 1 input
 const txb = new bitcoin.TransactionBuilder(network)
-txb.addInput('c1f91644652ff81caa2d902340450d722211834328e8b9af1206a021e31e2179', 1)
+txb.addInput('TX_ID', TX_VOUT)
 
 // Create 5 outputs
 txb.addOutput(p2pkhBob1.address, 2e7)

@@ -15,7 +15,7 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 
 const txb = new bitcoin.TransactionBuilder(network)
 
-txb.addInput('7d3a919a7e89fb24c293865eb08ae3f949880d7f7047629d14bafe6e579324d3', 1)
+txb.addInput('TX_ID', TX_VOUT)
 
 txb.addOutput(p2wpkhAlice1.address, 999e5)
 

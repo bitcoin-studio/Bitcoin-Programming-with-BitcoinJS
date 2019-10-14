@@ -24,7 +24,7 @@ const p2wsh = bitcoin.payments.p2wsh({redeem: p2ms, network})
 
 const txb = new bitcoin.TransactionBuilder(network)
 
-txb.addInput('6528a606f3707d05429344fb03a467bd3c69687ebeb40c7e3dacc3102fafacf8', 1)
+txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2wpkhAlice2.address, 999e5)
 
 // Signing
