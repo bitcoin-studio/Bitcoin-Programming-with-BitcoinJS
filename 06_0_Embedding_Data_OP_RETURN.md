@@ -29,7 +29,7 @@ const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ```
 
-Send 1 BTC to Alice_0 P2WPKH address via Bitcoin Core CLI.
+Send 1 BTC to alice_1 P2WPKH address via Bitcoin Core CLI.
 ```
 $ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 ```
