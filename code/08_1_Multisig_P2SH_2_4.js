@@ -10,7 +10,7 @@ const keyPairDave1 = bitcoin.ECPair.fromWIF(dave[1].wif, network)
 
 // Recipient
 const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
-const p2wpkhAlice2 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+const p2wpkhAlice2 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice2.publicKey, network})
 
 // Build transaction
 const p2ms = bitcoin.payments.p2ms({
