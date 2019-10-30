@@ -35,9 +35,9 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 **PART ONE: PREPARING THE WORK ENVIRONMENT**
 
-* [1.0: Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](01_0_introduction_bitcoin_programming.md)
-* [2.0: Generating and Importing Wallets](02_0_generating_and_importing_wallets.md)
-* [2.1: Generating Blocks](02_1_generating_blocks.md)
+* [1.0: Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/01_0_introduction_bitcoin_programming.md)
+* [2.0: Generating and Importing Wallets](part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md)
+* [2.1: Generating Blocks](part-one-preparing-the-work-environment/02_1_generating_blocks.md)
 
 **PART TWO: PAY TO PUBLIC KEY HASH**
 
@@ -55,7 +55,7 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 **PART THREE: PAY TO SCRIPT HASH**
 
-* [7.0: P2SH Puzzles](07_0_bitcoin_script_puzzles/)
+* [7.0: Puzzles](07_0_bitcoin_script_puzzles/)
   * [7.1: Algebra Puzzle - Legacy P2SH](07_0_bitcoin_script_puzzles/07_1_p2sh_algebra_puzzle.md)
   * [7.2: Algebra Puzzle - Native Segwit P2WSH](07_0_bitcoin_script_puzzles/07_2_p2wsh_algebra_puzzle.md)
   * [7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH](07_0_bitcoin_script_puzzles/07_3_p2sh_p2wsh_algebra_puzzle.md)

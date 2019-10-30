@@ -18,5 +18,5 @@ We can't use `listunspent` here because immature UTXOs aren't returned.
 
 ## What's Next?
 
-Advance through "PART TWO: PAY TO PUBLIC KEY HASH" with [3.0: Legacy P2PKH](03_0_p2pkh/).
+Advance through "PART TWO: PAY TO PUBLIC KEY HASH" with [3.0: Legacy P2PKH](../03_0_p2pkh/).
 

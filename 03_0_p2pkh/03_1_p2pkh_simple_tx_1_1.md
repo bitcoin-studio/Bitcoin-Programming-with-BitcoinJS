@@ -23,7 +23,7 @@ const network = bitcoin.networks.regtest
 
 Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
 
-> Check out [_**02\_0: Generating and Importing Wallets**_](../02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
+> Check out [_**02\_0: Generating and Importing Wallets**_](../part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```text
 > $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
