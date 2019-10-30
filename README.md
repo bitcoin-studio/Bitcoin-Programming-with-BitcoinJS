@@ -55,7 +55,7 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 **PART THREE: PAY TO SCRIPT HASH**
 
-* [7.0: Bitcoin Script Puzzles or Pay to Script Hash](07_0_bitcoin_script_puzzles/)
+* [7.0: P2SH Puzzles](07_0_bitcoin_script_puzzles/)
   * [7.1: Algebra Puzzle - Legacy P2SH](07_0_bitcoin_script_puzzles/07_1_p2sh_algebra_puzzle.md)
   * [7.2: Algebra Puzzle - Native Segwit P2WSH](07_0_bitcoin_script_puzzles/07_2_p2wsh_algebra_puzzle.md)
   * [7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH](07_0_bitcoin_script_puzzles/07_3_p2sh_p2wsh_algebra_puzzle.md)

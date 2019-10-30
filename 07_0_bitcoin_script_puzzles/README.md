@@ -1,4 +1,4 @@
-# 7.0: Bitcoin Script Puzzles or Pay to Script Hash
+# 7.0: P2SH Puzzles
 
 Bitcoin scripts can be puzzles of any sort and they don't actually have to depend on the knowledge of a secret key. Complex scripts are replaced by shorter fingerprints in the transaction output, which allows for smaller transaction and less fees. Scripts can be hashed and encoded as a bitcoin address, hence the term Pay to Script Hash, and sending money to it is the same as sending to a public key hash address.
 

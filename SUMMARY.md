@@ -15,7 +15,7 @@
   * [4.2: Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](04_0_p2wpkh/04_2_p2wpkh_typical_tx_1_2.md)
 * [5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO](05_0_p2sh_p2wpkh_spend_1_1.md)
 * [6.0: Embedding Data with OP\_RETURN](06_0_embedding_data_op_return.md)
-* [7.0: Bitcoin Script Puzzles or Pay to Script Hash](07_0_bitcoin_script_puzzles/README.md)
+* [7.0: P2SH Puzzles](07_0_bitcoin_script_puzzles/README.md)
   * [7.1: Algebra Puzzle - Legacy P2SH](07_0_bitcoin_script_puzzles/07_1_p2sh_algebra_puzzle.md)
   * [7.2: Algebra Puzzle - Native Segwit P2WSH](07_0_bitcoin_script_puzzles/07_2_p2wsh_algebra_puzzle.md)
   * [7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH](07_0_bitcoin_script_puzzles/07_3_p2sh_p2wsh_algebra_puzzle.md)
