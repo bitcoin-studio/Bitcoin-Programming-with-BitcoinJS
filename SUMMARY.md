@@ -12,7 +12,7 @@
 
 ## Part Two: Pay To Public Key Hash
 
-* [3.0: Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_0_p2pkh/README.md)
+* [3.0: Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/README.md)
   * [3.1: Simple Transaction \(1 input, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_1_p2pkh_simple_tx_1_1.md)
   * [3.2: Typical Transaction \(1 input, 2 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_2_p2pkh_typical_tx_1_2.md)
   * [3.3: UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_3_p2pkh_utxo_consolidation_3_1.md)
