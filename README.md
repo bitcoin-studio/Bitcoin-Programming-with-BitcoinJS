@@ -51,7 +51,6 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
   * [4.1: Spend a Native Segwit P2WPKH UTXO](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_1_p2wpkh_spend_1_1.md)
   * [4.2: Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_2_p2wpkh_typical_tx_1_2.md)
 * [5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/05_0_p2sh_p2wpkh_spend_1_1.md)
-* [6.0: Embedding Data With OP\_RETURN](part-two-pay-to-public-key-hash/06_0_embedding_data_op_return.md)
 
 **PART THREE: PAY TO SCRIPT HASH**
 
@@ -72,8 +71,9 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 **MISCELLANEOUS**
 
-* [10.1: Base58Check Encoding and Decoding of P2PKH Address](miscellaneous/10_1_base58check_address_encoding.md)
-* [10.2: Data Length and Base Conversion](miscellaneous/10_2_data_length_base_conversion.md)
+* [10.1: Embedding Data With OP\_RETURN](miscellaneous/10_1_embedding_data_op_return.md)
+* [11.1: Base58Check Encoding and Decoding of P2PKH Address](miscellaneous/11_1_base58check_address_encoding.md)
+* [11.2: Data Length and Base Conversion](miscellaneous/11_2_data_length_base_conversion.md)
 
 Please consider making a donation so that I can continue producing free educational content   
  [Donate with Bitcoin \| 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/6c8ace0ed31d9a8cd758f195dd2d583e5b208cde/bitcoin_donation.png)

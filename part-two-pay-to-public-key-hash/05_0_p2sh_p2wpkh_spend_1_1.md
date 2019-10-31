@@ -124,5 +124,5 @@ In the vout section we have one `witness_v0_keyhash` UTXO.
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [6.0: Embedding Data With OP\_RETURN](06_0_embedding_data_op_return.md).
+Advance through "PART THREE: PAY TO SCRIPT HASH" with [7.0: Puzzles](../part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/).
 

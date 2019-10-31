@@ -62,7 +62,7 @@ const txb = new bitcoin.TransactionBuilder(network)
 Fill in the outpoint. Don't forget the prevTxScript, necessary because we are spending a P2WPKH.
 
 ```javascript
-// txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
+// txb.addInput(prevTx, prevTxOut, sequence, prevTxScript)
 txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
 ```
 
@@ -120,8 +120,3 @@ To decode the OP\_RETURN data we can use the `xxd` library in a terminal which m
 ```text
 $ echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
 ```
-
-## What's Next?
-
-Advance through "PART THREE: PAY TO SCRIPT HASH" with [7.0: Bitcoin Script Puzzles or Pay to Script Hash](../part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/).
-

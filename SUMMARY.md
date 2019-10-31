@@ -20,7 +20,6 @@
   * [4.1: Spend a Native Segwit P2WPKH UTXO](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_1_p2wpkh_spend_1_1.md)
   * [4.2: Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_2_p2wpkh_typical_tx_1_2.md)
 * [5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/05_0_p2sh_p2wpkh_spend_1_1.md)
-* [6.0: Embedding Data with OP\_RETURN](part-two-pay-to-public-key-hash/06_0_embedding_data_op_return.md)
 
 ## Part Three: Pay To Script Hash
 
@@ -41,6 +40,7 @@
 
 ## Miscellaneous
 
-* [10.1: Base58Check encoding and decoding of P2PKH address](miscellaneous/10_1_base58check_address_encoding.md)
-* [10.2: Data Length and Base Conversion](miscellaneous/10_2_data_length_base_conversion.md)
+* [10.1: Embedding Data with OP\_RETURN](miscellaneous/10_1_embedding_data_op_return.md)
+* [11.1: Base58Check encoding and decoding of P2PKH address](miscellaneous/11_1_base58check_address_encoding.md)
+* [11.2: Data Length and Base Conversion](miscellaneous/11_2_data_length_base_conversion.md)
 
