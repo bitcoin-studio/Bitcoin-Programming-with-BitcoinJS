@@ -39,7 +39,7 @@ Let's use different P2PKH addresses, all controlled by Alice. We will have one p
 
 Let's send this three payments, of 0.2 BTC each.
 
-> Check out [_**02\_0: Generating and Importing Wallets**_](../part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
+> Check out [_**02\_0: Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```text
 > $ sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
