@@ -1,6 +1,6 @@
 # Programming Bitcoin with BitcoinJS and Bitcoin Core CLI
 
-Welcome to the extensive guide to Bitcoin Javascript! In this guide we will explain how to create various types of Bitcoin transactions, using the [BitcoinJS](https://github.com/bitcoinjs/bitcoinjs-lib) library.
+Welcome to the non-official _Bitcoin Programming with BitcoinJS_ extensive guide! You will learn how to create various types of Bitcoin transactions using the version 4 of [BitcoinJS](https://github.com/bitcoinjs/bitcoinjs-lib) library.
 
 We will use the Bitcoin Core command-line interface in Regtest mode for various common tasks, as well as some complementary libraries like `bx` aka [Libbitcoin Explorer](https://github.com/libbitcoin/libbitcoin-explorer).
 
