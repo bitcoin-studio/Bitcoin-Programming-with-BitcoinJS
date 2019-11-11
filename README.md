@@ -25,7 +25,7 @@ Technical requirements
 
 ## Copyright
 
-Unless otherwise noted, the contents of this repository are Copyright ©2019 by [Bitcoin Studio](https://www.bitcoin-studio.com) and are licensed [GPL v3](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/6c8ace0ed31d9a8cd758f195dd2d583e5b208cde/LICENSE/README.md).
+Unless otherwise noted, the contents of this repository are Copyright ©2019 by [Bitcoin Studio](https://www.bitcoin-studio.com) and are licensed [GPL v3](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/LICENSE/README.md).
 
 ## Disclaimer
 
@@ -36,13 +36,13 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 ## Table of Contents
 
-**PART ONE: PREPARING THE WORK ENVIRONMENT**
+##### PART ONE: PREPARING THE WORK ENVIRONMENT
 
 * [Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
 * [Generating and Importing Wallets](part-one-preparing-the-work-environment/generating_and_importing_wallets.md)
 * [Generating Blocks](part-one-preparing-the-work-environment/generating_blocks.md)
 
-**PART TWO: PAY TO PUBLIC KEY HASH**
+##### PART TWO: PAY TO PUBLIC KEY HASH
 
 * [Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/README.md)
   * [Simple Transaction \(1 input, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_simple_tx_1_1.md)
@@ -56,29 +56,33 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 * [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/README.md)
   * [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2sh_p2wpkh_spend_1_1.md)
 
-**PART THREE: PAY TO SCRIPT HASH**
+##### PART THREE: PAY TO SCRIPT HASH
 
-* [7.0: Puzzles](part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/)
-  * [7.1: Algebra Puzzle - Legacy P2SH](part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/07_1_p2sh_algebra_puzzle.md)
-  * [7.2: Algebra Puzzle - Native Segwit P2WSH](part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/07_2_p2wsh_algebra_puzzle.md)
-  * [7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH](part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/07_3_p2sh_p2wsh_algebra_puzzle.md)
-  * [7.4: Computational Puzzle: SHA-1 Collision - Legacy P2SH](part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/07_4_p2sh_computational_puzzle_sha-1_collision.md)
-* [8.0: Multi-signature Transactions](part-three-pay-to-script-hash/08_0_multisig_transactions/)
-  * [8.1: Multi-signature Legacy 2 of 4](part-three-pay-to-script-hash/08_0_multisig_transactions/08_1_multisig_p2sh_2_4.md)
-  * [8.2: Multi-signature Native Segwit 2 of 4](part-three-pay-to-script-hash/08_0_multisig_transactions/08_2_multisig_p2wsh_p2ms_2_4.md)
-  * [8.3: Multi-signature Embedded Segwit 2 of 4](part-three-pay-to-script-hash/08_0_multisig_transactions/08_3_multisig_p2sh_p2wsh_p2ms_2_4.md)
-* [9.0: Timelock Transactions](part-three-pay-to-script-hash/09_0_timelock_transactions/)
-  * [9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/09_0_timelock_transactions/09_1_p2sh_cltv.md)
-  * [9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/09_0_timelock_transactions/09_2_p2wsh_cltv.md)
-  * [9.3: Script with CHECKSEQUENCEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/09_0_timelock_transactions/09_3_p2sh_csv.md)
-  * [9.4: Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/09_0_timelock_transactions/09_4_p2wsh_csv.md)
+* [Puzzles](part-three-pay-to-script-hash/puzzles/README.md)
+  * [Algebra Puzzle - Legacy P2SH](part-three-pay-to-script-hash/puzzles/p2sh_algebra_puzzle.md)
+  * [Algebra Puzzle - Native Segwit P2WSH](part-three-pay-to-script-hash/puzzles/p2wsh_algebra_puzzle.md)
+  * [Algebra Puzzle - Embedded Segwit P2SH-P2WSH](part-three-pay-to-script-hash/puzzles/p2sh_p2wsh_algebra_puzzle.md)
+  * [Computational Puzzle: SHA-1 Collision](part-three-pay-to-script-hash/puzzles/p2sh_computational_puzzle_sha-1_collision.md)
+* [Multi-signature Transactions](part-three-pay-to-script-hash/multi_signatures/README.md)
+  * [Multi-signature Legacy 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2sh_2_4.md)
+  * [Multi-signature Native Segwit 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2wsh_p2ms_2_4.md)
+  * [Multi-signature Embedded Segwit 2 of 4](part-three-pay-to-script-hash/muti_signatures/multisig_p2sh_p2wsh_p2ms_2_4.md)
+* [Timelock Transactions](part-three-pay-to-script-hash/timelocks/README.md)
+  * [Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/cltv_p2sh.md)
+  * [Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/cltv_p2wsh.md)
+  * [Script with CHECKSEQUENCEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/csv_p2sh.md)
+  * [Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/csv_p2wsh.md)
 
-**MISCELLANEOUS**
+##### PART FOUR: DATA EMBEDDING
 
-* [10.1: Embedding Data With OP\_RETURN](miscellaneous/10_1_embedding_data_op_return.md)
-* [11.1: Base58Check Encoding and Decoding of P2PKH Address](miscellaneous/11_1_base58check_address_encoding.md)
-* [11.2: Data Length and Base Conversion](miscellaneous/11_2_data_length_base_conversion.md)
+* [Data Embedding with OP\_RETURN](part-four-data-embedding/data_embedding_op_return.md)
+
+##### TOOLS
+
+* [Base58Check encoding and decoding of P2PKH address](tools/base58check_address_encoding.md)
+* [Data Length and Base Conversion](tools/data_length_base_conversion.md)
+
 
 Please consider making a donation so that I can continue producing free educational content   
- [Donate with Bitcoin \| 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/6c8ace0ed31d9a8cd758f195dd2d583e5b208cde/bitcoin_donation.png)
+ [Donate with Bitcoin \| 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/bitcoin_donation.png)
 

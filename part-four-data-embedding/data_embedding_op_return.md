@@ -1,4 +1,4 @@
-# 6.0: Embedding Data with OP\_RETURN
+# Data Embedding with OP\_RETURN
 
 > To follow along this tutorial
 >
@@ -30,16 +30,16 @@ const network = bitcoin.networks.regtest
 
 Send 1 BTC to alice\_1 P2WPKH address via Bitcoin Core CLI.
 
-```text
-$ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
+```shell
+sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
-> $ gettransaction "txid"
+> ```shell
+> gettransaction "txid"
 > ```
 
 ## Creating the transaction
@@ -88,27 +88,28 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
-$ decoderawtransaction "hexstring"
+```shell
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction.
 
-```text
-$ sendrawtransaction "hexstring"
+```shell
+sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
-$ getrawtransaction "txid" true
+```shell
+getrawtransaction "txid" true
 ```
 
 ## Observations
@@ -117,6 +118,6 @@ We note that the OP\_RETURN UTXO is marked with the special type `nulldata`.
 
 To decode the OP\_RETURN data we can use the `xxd` library in a terminal which make a hexdump or the reverse.
 
-```text
-$ echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
+```shell
+echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
 ```

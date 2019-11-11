@@ -1,4 +1,4 @@
-# 7.1: Algebra Puzzle - Legacy P2SH
+# Algebra Puzzle - Legacy P2SH
 
 > To follow along this tutorial
 >
@@ -27,26 +27,28 @@ const redeemScript = bitcoin.script.compile([
   bitcoin.opcodes.OP_5,
   bitcoin.opcodes.OP_EQUAL])
 
-console.log('redeemScript  ', redeemScript.toString('hex'))
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
 ```
 
 You can decode the script in Bitcoin Core CLI.
 
-```text
-$ decodescript 935587
+```shell
+decodescript 935587
 ```
 
 The `p2sh` method will generate an object that contains the P2SH address.
 
 ```javascript
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
-console.log('p2sh.address  ', p2sh.address)
+console.log('P2SH address:')
+console.log(p2sh.address)
 ```
 
 Let's fund this address with 1 BTC. This is the reward for whoever as the solution to the locking script.
 
-```text
-$ sendtoaddress 2N7WfHK1ftrTdhWej8rnFNR7guhvhfGWwFR 1
+```shell
+sendtoaddress 2N7WfHK1ftrTdhWej8rnFNR7guhvhfGWwFR 1
 ```
 
 > We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
@@ -55,8 +57,8 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
-> $ gettransaction "txid"
+> ```shell
+> gettransaction TX_ID
 > ```
 
 ## Preparing the spending transaction
@@ -112,27 +114,28 @@ Get the raw hex serialization.
 > No `build` step here as we have already called `buildIncomplete`
 >
 > ```javascript
-> console.log('tx.toHex()  ', tx.toHex())
+> console.log('Transaction hexadecimal:')
+> console.log(tx.toHex())
 > ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
-$ decoderawtransaction "hexstring"
+```shell
+decoderawtransaction TX_HEX
 ```
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
-$ sendrawtransaction "hexstring"
+```shell
+sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
-$ getrawtransaction "txid" true
+```shell
+getrawtransaction TX_ID true
 ```
 
 ## Observations
@@ -141,11 +144,11 @@ We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`. You
 
 Be aware that the hex script is the serialized version, which includes a  before the redeem script. In order to decode the script we need to remove this pushbyte.
 
-```text
-$ decodescript 5253935587
+```shell
+decodescript 5253935587
 ```
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [7.2: Algebra Puzzle - Native Segwit P2WSH](07_2_p2wsh_algebra_puzzle.md).
+Continue "Part Three: Pay To Script Hash" with [Algebra Puzzle - Native Segwit P2WSH](algebra_puzzle_p2wsh.md).
 

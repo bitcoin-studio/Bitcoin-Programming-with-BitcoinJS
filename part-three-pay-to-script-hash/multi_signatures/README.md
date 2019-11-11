@@ -1,4 +1,4 @@
-# 8.0: Multi-signature Transactions
+# Multi-signature Transactions
 
 > To read more
 >
@@ -14,5 +14,5 @@ The idea is that bitcoins become "encumbered" by providing addresses of multiple
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [8.1: Multi-signature Legacy 2 of 4](08_1_multisig_p2sh_2_4.md).
+Continue "Part Three: Pay To Script Hash" with [Multi-signature Legacy 2 of 4](multisig_p2sh_2_4.md).
 

@@ -1,4 +1,4 @@
-# 8.3: Multi-signature Embedded Segwit 2 of 4
+# Multi-signature Nested Segwit 2 of 4
 
 > To follow along this tutorial
 >
@@ -44,12 +44,14 @@ const p2ms = bitcoin.payments.p2ms({
     keyPairBob1.publicKey,
     keyPairCarol1.publicKey,
     keyPairDave1.publicKey], network})
+    
+console.log('Script:')
+console.log(p2ms.output.toString('hex'))    
 ```
 
 Check the locking script.
-
-```text
-$ decodescript [p2ms.output.toString('hex')]
+```shell
+decodescript SCRIPT
 ```
 
 `"2 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d 027efbabf425077cdbceb73f6681c7ebe2ade74a65ea57ebcf0c42364d3822c590 023a11cfcedb993ff2e7523f92e359c4454072a66d42e8b74b4b27a8a1258abddd 02e9d617f38f8c3ab9a6bde36ce991bafb295d7adba457699f8620c8160ec9e87a 4 OP_CHECKMULTISIG"`
@@ -63,16 +65,16 @@ const p2sh = bitcoin.payments.p2sh({redeem: p2wsh, network})
 
 Send 1 BTC to this P2SH address.
 
-```text
-$ sendtoaddress 2N4LnN5rp8JAmqE3LBVQhYEQg83piAF15sX 1
+```shell
+sendtoaddress 2N4LnN5rp8JAmqE3LBVQhYEQg83piAF15sX 1
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
-> $ gettransaction "txid"
+> ```shell
+> gettransaction TX_ID
 > ```
 
 ## Preparing the spending transaction
@@ -104,27 +106,28 @@ Build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
-$ decoderawtransaction "hexstring"
+```shell
+decoderawtransaction TX_HEX
 ```
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
-$ sendrawtransaction "hexstring"
+```shell
+sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
-$ getrawtransaction "txid" true
+```shell
+getrawtransaction TX_ID true
 ```
 
 ## Observations
@@ -133,7 +136,7 @@ We can see that the scriptSig is a special unlocking script that contains the ve
 
 Verify the unlocking script HASH160.
 
-```text
+```shell
 $ bx bitcoin160 '00205b07dcc35fc2b29db80be059e495c88f5b7609c1e3d888c14240678f00217b3d'   
 79b67d4c7bff512939e90e170ee9b969eb1203a8
 ```
@@ -152,5 +155,5 @@ After checking hash equality, the script interpreter recognize that it is actual
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [9.0: Timelock Transactions](../09_0_timelock_transactions/).
+Continue "Part Three: Pay To Script Hash" with [Timelock Transactions](../timelocks/).
 

@@ -1,4 +1,4 @@
-# 7.3: Algebra Puzzle - Embedded Segwit P2SH-P2WSH
+# Algebra Puzzle - Nested Segwit (NP2WSH or P2SH-P2WSH)
 
 > To follow along this tutorial
 >
@@ -29,13 +29,14 @@ const witnessScript = bitcoin.script.compile([
   bitcoin.opcodes.OP_5,
   bitcoin.opcodes.OP_EQUAL])
 
-console.log('witnessScript  ', witnessScript.toString('hex'))
+console.log('Witness script:')
+console.log(witnessScript.toString('hex'))
 ```
 
 You can decode the script in Bitcoin Core CLI.
 
-```text
-$ decodescript 935587
+```shell
+decodescript 935587
 ```
 
 Put the `p2wsh` object into the `p2sh` redeem parameter.
@@ -43,29 +44,30 @@ Put the `p2wsh` object into the `p2sh` redeem parameter.
 ```javascript
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
 const p2sh = bitcoin.payments.p2sh({redeem: p2wsh, network: network})
-console.log('p2sh.address:  ', p2sh.address)
+console.log('P2SH Address:')
+console.log(p2sh.address)
 ```
 
 Send 1 BTC to this P2SH-P2WSH address, which is the reward for whoever as the solution to the locking script.
 
-```text
-$ sendtoaddress 2MwnRrQxKhCdr8e3vbL7ymhtzQFYPTx9xww 1
+```shell
+sendtoaddress 2MwnRrQxKhCdr8e3vbL7ymhtzQFYPTx9xww 1
 ```
 
 > We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
 
 Generate one block to dave\_1's P2WPKH address so that we can spend the UTXO.
 
-```text
-$ generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
+```shell
+generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
-> $ gettransaction "txid"
+> ```shell
+> gettransaction TX_ID
 > ```
 
 ## Preparing the spending transaction
@@ -143,27 +145,28 @@ Get the raw hex serialization.
 > No `build` step here as we have already called `buildIncomplete`
 >
 > ```javascript
-> console.log('tx.toHex()  ', tx.toHex())
+> console.log('Transaction hexadecimal:')
+> console.log(tx.toHex())
 > ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
-$ decoderawtransaction "hexstring"
+```shell
+decoderawtransaction TX_HEX
 ```
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
-$ sendrawtransaction "hexstring"
+```shell
+sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
-$ getrawtransaction "txid" true
+```shell
+getrawtransaction TX_ID true
 ```
 
 ## Observations
@@ -181,5 +184,5 @@ ScriptSig is then interpreted as a P2WSH and triggers the execution of the witne
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [7.4: Computational Puzzle: SHA-1 Collision - Legacy P2SH](07_4_p2sh_computational_puzzle_sha-1_collision.md).
+Continue "Part Three: Pay To Script Hash" with [Computational Puzzle: SHA-1 Collision - Legacy P2SH](computational_puzzle_sha1_collision_p2sh.md).
 

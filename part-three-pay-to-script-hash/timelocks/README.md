@@ -1,4 +1,4 @@
-# 9.0: Timelock Transactions
+# Timelock Transactions
 
 ## Absolute Timelock
 
@@ -28,5 +28,5 @@ CSV is used by Lightning Network transactions.
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](09_1_p2sh_cltv.md).
+Continue "Part Three: Pay To Script Hash" with [9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](cltv_p2sh.md).
 

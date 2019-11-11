@@ -1,4 +1,4 @@
-# 7.0: Puzzles
+# Puzzles
 
 Bitcoin scripts can be puzzles of any sort and they don't actually have to depend on the knowledge of a secret key. Complex scripts are replaced by shorter fingerprints in the transaction output, which allows for smaller transaction and less fees. Scripts can be hashed and encoded as a bitcoin address, hence the term Pay to Script Hash, and sending money to it is the same as sending to a public key hash address.
 
@@ -12,5 +12,5 @@ Except for hard computational puzzles, if we have the redeemScript, we can find 
 
 ## What's Next?
 
-Continue "PART THREE: PAY TO SCRIPT HASH" with [7.1: Algebra Puzzle - Legacy P2SH](07_1_p2sh_algebra_puzzle.md).
+Continue "Part Three: Pay To Script Hash" with [Algebra Puzzle - Legacy P2SH](algebra_puzzle_p2sh.md).
 
