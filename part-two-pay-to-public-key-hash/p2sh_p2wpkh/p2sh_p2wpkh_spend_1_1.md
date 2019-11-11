@@ -1,4 +1,4 @@
-# 5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO
+# Spend a Embedded Segwit P2SH-P2WPKH UTXO
 
 > To follow along this tutorial
 >
@@ -7,7 +7,7 @@
 > * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement
 
-Let's spend a P2SH-P2WPKH output \(embedded Segwit\) and create a new P2WPKH output. Working with P2SH now is a bit premature as we are dedicated this topic to part three of this guide. Nevertheless, the purpose of a P2SH-P2WPKH transaction is to pay to a Segwit public key hash, inside a legacy P2SH. This type of transaction is less optimal than native Segwit but useful for backward compatibility.
+Let's spend a P2SH-P2WPKH output \(embedded Segwit\) and create a new P2WPKH output.
 
 ## Create a UTXO to spend from
 
@@ -23,13 +23,13 @@ Send 1 BTC to alice\_1 embedded Segwit P2SH-P2WPKH address in order to create a 
 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > $ sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
 > ```
 
 Inspect the transaction.
 
-```text
+```shell
 $ getrawtransaction "txid" true
 ```
 
@@ -75,7 +75,7 @@ txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2wpkhBob1.address, 999e5)
 ```
 
-The redeem script is composed of a `0` version byte and a 20 bytes witness program, HASH160 of alice\_1 public key. It is the same as the previous output script `p2wpkhAlice1.output` that we pass to `txb.addInput()` in [4.1: Spend a Native Segwit P2WPKH UTXO](04_0_p2wpkh/04_1_p2wpkh_spend_1_1.md).
+The redeem script is composed of a `0` version byte and a 20 bytes witness program, HASH160 of alice\_1 public key. It is the same as the previous output script `p2wpkhAlice1.output` that we pass to `txb.addInput()` in [Spend a Native Segwit P2WPKH UTXO](p2wpkh/04_1_p2wpkh_spend_1_1.md).
 
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
@@ -86,12 +86,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -99,30 +100,30 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 $ getrawtransaction "txid" true
 ```
 
 ## Observations
 
-In the vin section the scriptSig is the redeem script   . When passed through HASH160 it should match the hash contained in the script of the `scripthash` UTXO that we are spending.
+In the vin section the scriptSig is the redeem script. When passed through HASH160 it should match the hash contained in the script of the `scripthash` UTXO that we are spending.
 
-```text
+```shell
 $ bx bitcoin 160 0014fb8820f35effa054399540b8ca86040d8ddaa4d5
 4cea7ef76a4423240d5f06d96868726f57bd7d30
 ```
 
-The alice\_1 public key and signature in `txinwitness` are then verified, like a P2WPKH \(  CHECKSIG\).
+The signature in `txinwitness` is then verified against alice\_1 public key.
 
 In the vout section we have one `witness_v0_keyhash` UTXO.
 
 ## What's Next?
 
-Advance through "PART THREE: PAY TO SCRIPT HASH" with [7.0: Puzzles](../part-three-pay-to-script-hash/07_0_bitcoin_script_puzzles/).
+Advance through "Part Three: Pay To Script Hash" with [Puzzles](../part-three-pay-to-script-hash/bitcoin_script_puzzles/).
 

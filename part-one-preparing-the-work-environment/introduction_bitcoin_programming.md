@@ -1,4 +1,4 @@
-# 1.0: Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core
+# Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core
 
 ## How to Start
 
@@ -10,13 +10,13 @@ You are able to use the integrated console of Bitcoin Core GUI \(_Help &gt; Debu
 
 > Bitcoin Core software is not the only implementation of the Bitcoin protocol and other implementations should work. However Bitcoin Core is by far the most used and most robust implementation. Also, beware of Bitcoin scam forks. Many websites like bitcoin.com are promoting other coins pretending to be a Bitcoin upgrade. Download only trusted Bitcoin software after rigorous due diligence.
 
-You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default configuration with the one in [_**code/bitcoin.conf**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/6c8ace0ed31d9a8cd758f195dd2d583e5b208cde/code/bitcoin.conf). Make sure it suits your needs before running the software.
+You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default configuration with the one in [_**code/bitcoin.conf**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/bitcoin.conf). Make sure it suits your needs before running the software.
 
 Install the javascript libraries.
 
 > Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json references a github commit.
 >
-> ```text
+> ```shell
 > $ cd code
 > $ npm install
 > ```
@@ -25,7 +25,7 @@ Install the javascript libraries.
 
 Complementary library `bx` aka [Libbitcoin Explorer](https://github.com/libbitcoin/libbitcoin-explorer) is useful for some quick tasks like generating seed entropy or computing a hash. For address derivation tasks or others, make sure to configure the bx.cfg configuration file appropriately.
 
-You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [_**2.0: Generating and Importing Wallets**_](02_0_generating_and_importing_wallets.md) for more information.
+You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [_**Generating and Importing Wallets**_](02_0_generating_and_importing_wallets.md) for more information.
 
 You can find a simple handy base converter in `baseConverter.js`
 
@@ -57,5 +57,5 @@ Embedded Segwit has been developed to ensure a smooth transition to Segwit. The 
 
 ## What's Next?
 
-Continue "PART ONE: PREPARING THE WORK ENVIRONMENT" with [2.0: Generating and Importing Wallets](02_0_generating_and_importing_wallets.md).
+Continue "Part One: Preparing The Work Environment" with [**Generating and Importing Wallets**](generating_and_importing_wallets.md).
 

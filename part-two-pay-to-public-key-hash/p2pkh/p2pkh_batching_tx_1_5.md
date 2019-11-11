@@ -1,4 +1,4 @@
-# 3.4: Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH
+# Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH
 
 > To follow along this tutorial
 >
@@ -27,7 +27,7 @@ First we need to create a previous transaction in order to have an UTXO at our d
 
 > Check out your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1.001
 > ```
 
@@ -37,7 +37,7 @@ Get the output indexes of the five transactions, so that we have their outpoint 
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > $ gettransaction "txid"
 > ```
 
@@ -95,12 +95,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -108,13 +109,13 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 $ getrawtransaction "txid" true
 ```
 
@@ -124,5 +125,5 @@ We note that we have five outputs, locking 0.2 BTC each to five different public
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.5: Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH](03_5_p2pkh_coinjoin_tx_4_4.md).
+Continue "Part Two: Pay To Public Key Hash" with [Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH](p2pkh_coinjoin_tx_4_4.md).
 

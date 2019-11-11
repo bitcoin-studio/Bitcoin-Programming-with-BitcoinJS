@@ -1,4 +1,4 @@
-# 3.5: Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH
+# Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH
 
 > To follow along this tutorial
 >
@@ -53,13 +53,13 @@ First let's create four UTXOs with a single transaction.
 > Send 0.25 BTC to eve\_1 P2PKH address.  
 > Send 0.3 BTC to mallory\_1 P2PKH address.
 >
-> ```text
+> ```shell
 > $ sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.2, "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R":0.2, "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt":0.25, "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh": 0.3}'
 > ```
 
 Generate a block to dave\_1 P2WPKH address.
 
-```text
+```shell
 $ generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
@@ -67,13 +67,13 @@ Then we need to know which UTXO corresponds to which address Get the output inde
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > $ gettransaction "txid"
 > ```
 
 We can also check UTXOs of specific addresses.
 
-```text
+```shell
 $ scantxoutset start '["addr(n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq)", "addr(mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R)", "addr(mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt)", "addr(mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh)"]'
 ```
 
@@ -159,12 +159,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -172,7 +173,7 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
@@ -180,11 +181,11 @@ Inspect the transaction.
 
 > Don't forget the second argument to returns a detailed json object.
 >
-> ```text
+> ```shell
 > $ getrawtransaction "txid" true
 > ```
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.0: Native Segwit P2WPKH](../04_0_p2wpkh/).
+Continue "Part Two: Pay To Public Key Hash" with [Native Segwit P2WPKH](../p2wpkh/).
 
