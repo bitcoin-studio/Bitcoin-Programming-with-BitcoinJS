@@ -25,7 +25,7 @@ Install the javascript libraries.
 
 Complementary library `bx` aka [Libbitcoin Explorer](https://github.com/libbitcoin/libbitcoin-explorer) is useful for some quick tasks like generating seed entropy or computing a hash. For address derivation tasks or others, make sure to configure the bx.cfg configuration file appropriately.
 
-You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [_**Generating and Importing Wallets**_](generating_and_importing_wallets.md) for more information.
+You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [Generating and Importing Wallets](generating_and_importing_wallets.md) for more information.
 
 You can find a simple handy base converter in `baseConverter.js`
 
@@ -57,5 +57,5 @@ Embedded Segwit has been developed to ensure a smooth transition to Segwit. The 
 
 ## What's Next?
 
-Continue "Part One: Preparing The Work Environment" with [**Generating and Importing Wallets**](generating_and_importing_wallets.md).
+Continue "Part One: Preparing The Work Environment" with [Generating and Importing Wallets](generating_and_importing_wallets.md).
 

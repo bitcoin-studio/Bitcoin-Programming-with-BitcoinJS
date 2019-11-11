@@ -39,4 +39,4 @@ Generate six wallets, create a `wallets.json` file and import all private keys t
 
 ## What's Next?
 
-Continue "Part One: Preparing The Work Environment" with [Generating Blocks](02_1_generating_blocks.md).
+Continue "Part One: Preparing The Work Environment" with [Generating Blocks](generating_blocks.md).
