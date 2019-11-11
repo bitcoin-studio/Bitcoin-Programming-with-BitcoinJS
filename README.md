@@ -8,6 +8,9 @@ Throughout this guide, we want to provide you with sufficient explanation to eac
 
 At the moment, Bitcoin Javascript tutorials are still very scarce, but we believe it doesn't have to be this way. The following guide intends to address this problem.
 
+This guide is maintained on [GitHub](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS) and available as a [GitBook](https://bitcoinjs-guide.bitcoin-studio.com)   
+
+
 ## Requirements
 
 Having prior theoretical knowledge of the Bitcoin protocol will surely help, but we provide comprehensive explanation throughout this guide so it fits for beginners.
