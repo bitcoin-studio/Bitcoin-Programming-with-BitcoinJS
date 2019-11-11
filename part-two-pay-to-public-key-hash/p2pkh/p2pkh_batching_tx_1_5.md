@@ -28,7 +28,7 @@ First we need to create a previous transaction in order to have an UTXO at our d
 > Check out your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```shell
-> $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1.001
+> sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1.001
 > ```
 
 We have now a UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**.
@@ -38,7 +38,7 @@ Get the output indexes of the five transactions, so that we have their outpoint 
 > Find the output index \(or vout\) under `details > vout`.
 >
 > ```shell
-> $ gettransaction "txid"
+> gettransaction "txid"
 > ```
 
 ## Creating the batching transaction
@@ -102,7 +102,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```shell
-$ decoderawtransaction "hexstring"
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
@@ -110,13 +110,13 @@ $ decoderawtransaction "hexstring"
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
 ```shell
-$ sendrawtransaction "hexstring"
+sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
 ```shell
-$ getrawtransaction "txid" true
+getrawtransaction "txid" true
 ```
 
 ## Observations

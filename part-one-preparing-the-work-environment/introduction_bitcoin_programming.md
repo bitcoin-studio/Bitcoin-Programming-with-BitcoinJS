@@ -17,19 +17,19 @@ Install the javascript libraries.
 > Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json references a github commit.
 >
 > ```shell
-> $ cd code
-> $ npm install
+> cd code
+> npm install
 > ```
 
 ### Complementary libraries and scripts
 
 Complementary library `bx` aka [Libbitcoin Explorer](https://github.com/libbitcoin/libbitcoin-explorer) is useful for some quick tasks like generating seed entropy or computing a hash. For address derivation tasks or others, make sure to configure the bx.cfg configuration file appropriately.
 
-You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [_**Generating and Importing Wallets**_](02_0_generating_and_importing_wallets.md) for more information.
+You will find a number of handy scripts in the `./code` directory. It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. The `generate_wallets.js` script will help you with wallet generation and private key importation. Check out [_**Generating and Importing Wallets**_](generating_and_importing_wallets.md) for more information.
 
 You can find a simple handy base converter in `baseConverter.js`
 
-Finally, numbers in Bitcoin script require to be encoded in little endian hexadecimal. BitcoinJS takes care of that but in case you need it check out the `int2lehex.sh` bash script. Don't forget to `$ chmod 755 integer2lehex.sh`.
+Finally, numbers in Bitcoin script require to be encoded in little endian hexadecimal. BitcoinJS takes care of that but in case you need it check out the `int2lehex.sh` bash script. Don't forget to `chmod 755 integer2lehex.sh`.
 
 ## Transaction Basics
 

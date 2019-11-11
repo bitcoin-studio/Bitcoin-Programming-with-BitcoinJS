@@ -28,7 +28,7 @@ Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```shell
-> $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
+> sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
 > ```
 
 We have now an UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**. Fortunately, `sendtoaddress` returns the id of the transaction.
@@ -38,7 +38,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 > Find the output index \(or vout\) under `details > vout`.
 >
 > ```shell
-> $ gettransaction "txid"
+> gettransaction "txid"
 > ```
 
 ## Creating the typical transaction
@@ -95,7 +95,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```shell
-$ decoderawtransaction "hexstring"
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
@@ -103,7 +103,7 @@ $ decoderawtransaction "hexstring"
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
 ```shell
-$ sendrawtransaction "hexstring"
+sendrawtransaction "hexstring"
 ```
 
 `sendrawtransaction` returns the transaction ID, with which you can inspect your transaction again.
@@ -111,7 +111,7 @@ $ sendrawtransaction "hexstring"
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
 >
 > ```shell
-> $ getrawtransaction "txid" true
+> getrawtransaction "txid" true
 > ```
 
 ## What's Next?

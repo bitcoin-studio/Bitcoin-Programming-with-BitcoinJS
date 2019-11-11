@@ -20,7 +20,7 @@ used throughout this guide you can just keep the current entropy values written 
 Otherwise, you can use the Bitcoin command line tool [Libbitcoin explorer](https://github.com/libbitcoin/libbitcoin-explorer) to generate new entropy values and replace the existing ones.
 
 ```shell
-$ bx seed -b 128
+bx seed -b 128
 ```
 
 ## Instructions
@@ -30,9 +30,9 @@ Generate six wallets, create a `wallets.json` file and import all private keys t
 > Don't forget to have Bitcoin Core running.
 >
 > ```shell
-> $ cd code
-> $ npm install
-> $ node generate_wallets.js
+> cd code
+> npm install
+> node generate_wallets.js
 > ```
 >
 > `generate_wallets.sh` is simply in this repository for demonstration purpose. It uses `bx` for the key derivation, but we can't use it because current `bx` v3 doesn't support Segwit.

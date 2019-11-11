@@ -24,13 +24,13 @@ Send 1 BTC to alice\_1 embedded Segwit P2SH-P2WPKH address in order to create a 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```shell
-> $ sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
+> sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
 > ```
 
 Inspect the transaction.
 
 ```shell
-$ getrawtransaction "txid" true
+getrawtransaction "txid" true
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
@@ -93,7 +93,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```shell
-$ decoderawtransaction "hexstring"
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
@@ -101,13 +101,13 @@ $ decoderawtransaction "hexstring"
 It's time to broadcast the transaction.
 
 ```shell
-$ sendrawtransaction "hexstring"
+sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
 ```shell
-$ getrawtransaction "txid" true
+getrawtransaction "txid" true
 ```
 
 ## Observations

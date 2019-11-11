@@ -54,13 +54,13 @@ First let's create four UTXOs with a single transaction.
 > Send 0.3 BTC to mallory\_1 P2PKH address.
 >
 > ```shell
-> $ sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.2, "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R":0.2, "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt":0.25, "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh": 0.3}'
+> sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.2, "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R":0.2, "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt":0.25, "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh": 0.3}'
 > ```
 
 Generate a block to dave\_1 P2WPKH address.
 
 ```shell
-$ generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
+generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 Then we need to know which UTXO corresponds to which address Get the output indexes \(vout\) of the transaction, so that we have the four outpoints \(txid / vout\).
@@ -68,13 +68,13 @@ Then we need to know which UTXO corresponds to which address Get the output inde
 > Find the output index \(or vout\) under `details > vout`.
 >
 > ```shell
-> $ gettransaction "txid"
+> gettransaction "txid"
 > ```
 
 We can also check UTXOs of specific addresses.
 
 ```shell
-$ scantxoutset start '["addr(n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq)", "addr(mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R)", "addr(mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt)", "addr(mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh)"]'
+scantxoutset start '["addr(n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq)", "addr(mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R)", "addr(mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt)", "addr(mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh)"]'
 ```
 
 ## Creating the Coinjoin transaction
@@ -166,7 +166,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```shell
-$ decoderawtransaction "hexstring"
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
@@ -174,7 +174,7 @@ $ decoderawtransaction "hexstring"
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
 ```shell
-$ sendrawtransaction "hexstring"
+sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
@@ -182,7 +182,7 @@ Inspect the transaction.
 > Don't forget the second argument to returns a detailed json object.
 >
 > ```shell
-> $ getrawtransaction "txid" true
+> getrawtransaction "txid" true
 > ```
 
 ## What's Next?

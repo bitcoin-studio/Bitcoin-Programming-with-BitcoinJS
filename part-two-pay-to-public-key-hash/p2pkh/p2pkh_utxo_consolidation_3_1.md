@@ -42,7 +42,7 @@ Let's send this three payments, of 0.2 BTC each.
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
 > ```shell
-> $ sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
+> sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
 > ```
 
 We have now three UTXOs locked with Alice public keys hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**.
@@ -55,7 +55,7 @@ Get the output indexes of the transaction, so that we have their outpoint \(txid
 > The command `gettransaction` doesn't display the change UTXO, but a `decoderawtransaction` does.
 >
 > ```shell
-> $ gettransaction "txid"
+> gettransaction "txid"
 > ```
 
 ## Creating the aggregating transaction
@@ -113,7 +113,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```shell
-$ decoderawtransaction "hexstring"
+decoderawtransaction "hexstring"
 ```
 
 ## Broadcasting the transaction
@@ -121,13 +121,13 @@ $ decoderawtransaction "hexstring"
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
 ```shell
-$ sendrawtransaction "hexstring"
+sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
 ```shell
-$ getrawtransaction "txid" true
+getrawtransaction "txid" true
 ```
 
 ## Observations
