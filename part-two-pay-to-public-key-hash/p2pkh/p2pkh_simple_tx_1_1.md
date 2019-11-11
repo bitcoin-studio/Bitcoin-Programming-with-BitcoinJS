@@ -88,7 +88,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 ```shell
-decoderawtransaction TX_HEX
+decoderawtransaction TX_HEX    
 ```
 &nbsp;
 

@@ -26,7 +26,6 @@ For this example we will consolidate three P2PKH UTXOs \(referencing each of the
 First we need to create three UTXOs. We will do this with a single transaction using `sendmany`.
 
 Import libraries, test wallets and set the network
-
 ```javascript
 const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
@@ -40,10 +39,9 @@ Let's use different P2PKH addresses, all controlled by Alice. We will have one p
 Let's send this three payments, of 0.2 BTC each.
 
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
->
-> ```shell
-> sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
-> ```
+```shell
+sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
+```
 
 We have now three UTXOs locked with Alice public keys hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**.
 
@@ -63,7 +61,6 @@ Get the output indexes of the transaction, so that we have their outpoint \(txid
 Now let's spend the UTXOs with BitcoinJS, consolidating them into a single P2WPKH UTXO.
 
 Create Alice's key pairs.
-
 ```javascript
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
@@ -71,13 +68,11 @@ const keyPairAlice3 = bitcoin.ECPair.fromWIF(alice[3].wif, network)
 ```
 
 The recipient address.
-
 ```javascript
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 ```
 
 Create a BitcoinJS transaction builder object. Add the three inputs by providing the outpoints. Add the P2WPKH output with an amount of 0.99 BTC.
-
 ```javascript
 const txb = new bitcoin.TransactionBuilder(network)
 txb.addInput('TX_ID', TX_VOUT)
@@ -86,7 +81,10 @@ txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2wpkhAlice1.address, 989e5)
 ```
 
-> The miner fee is calculated by subtracting the outputs from the inputs. \(33 000 000 + 33 000 000 + 33 000 000\) - 98 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
+{% hint style="info" %}  
+The miner fee is calculated by subtracting the outputs from the inputs.  
+\(33 000 000 + 33 000 000 + 33 000 000\) - 98 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
+{% endhint %}  
 
 Alice adds the correct signature to each input.
 
@@ -94,16 +92,14 @@ Alice adds the correct signature to each input.
 > For example  
 > txb.sign\(0, keyPairAlice1\)  
 > txb.sign\(1, keyPairAlice3\)  
-> txb.sign\(2, keyPairAlice2\)
->
-> ```javascript
-> txb.sign(0, keyPairAlice)
-> txb.sign(1, keyPairAlice)
-> txb.sign(2, keyPairAlice)
-> ```
+> txb.sign\(2, keyPairAlice2\)  
+```javascript  
+txb.sign(0, keyPairAlice)
+txb.sign(1, keyPairAlice)
+txb.sign(2, keyPairAlice)
+```
 
 Finally we can build the transaction and get the raw hex serialization.
-
 ```javascript
 const tx = txb.build()
 console.log('Transaction hexadecimal:')
@@ -111,23 +107,20 @@ console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
 ```shell
-decoderawtransaction "hexstring"
+decoderawtransaction TX_HEX
 ```
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
-
 ```shell
-sendrawtransaction "hexstring"
+sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
-
 ```shell
-getrawtransaction "txid" true
+getrawtransaction TX_ID true
 ```
 
 ## Observations
