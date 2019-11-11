@@ -25,7 +25,7 @@ Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
 
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```console
 > $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
 > ```
 
@@ -35,7 +35,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```shell
+> ```console
 > $ gettransaction "txid"
 > ```
 
@@ -84,7 +84,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```shell
+```console
 $ decoderawtransaction "hexstring"
 ```
 
@@ -92,7 +92,7 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```shell
+```bash
 $ sendrawtransaction "hexstring"
 ```
 
@@ -100,7 +100,7 @@ $ sendrawtransaction "hexstring"
 
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
 >
-> ```shell
+> ```bash
 > $ getrawtransaction "txid" true
 > ```
 
