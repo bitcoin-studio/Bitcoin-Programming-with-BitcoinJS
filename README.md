@@ -36,13 +36,13 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 ## Table of Contents
 
-##### PART ONE: PREPARING THE WORK ENVIRONMENT
+### Part One: Preparing The Work Environment
 
-* [Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
+* [Introduction to Bitcoin Programming](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
 * [Generating and Importing Wallets](part-one-preparing-the-work-environment/generating_and_importing_wallets.md)
 * [Generating Blocks](part-one-preparing-the-work-environment/generating_blocks.md)
 
-##### PART TWO: PAY TO PUBLIC KEY HASH
+### Part Two: Pay To Public Key Hash
 
 * [Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/README.md)
   * [Simple Transaction \(1 input, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_simple_tx_1_1.md)
@@ -56,7 +56,7 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 * [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/README.md)
   * [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2sh_p2wpkh_spend_1_1.md)
 
-##### PART THREE: PAY TO SCRIPT HASH
+### Part Three: Pay To Script Hash
 
 * [Puzzles](part-three-pay-to-script-hash/puzzles/README.md)
   * [Algebra Puzzle - Legacy P2SH](part-three-pay-to-script-hash/puzzles/p2sh_algebra_puzzle.md)
@@ -73,11 +73,11 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
   * [Script with CHECKSEQUENCEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/csv_p2sh.md)
   * [Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/csv_p2wsh.md)
 
-##### PART FOUR: DATA EMBEDDING
+### Part Four: Data Embedding
 
 * [Data Embedding with OP\_RETURN](part-four-data-embedding/data_embedding_op_return.md)
 
-##### TOOLS
+### Tools
 
 * [Base58Check encoding and decoding of P2PKH address](tools/base58check_address_encoding.md)
 * [Data Length and Base Conversion](tools/data_length_base_conversion.md)

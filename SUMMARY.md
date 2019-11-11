@@ -4,7 +4,7 @@
 
 ## Part One: Preparing The Work Environment
 
-* [Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
+* [Introduction to Bitcoin Programming](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
 * [Generating and Importing Wallets](part-one-preparing-the-work-environment/generating_and_importing_wallets.md)
 * [Generating Blocks](part-one-preparing-the-work-environment/generating_blocks.md)
 
