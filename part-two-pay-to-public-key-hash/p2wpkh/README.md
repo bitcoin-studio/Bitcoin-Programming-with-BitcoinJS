@@ -1,4 +1,4 @@
-# 4.0: Native Segwit P2WPKH
+# Native Segwit P2WPKH
 
 > Read more about P2WPKH in [BIP141](https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wpkh)
 
@@ -24,5 +24,5 @@ Comparing with a traditional P2PKH output, the P2WPKH equivalent occupies 3 less
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.1: Spend a Native Segwit P2WPKH UTXO](04_1_p2wpkh_spend_1_1.md).
+Continue "Part Two: Pay To Public Key Hash" with [Spend a Native Segwit P2WPKH UTXO](./p2wpkh_spend_1_1.md).
 

@@ -1,4 +1,4 @@
-# 3.3: UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH
+# UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH
 
 > To follow along this tutorial
 >
@@ -11,7 +11,7 @@ Let's do UTXO consolidation, also called an aggregating transaction.
 
 The idea is that a single signer aggregates many small UTXOs into a single big UTXO. This represents the real-world equivalent of exchanging a pile of coins and currency notes for a single larger note.
 
-> Check out [_**3.5: Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH**_](03_5_p2pkh_coinjoin_tx_4_4.md) for multiple signers.
+> Check out [_**Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH**_](p2pkh_coinjoin_tx_4_4.md) for multiple signers.
 
 In legacy P2PKH transaction, each input contains a signature, which quickly increases the size of your transactions if you need to spend multiple UTXOs, resulting in high fees. Consolidation allows to group multiple UTXOs in one, which will result in less fees when spent.
 
@@ -39,9 +39,9 @@ Let's use different P2PKH addresses, all controlled by Alice. We will have one p
 
 Let's send this three payments, of 0.2 BTC each.
 
-> Check out [_**02\_0: Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
+> Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > $ sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
 > ```
 
@@ -54,7 +54,7 @@ Get the output indexes of the transaction, so that we have their outpoint \(txid
 > You may think that the indexes will be 0, 1 and 2. If so you are forgetting that there is also a change UTXO, that can be located at any position.  
 > The command `gettransaction` doesn't display the change UTXO, but a `decoderawtransaction` does.
 >
-> ```text
+> ```shell
 > $ gettransaction "txid"
 > ```
 
@@ -106,12 +106,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -119,13 +120,13 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 $ getrawtransaction "txid" true
 ```
 
@@ -135,5 +136,5 @@ We note that each input contains a 71 bytes signature \(on average\), resulting 
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.4: Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH](03_4_p2pkh_batching_tx_1_5.md).
+Continue "Part Two: Pay To Public Key Hash" with [Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH](p2pkh_batching_tx_1_5.md).
 

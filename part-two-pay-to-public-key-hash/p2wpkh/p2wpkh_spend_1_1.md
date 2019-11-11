@@ -1,4 +1,4 @@
-# 4.1: Spend a Native Segwit P2WPKH UTXO
+# Spend a Native Segwit P2WPKH UTXO
 
 > To follow along this tutorial
 >
@@ -23,7 +23,7 @@ Send 1 BTC to alice\_1 native Segwit P2WPKH address in order to create a P2WPKH 
 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > $ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 > ```
 
@@ -31,7 +31,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > $ gettransaction "txid"
 > ```
 
@@ -90,12 +90,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -103,7 +104,7 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
@@ -111,7 +112,7 @@ $ sendrawtransaction "hexstring"
 
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
 >
-> ```text
+> ```shell
 > $ getrawtransaction "txid" true
 > ```
 
@@ -123,5 +124,5 @@ In the vout section we have one `witness_v0_keyhash` output, which is the code n
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [4.2: Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](04_2_p2wpkh_typical_tx_1_2.md).
+Continue "Part Two: Pay To Public Key Hash" with [Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](p2wpkh_typical_tx_1_2.md).
 

@@ -1,4 +1,4 @@
-# 3.2: Typical Transaction \(1 input, 2 outputs\) - Legacy P2PKH
+# Typical Transaction \(1 input, 2 outputs\) - Legacy P2PKH
 
 > To follow along this tutorial
 >
@@ -25,9 +25,9 @@ const network = bitcoin.networks.regtest
 
 Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
 
-> Check out [_**02\_0: Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
+> Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > $ sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
 > ```
 
@@ -37,7 +37,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > $ gettransaction "txid"
 > ```
 
@@ -88,12 +88,13 @@ Finally we can build the transaction and get the raw hex serialization.
 
 ```javascript
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
 ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 $ decoderawtransaction "hexstring"
 ```
 
@@ -101,7 +102,7 @@ $ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 $ sendrawtransaction "hexstring"
 ```
 
@@ -109,11 +110,11 @@ $ sendrawtransaction "hexstring"
 
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
 >
-> ```text
+> ```shell
 > $ getrawtransaction "txid" true
 > ```
 
 ## What's Next?
 
-Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [3.3: UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH](03_3_p2pkh_utxo_consolidation_3_1.md).
+Continue "PART TWO: PAY TO PUBLIC KEY HASH" with [UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH](p2pkh_utxo_consolidation_3_1.md).
 

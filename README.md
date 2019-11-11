@@ -38,22 +38,23 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 **PART ONE: PREPARING THE WORK ENVIRONMENT**
 
-* [1.0: Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/01_0_introduction_bitcoin_programming.md)
-* [2.0: Generating and Importing Wallets](part-one-preparing-the-work-environment/02_0_generating_and_importing_wallets.md)
-* [2.1: Generating Blocks](part-one-preparing-the-work-environment/02_1_generating_blocks.md)
+* [Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core](part-one-preparing-the-work-environment/introduction_bitcoin_programming.md)
+* [Generating and Importing Wallets](part-one-preparing-the-work-environment/generating_and_importing_wallets.md)
+* [Generating Blocks](part-one-preparing-the-work-environment/generating_blocks.md)
 
 **PART TWO: PAY TO PUBLIC KEY HASH**
 
-* [3.0: Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/README.md)
-  * [3.1: Simple Transaction \(1 input, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_1_p2pkh_simple_tx_1_1.md)
-  * [3.2: Typical Transaction \(1 input, 2 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_2_p2pkh_typical_tx_1_2.md)
-  * [3.3: UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_3_p2pkh_utxo_consolidation_3_1.md)   
-  * [3.4: Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_4_p2pkh_batching_tx_1_5.md)   
-  * [3.5: Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/03_0_p2pkh/03_5_p2pkh_coinjoin_tx_4_4.md)
-* [4.0: Native Segwit P2WPKH](part-two-pay-to-public-key-hash/04_0_p2wpkh/)
-  * [4.1: Spend a Native Segwit P2WPKH UTXO](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_1_p2wpkh_spend_1_1.md)
-  * [4.2: Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](part-two-pay-to-public-key-hash/04_0_p2wpkh/04_2_p2wpkh_typical_tx_1_2.md)
-* [5.0: Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/05_0_p2sh_p2wpkh_spend_1_1.md)
+* [Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/README.md)
+  * [Simple Transaction \(1 input, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_simple_tx_1_1.md)
+  * [Typical Transaction \(1 input, 2 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_typical_tx_1_2.md)
+  * [UTXO Consolidation \(3 inputs, 1 output\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_utxo_consolidation_3_1.md)
+  * [Batching Transaction \(1 input, 5 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_batching_tx_1_5.md)
+  * [Coinjoin Transaction \(4 inputs, 4 outputs\) - Legacy P2PKH](part-two-pay-to-public-key-hash/p2pkh/p2pkh_coinjoin_tx_4_4.md)
+* [Native Segwit P2WPKH](part-two-pay-to-public-key-hash/p2wpkh/README.md)
+  * [Spend a Native Segwit P2WPKH UTXO](part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_spend_1_1.md)
+  * [Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_typical_tx_1_2.md)
+* [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/README.md)
+  * [Spend a Embedded Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2sh_p2wpkh_spend_1_1.md)
 
 **PART THREE: PAY TO SCRIPT HASH**
 
