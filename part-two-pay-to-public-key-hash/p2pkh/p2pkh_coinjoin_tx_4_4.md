@@ -7,7 +7,7 @@
 > * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement
 
-## What is Coinjoin
+## What is a Coinjoin
 
 The signatures, one per input, inside a transaction are completely independent of each other. This means that it's possible for Bitcoin users to agree on a set of inputs to spend, and a set of outputs to pay to, and then to individually and separately sign a transaction and later merge their signatures. The transaction is not valid and won't be accepted by the network until all signatures are provided, and no one will sign a transaction which is not to their liking.
 
@@ -27,10 +27,12 @@ Let's create a Coinjoin transaction mixing four different transactions.
 
 We will do the following:
 
-* Alice\_1    -&gt; Bob\_1
-* Carol\_1    -&gt; Dave\_1
-* Eve\_1      -&gt; Mallory\_2
-* Mallory\_1  -&gt; Alice\_2 
+|   Inputs   | -\> |   Outputs   |
+|------------|-----|-------------|
+| Alice\_1   | -\> |   Bob\_1    |
+| Carol\_1   | -\> |  Dave\_1    |
+| Eve\_1     | -\> |  Mallory\_2 |
+| Mallory\_1 | -\> |  Alice\_2   |
 
 The four signers agree on a uniform output amount of 0.2 BTC.
 
