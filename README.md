@@ -59,10 +59,10 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 ### Part Three: Pay To Script Hash
 
 * [Puzzles](part-three-pay-to-script-hash/puzzles/README.md)
-  * [Algebra Puzzle - Legacy P2SH](part-three-pay-to-script-hash/puzzles/p2sh_algebra_puzzle.md)
-  * [Algebra Puzzle - Native Segwit P2WSH](part-three-pay-to-script-hash/puzzles/p2wsh_algebra_puzzle.md)
-  * [Algebra Puzzle - Nested Segwit P2SH-P2WSH](part-three-pay-to-script-hash/puzzles/p2sh_p2wsh_algebra_puzzle.md)
-  * [Computational Puzzle: SHA-1 Collision](part-three-pay-to-script-hash/puzzles/p2sh_computational_puzzle_sha-1_collision.md)
+  * [Algebra Puzzle - Legacy P2SH](part-three-pay-to-script-hash/puzzles/algebra_puzzle_p2sh.md)
+  * [Algebra Puzzle - Native Segwit P2WSH](part-three-pay-to-script-hash/puzzles/algebra_puzzle_p2wsh.md)
+  * [Algebra Puzzle - Nested Segwit P2SH-P2WSH](part-three-pay-to-script-hash/puzzles/algebra_puzzle_np2wsh.md)
+  * [Computational Puzzle: SHA-1 Collision](part-three-pay-to-script-hash/puzzles/computational_puzzle_sha1_collision_p2sh.md)
 * [Multi-signatures](part-three-pay-to-script-hash/multi_signatures/README.md)
   * [Multi-signature Legacy 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2sh_2_4.md)
   * [Multi-signature Native Segwit 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2wsh_p2ms_2_4.md)

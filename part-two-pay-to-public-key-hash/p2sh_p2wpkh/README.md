@@ -7,4 +7,3 @@ This type of transaction is less optimal than native Segwit but useful for backw
 ## What's Next?
 
 Continue "Part Two: Pay To Public Key Hash" with [Spend a Nested Segwit P2WPKH UTXO](./p2sh_p2wpkh_spend_1_1.md).
-
