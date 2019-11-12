@@ -42,18 +42,18 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 // Replace the lockTime value on second run here!
 //const lockTime = 1570264808
 const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
-console.log('lockTime  ', lockTime)
-
+console.log('Timelock in UNIX timestamp:')
+console.log(lockTime)
 
 // Generate the redeem script
 const redeemScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
-console.log('redeemScript  ', redeemScript.toString('hex'))
-
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
 
 // Generate the P2SH address
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
-console.log('P2SH address  ', p2sh.address)
-
+console.log('P2SH address:')
+console.log(p2sh.address)
 
 // Build transaction
 const txb = new bitcoin.TransactionBuilder(network)
@@ -100,4 +100,5 @@ tx.setInputScript(0, inputScriptFirstBranch)
 
 
 // Print
-console.log('tx.toHex  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

@@ -21,4 +21,5 @@ txb.sign(1, keyPairAlice)
 txb.sign(2, keyPairAlice)
 
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

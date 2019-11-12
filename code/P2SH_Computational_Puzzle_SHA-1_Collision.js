@@ -13,7 +13,8 @@ const redeemScript = bitcoin.script.compile([
   bitcoin.opcodes.OP_SHA1,
   bitcoin.opcodes.OP_EQUAL])
 
-console.log('redeemScript  ', redeemScript.toString('hex'))
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
 
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
 
@@ -41,4 +42,5 @@ const InputScriptP2SH = bitcoin.script.compile([
 ])
 tx.setInputScript(0, InputScriptP2SH)
 
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

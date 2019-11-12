@@ -31,16 +31,19 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 
 // Set the timelock
 const timelock = bip68.encode({blocks: 5})
+console.log('Timelock in blocks:')
+console.log(timelock)
 
 // Generate the redeem script
 const redeemScript = csvCheckSigOutput(keyPairAlice1, keyPairBob1, timelock)
-console.log('redeemScript  ', redeemScript.toString('hex'))
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
 
 // Generate the P2SH address
 // Send 1 bitcoin to it
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
-console.log('p2sh.address  ', p2sh.address)
-
+console.log('P2SH address:')
+console.log(p2sh.address)
 
 // Build the spending transaction
 const txb = new bitcoin.TransactionBuilder(network)
@@ -81,4 +84,5 @@ const inputScriptSecondBranch = bitcoin.payments.p2sh({
 tx.setInputScript(0, inputScriptFirstBranch)
 //tx.setInputScript(0, inputScriptSecondBranch)
 
-console.log('tx.toHex  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

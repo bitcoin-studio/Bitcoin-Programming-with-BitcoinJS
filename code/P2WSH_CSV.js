@@ -31,16 +31,19 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 
 // Timelock
 const timelock = bip68.encode({blocks: 5})
+console.log('Timelock in blocks:')
+console.log(timelock)
 
 // Generate witness script
 const witnessScript = csvCheckSigOutput(keyPairAlice1, keyPairBob1, timelock)
-console.log('witnessScript  ', witnessScript.toString('hex'))
+console.log('Witness script:')
+console.log(witnessScript.toString('hex'))
 
 // Generate P2WSH address
 // Send 1 bitcoin
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
-console.log('P2WSH address  ', p2wsh.address)
-
+console.log('P2WSH address:')
+console.log(p2wsh.address)
 
 // Build spending transaction
 const txb = new bitcoin.TransactionBuilder(network)
@@ -66,7 +69,8 @@ const witnessStackFirstBranch = bitcoin.payments.p2wsh({
   }
 }).witness
 
-console.log('First branch witness stack  ', witnessStackFirstBranch.map(x => x.toString('hex')))
+console.log('First branch witness stack:')
+console.log(witnessStackFirstBranch.map(x => x.toString('hex')))
 
 const witnessStackSecondBranch = bitcoin.payments.p2wsh({
   redeem: {
@@ -79,10 +83,12 @@ const witnessStackSecondBranch = bitcoin.payments.p2wsh({
   }
 }).witness
 
-console.log('Second branch witness stack  ', witnessStackSecondBranch.map(x => x.toString('hex')))
+console.log('Second branch witness stack:')
+console.log(witnessStackSecondBranch.map(x => x.toString('hex')))
 
 // Choose a branch
 tx.setWitness(0, witnessStackFirstBranch)
 //tx.setWitness(0, witnessStackSecondBranch)
 
-console.log('tx.toHex  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

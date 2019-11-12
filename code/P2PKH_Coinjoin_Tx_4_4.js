@@ -51,4 +51,5 @@ txb.sign(3, keyPairMallory1)
 
 // Build the transaction
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

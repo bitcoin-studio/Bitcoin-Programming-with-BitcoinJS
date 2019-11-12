@@ -37,4 +37,5 @@ txb.sign(0, keyPairAlice1, p2sh.redeem.output, null, 1e8, p2wsh.redeem.output)
 txb.sign(0, keyPairBob1, p2sh.redeem.output, null, 1e8, p2wsh.redeem.output)
 
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

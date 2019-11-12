@@ -20,7 +20,8 @@ const p2ms = bitcoin.payments.p2ms({
     keyPairCarol1.publicKey,
     keyPairDave1.publicKey], network})
 
-console.log('redeemScript  ', p2ms.output.toString('hex'))
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
 
 const p2sh = bitcoin.payments.p2sh({redeem: p2ms, network})
 
@@ -36,4 +37,5 @@ txb.sign(0, keyPairAlice1, p2sh.redeem.output)
 txb.sign(0, keyPairBob1, p2sh.redeem.output)
 
 const tx = txb.build()
-console.log('tx.toHex()  ', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())

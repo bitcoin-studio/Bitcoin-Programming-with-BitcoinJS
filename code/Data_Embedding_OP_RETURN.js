@@ -21,4 +21,5 @@ txb.addOutput(p2wpkhAlice1.address, 99900000)
 txb.sign(0, keyPairAlice1, null, null, 1e8, null)
 
 const tx = txb.build()
-console.log('tx.toHex()', tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
