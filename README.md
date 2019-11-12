@@ -1,4 +1,4 @@
-# Programming Bitcoin with BitcoinJS and Bitcoin Core CLI
+# Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
 
 Welcome to the non-official _Bitcoin Programming with BitcoinJS_ extensive guide! You will learn how to create various types of Bitcoin transactions using the version 4 of [BitcoinJS](https://github.com/bitcoinjs/bitcoinjs-lib) library.
 

@@ -1,6 +1,6 @@
 # Table of contents
 
-* [Programming Bitcoin with BitcoinJS and Bitcoin Core CLI](README.md)
+* [Bitcoin Programming with BitcoinJS, Bitcoin Core and LND](README.md)
 
 ## Part One: Preparing The Work Environment
 
