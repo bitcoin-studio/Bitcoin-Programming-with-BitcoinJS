@@ -118,11 +118,11 @@ Now we can update the transaction with the witness data, providing a solution to
 We provide `02` and `03` as an answer, plus the witness script.
 
 > Note that we are pushing the integer values, not the corresponding opcode values.
->
-> ```javascript
-> const witness = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]
-> tx.setWitness(0, witness)
-> ```
+
+```javascript
+const witness = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]
+tx.setWitness(0, witness)
+```
 
 We don't need to sign this transaction since the witness script doesn't ask for a signature.
 
