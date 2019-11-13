@@ -20,94 +20,92 @@ const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ```
+&nbsp;
 
 Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
-
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
->
-> ```text
-> sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
-> ```
+```shell
+sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
+```
+&nbsp;
 
 We have now an UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**. Fortunately, `sendtoaddress` returns the id of the transaction.  
- 
+&nbsp;
 
 Get the output index so that we have the outpoint \(txid / vout\).
-
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```text
-> gettransaction TX_ID
-> ```
+```shell
+gettransaction TX_ID
+```
 
 ## Creating the simple transaction
 
 Now let's spend the UTXO with BitcoinJS.
 
 Create a bitcoinJS key pair object for alice\_1, the spender of our new UTXO, and the only one capable of spending it.
-
 ```javascript
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 ```
+&nbsp;
 
 Create a key pair object and a P2PKH address for the recipient bob\_1.
-
 ```javascript
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
 ```
+&nbsp;
 
 Create a BitcoinJS transaction builder object. Add the input by filling it with the outpoint \(previous values txId and vout\). Add the output with the bob\_1 P2PKH recipient address and the amount of 0.999 btc.
-
 ```javascript
 const txb = new bitcoin.TransactionBuilder(network)
 txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2pkhBob1.address, 999e5)
 ```
+&nbsp;
 
-{% hint style="info" %}
+{% hint style="info" %}  
 The miner fee is calculated by subtracting the outputs from the inputs.  
-100 000 000 - 99 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
-{% endhint %}
+100 000 000 - 99 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.  
+{% endhint %}  
+&nbsp;
 
 The UTXO is locked with alice\_1's public key hash. If she wants to spend it, she needs to prove her ownership of the private key that is linked to the public key, which hash is written in the UTXO.  
- 
+&nbsp;
 
 To do so, alice\_1 will sign this transaction that we just built with her private key. BitcoinJS will automatically place the signature into the `scriptSig` field of the input 0.
-
 ```javascript
 txb.sign(0, keyPairAlice1)
 ```
+&nbsp;
 
 Finally we can build the transaction and get the raw hex serialization.
-
 ```javascript
 const tx = txb.build()
 console.log('Transaction hexadecimal:')
 console.log(tx.toHex())
 ```
+&nbsp;
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
-```text
-decoderawtransaction TX_HEX
+```shell
+decoderawtransaction TX_HEX    
 ```
+&nbsp;
 
 ## Broadcasting the transaction
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
-
-```text
+```shell
 sendrawtransaction TX_HEX
 ```
+&nbsp;
 
 `sendrawtransaction` returns the transaction ID, with which you can inspect your transaction again.
 
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
->
-> ```text
-> getrawtransaction TX_ID true
-> ```
+```shell
+getrawtransaction TX_ID true
+```
 
 ## What's Next?
 

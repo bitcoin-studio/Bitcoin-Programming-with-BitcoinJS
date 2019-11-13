@@ -24,5 +24,5 @@ Comparing with a traditional P2PKH output, the P2WPKH equivalent occupies 3 less
 
 ## What's Next?
 
-Continue "Part Two: Pay To Public Key Hash" with [Spend a Native Segwit P2WPKH UTXO](p2wpkh_spend_1_1.md).
+Continue "Part Two: Pay To Public Key Hash" with [Spend a Native Segwit P2WPKH UTXO](./p2wpkh_spend_1_1.md).
 

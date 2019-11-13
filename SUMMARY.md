@@ -32,15 +32,15 @@
 * [Multi-signatures](part-three-pay-to-script-hash/multi_signatures/README.md)
   * [Multi-signature Legacy 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2sh_2_4.md)
   * [Multi-signature Native Segwit 2 of 4](part-three-pay-to-script-hash/multi_signatures/multisig_p2wsh_p2ms_2_4.md)
-  * [Multi-signature Nested Segwit 2 of 4](part-three-pay-to-script-hash/multi_signatures/multi-signature-nested-segwit-2-of-4.md)
+  * [Multi-signature Nested Segwit 2 of 4](part-three-pay-to-script-hash/muti_signatures/multisig_p2sh_p2wsh_p2ms_2_4.md)
 * [Timelocks](part-three-pay-to-script-hash/timelocks/README.md)
   * [Script with CHECKLOCKTIMEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/cltv_p2sh.md)
   * [Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/cltv_p2wsh.md)
   * [Script with CHECKSEQUENCEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/csv_p2sh.md)
   * [Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/csv_p2wsh.md)
 * [Submarine Swaps](part-three-pay-to-script-hash/submarine_swaps/README.md)
-  * [Submarine Swap - On-chain to Off-chain](part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.md)
-  * [Reverse Submarine Swap - Off-chain to On-chain](part-three-pay-to-script-hash/submarine_swaps/swap_off2on_p2wsh.md)
+  * [Submarine Swap - On-chain to Off-chain](part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.md)  
+  * [Reverse Submarine Swap - Off-chain to On-chain](part-three-pay-to-script-hash/submarine_swaps/swap_off2on_p2wsh.md) 
 
 ## Part Four: Data Embedding
 

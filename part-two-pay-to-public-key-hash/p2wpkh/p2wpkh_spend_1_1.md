@@ -23,7 +23,7 @@ Send 1 BTC to alice\_1 native Segwit P2WPKH address in order to create a P2WPKH 
 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```shell
 > sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 > ```
 
@@ -31,7 +31,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > gettransaction "txid"
 > ```
 
@@ -61,10 +61,10 @@ const txb = new bitcoin.TransactionBuilder(network)
 
 Create the input by providing the outpoint but also the script of the previous transaction \(vout &gt; scriptPubKey &gt; hex\). Adding the prevTxScript is a specificity of P2WPKH spending.
 
-> The script is composed as follow: PUSHBYTES\_14 The HASH160 of the public key must match the 20-bytes witness program.  
-> `$ bx bitcoin160 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d`  
-> fb8820f35effa054399540b8ca86040d8ddaa4d5  
-> or with bitcoinJS bitcoin.crypto.hash160\(Buffer.from\('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex'\)\).toString\('hex'\)
+> The script is composed as follow:  PUSHBYTES\_14  The HASH160 of the public key must match the 20-bytes witness program.   
+>  `$ bx bitcoin160 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d`   
+>  fb8820f35effa054399540b8ca86040d8ddaa4d5   
+>  or with bitcoinJS bitcoin.crypto.hash160\(Buffer.from\('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex'\)\).toString\('hex'\)
 >
 > ```javascript
 > // txb.addInput(prevTx, vout, sequence, prevTxScript)
@@ -96,7 +96,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 decoderawtransaction "hexstring"
 ```
 
@@ -104,7 +104,7 @@ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 sendrawtransaction "hexstring"
 ```
 
@@ -112,7 +112,7 @@ sendrawtransaction "hexstring"
 
 > Don't forget the second argument. If false, it returns the hex string, otherwise it returns a detailed json object.
 >
-> ```text
+> ```shell
 > getrawtransaction "txid" true
 > ```
 

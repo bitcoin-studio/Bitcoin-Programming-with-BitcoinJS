@@ -1,4 +1,4 @@
-# Multi-signatures
+# Multi-signature Transactions
 
 > To read more
 >

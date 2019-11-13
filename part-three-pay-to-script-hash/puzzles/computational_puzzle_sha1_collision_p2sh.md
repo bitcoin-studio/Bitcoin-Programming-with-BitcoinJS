@@ -47,7 +47,7 @@ console.log(redeemScript.toString('hex'))
 
 You can decode the redeem script in Bitcoin Core CLI.
 
-```text
+```shell
 decodescript 6e879169a77ca787
 ```
 
@@ -59,7 +59,7 @@ const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, net
 
 Let's fund this address with 1 BTC. This is the reward for whoever as the solution to the locking script.
 
-```text
+```shell
 sendtoaddress 2MyJKxYR2zNZZsZ39SgkCXWCfQtXKhnWSWq 1
 ```
 
@@ -67,7 +67,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > gettransaction TX_ID
 > ```
 
@@ -134,17 +134,14 @@ tx.setInputScript(0, InputScriptP2SH)
 We don't need to sign this transaction since the redeem script doesn't ask for a signature.
 
 Get the raw hex serialization.
-
 > No `build` step here as we have already called `buildIncomplete`
->
-> ```javascript
-> console.log('Transaction hexadecimal:')
-> console.log(tx.toHex())
-> ```
+```javascript
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
+```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
-```text
+```shell
 decoderawtransaction TX_HEX
 ```
 
@@ -152,13 +149,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 getrawtransaction TX_ID true
 ```
 
@@ -166,7 +163,7 @@ getrawtransaction TX_ID true
 
 Check the hash collision
 
-```javascript
+```js
 bitcoin.crypto.sha1(Buffer.from(value_1, 'hex')).toString('hex')
 bitcoin.crypto.sha1(Buffer.from(value_2, 'hex')).toString('hex')
 ```
