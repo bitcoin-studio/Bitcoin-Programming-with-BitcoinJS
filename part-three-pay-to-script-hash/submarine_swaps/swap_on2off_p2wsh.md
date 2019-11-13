@@ -11,7 +11,9 @@ To follow along this tutorial:
 A bitcoin user \(alice\_1\) would like to pay on-chain a merchant \(bob\_1\) selling a good off-chain, using a _swap provider_ \(dave\_1\). Technically alice\_1 could operate the swap provider herself, but we will suppose here that the _swap provider_ is a trustless third party.  
 
 This animation sums up the process.  
-![submarine\_swap\_pay\_merchant](../../.gitbook/assets/submarine_swap_pay_merchant.gif)  
+  
+
+![submarine swap - paying merchant on2off](../../.gitbook/assets/submarine_swap_pay_merchant.gif)
 
 Explanation:
 

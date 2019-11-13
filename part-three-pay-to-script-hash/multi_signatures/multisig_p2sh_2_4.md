@@ -140,5 +140,5 @@ We can see that the unlocking script contains
 
 ## What's Next?
 
-Continue "Part Three: Pay To Script Hash" with [Multi-signature Native Segwit 2 of 4](multisig_p2wsh_p2ms_2_4.md).
+Continue "Part Three: Pay To Script Hash" with [Multi-signature Native Segwit 2 of 4](multisig_p2wsh_2_4.md).
 
