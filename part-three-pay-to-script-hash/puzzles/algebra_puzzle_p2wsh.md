@@ -39,7 +39,7 @@ console.log(witnessScript.toString('hex'))
 
 You can decode the witness script in Bitcoin Core CLI.
 
-```shell
+```text
 decodescript 935587
 ```
 
@@ -64,10 +64,10 @@ We can note that anyone can create this script and generate the corresponding ad
 Get the output index so that we have the full outpoint \(txid and output index\).
 
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```text
-> gettransaction TX_ID
-> ```
+
+```bash
+gettransaction TX_ID
+```
 
 The output of our funding transaction should have a locking script composed as follow `<00 version byte>` + `<32-byte hash witness program>`. The SHA256 of the witness script must match the 32-byte witness program.
 
