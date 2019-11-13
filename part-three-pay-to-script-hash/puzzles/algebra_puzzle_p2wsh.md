@@ -68,7 +68,7 @@ gettransaction TX_ID
 ```
 &nbsp;
 
-The output of our funding transaction should have a locking script composed as follow \<00 version byte\> + \<32-byte hash witness program\>.
+The output of our funding transaction should have a locking script composed as follow `<00 version byte>` + `<32-byte hash witness program>`.
 The SHA256 of the witness script must match the 32-byte witness program.
 ```javascript
 bitcoin.crypto.sha256(Buffer.from('935587', 'hex')).toString('hex')

@@ -105,7 +105,7 @@ getrawtransaction TX_ID true
 ```     
 &nbsp;
 
-The output script of our funding transaction is a versioned witness program. It is composed as follow: \<00 version byte\> + \<32-byte hash witness program\>.  
+The output script of our funding transaction is a versioned witness program. It is composed as follow: `<00 version byte>` + `<32-byte hash witness program>`.  
 The SHA256 hash of the witness script \(in the witness of the spending tx\) must match the 32-byte witness program \(in prevTxOut\).
 ```javascript
 console.log(bitcoin.crypto.sha256(witnessScript).toString('hex'))

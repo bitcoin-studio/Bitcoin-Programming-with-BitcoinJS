@@ -12,7 +12,7 @@ A bitcoin user (alice_1) would like to pay on-chain a merchant (bob_1) selling a
 Technically alice_1 could operate the swap provider herself, but we will suppose here that the *swap provider* is a trustless third party.
 &nbsp;
 
-This animation sums up the process.
+This animation sums up the process.  
 ![submarine_swap_pay_merchant](../../assets/submarine_swap_pay_merchant.gif)
 &nbsp;
 
@@ -154,7 +154,7 @@ getrawtransaction TX_ID
 ```
 &nbsp;
 
-The output script of our funding transaction is a versioned witness program. It is composed as follow: \<00 version byte\> + \<32-byte hash witness program\>.  
+The output script of our funding transaction is a versioned witness program. It is composed as follow: `<00 version byte>` + `<32-byte hash witness program>`.  
 The 32-byte witness program is the SHA256 hash of the witness script, which we will provide when redeeming the funds.
 ```js
 console.log(bitcoin.crypto.sha256(SWAP_CONTRACT).toString('hex'))
