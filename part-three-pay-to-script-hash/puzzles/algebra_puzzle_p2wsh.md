@@ -14,17 +14,15 @@ Let's create a simple maths puzzle with a native Segwit P2WSH transaction.
 ## Creating and Funding the P2WSH
 
 Import libraries, test wallets and set the network
-
 ```javascript
 const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ```
+&nbsp;
 
 Create the witness script and generate its address.
-
-In a P2WSH context, a redeem script is called a witness script.
-
+> In a P2WSH context, a redeem script is called a witness script.
 ```javascript
 const witnessScript = bitcoin.script.compile([
   bitcoin.opcodes.OP_ADD,
@@ -35,49 +33,55 @@ console.log('Witness script:')
 console.log(witnessScript.toString('hex'))
 // '935587'  
 ```
+&nbsp;
 
-The output of our funding transaction will have a locking script composed of  + . SHA256 of the witnessScript must match the 32-byte witness program.
-```javascript
-bitcoin.crypto.sha256(Buffer.from('935587', 'hex')).toString('hex')
-// '0afd85470f76425c9f81a91d37f9ee8ac0289d479a091af64787e0930eef3b5a'
-```
-
-You can decode the script in Bitcoin Core CLI.
-
+You can decode the witness script in Bitcoin Core CLI.
 ```shell
 decodescript 935587
 ```
+&nbsp;
 
+Now we can generate the address of our simple smart contract.
 The `p2wsh` method will generate an object that contains the P2WSH address.
-
 ```javascript
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
 console.log('P2WSH Address:')
 console.log(p2wsh.address)
 ```
+&nbsp;
 
-Send 1 BTC to this P2WSH address, which is the reward for whoever as the solution to the locking script.
-
+Send 1 BTC to this P2WSH address, which is the reward for whoever provides a solution to the locking script.
 ```shell
 sendtoaddress bcrt1qpt7c23c0wep9e8up4ywn070w3tqz3828ngy34aj8slsfxrh08ddq2d2pyu 1
 ```
+&nbsp;
 
-> We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
+{% hint style="info" %}  
+We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
+{% endhint %}  
+&nbsp;
 
-Get the output index so that we have the outpoint \(txid / vout\).
-
+Get the output index so that we have the full outpoint \(txid and output index\).
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```shell
-> gettransaction TX_ID
-> ```
+```shell
+gettransaction TX_ID
+```
+&nbsp;
+
+The output of our funding transaction should have a locking script composed as follow \<00 version byte\> + \<32-byte hash witness program\>.
+The SHA256 of the witness script must match the 32-byte witness program.
+```javascript
+bitcoin.crypto.sha256(Buffer.from('935587', 'hex')).toString('hex')
+// '0afd85470f76425c9f81a91d37f9ee8ac0289d479a091af64787e0930eef3b5a'
+```
+&nbsp;
+
 
 ## Preparing the spending transaction
 
 Now let's prepare the spending transaction by setting input and output.
 
 Alice\_1 wants to send the funds to her P2WPKH address.
-
 ```javascript
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
@@ -107,9 +111,9 @@ Prepare the transaction.
 const tx = txb.buildIncomplete()
 ```
 
-## Creating the witness
+### Adding the witness data
 
-Now we can update the transaction with the witness, providing a solution to the maths problem plus the problem itself.
+Now we can update the transaction with the witness data, providing a solution to the maths problem plus the problem itself, effectively allowing us to spend from the P2WSH.
 
 We provide `02` and `03` as an answer, plus the witness script.
 
