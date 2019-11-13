@@ -72,6 +72,9 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
   * [Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/cltv_p2wsh.md)
   * [Script with CHECKSEQUENCEVERIFY - Legacy P2SH](part-three-pay-to-script-hash/timelocks/csv_p2sh.md)
   * [Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/csv_p2wsh.md)
+* [Submarine Swaps](part-three-pay-to-script-hash/submarine_swaps/README.md)
+  * [Submarine Swap - On-chain to Off-chain](part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.md)  
+  * [Reverse Submarine Swap - Off-chain to On-chain](part-three-pay-to-script-hash/submarine_swaps/swap_off2on_p2wsh.md)  
 
 ### Part Four: Data Embedding
 

@@ -1,0 +1,19 @@
+# Submarine Swaps
+
+Submarine swaps allows us to convert on-chain to off-chain funds and vice versa. 
+They are based on a specific type of Bitcoin smart contract called Hash Time Locked Contracts, HTLCs for short. 
+HTLCs can be included in both, on-chain and off-chain, transactions. 
+In fact, they can be used to chain payments and is the main construct that enables money transfer over the Lightning Network. 
+HTLCs can also be leveraged between an on-chain sender and an off-chain receiver, and vice versa, and these are submarine swaps.
+The submarine swap smart contract is called a _swap provider_. It can be managed by a third party service, but fundamentally it is just a smart contract on the blockchain.   
+&nbsp;
+
+With this technique we can
+* trustlessly pay a swap provider in one network to perform a payment onto the other network
+* trustlessly pay a swap provider in one network to get coins onto the other network
+* trustlessly pay a swap provider to rebalance our lightning channels 
+
+In the following tutorials we will build the swap smart contract with BitcoinJS and imagine the first use case, sending funds to the _swap provider_ on one network so that he performs a payment to a merchant on the other network. 
+
+To learn more about submarine swaps and how it works you can read this [great explanation from Muun wallet](https://blog.muun.com/a-closer-look-at-submarine-swaps-in-the-lightning-network/) and this [nice article from Boltz exchange](https://medium.com/boltzhq/submarine-swaps-c509ce0fb1db). For technical information regarding the swap smart contract that we will use you have to read [Alex Bosworth's _submarineswaps.org_ documentation](https://github.com/submarineswaps/swaps-service/blob/master/docs/chain_swap_script.md#simple-case). 
+
