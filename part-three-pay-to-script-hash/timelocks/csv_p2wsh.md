@@ -7,7 +7,7 @@
 > * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement
 
-Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The script is almost the same as [_**9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/ec05fc4bea2891fa7ceb4e524e2851c1488a39bf/part-three-pay-to-script-hash/timelocks/09_2_p2wsh_cltv.md) but with a relative timelock of 5 blocks.
+Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The script is almost the same as [_**9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH**_](09_2_p2wsh_cltv.md) but with a relative timelock of 5 blocks.
 
 > To read more about OP\_CHECKSEQUENCEVERIFY
 >
@@ -99,17 +99,17 @@ Send 1 BTC to this P2WSH address.
 
 > Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
 >
-> ```text
+> ```shell
 > sendtoaddress bcrt1qjnc0eeslkedv2le9q4t4gak98ygtfx69dlfchlurkyw9rauhuy0qgmazhq 1
 > ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
-```text
+```shell
 getrawtransaction TX_ID true
 ```
 
-The output script of our funding transaction is a versioned witness program. It is composed as follow: + .  
+The output script of our funding transaction is a versioned witness program. It is composed as follow:  + .  
 The SHA256 hash of the witness script \(in the witness of the spending tx\) must match the 32-byte witness program \(in prevTxOut\).
 
 ```javascript
@@ -118,7 +118,7 @@ bitcoin.crypto.sha256(witnessScript).toString('hex')
 
 or
 
-```text
+```shell
 bx sha256 WITNESS_SCRIPT
 ```
 
@@ -218,7 +218,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 decoderawtransaction TX_HEX
 ```
 
@@ -226,19 +226,19 @@ decoderawtransaction TX_HEX
 
 If we run the first scenario we need 5 blocks to be mined so that the timelock will expire.
 
-```text
+```shell
 generatetoaddress 5 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```shell
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 getrawtransaction TX_ID true
 ```
 

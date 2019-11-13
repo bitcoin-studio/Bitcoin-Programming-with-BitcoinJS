@@ -30,7 +30,7 @@ const network = bitcoin.networks.regtest
 
 Send 1 BTC to alice\_1 P2WPKH address via Bitcoin Core CLI.
 
-```text
+```shell
 sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 ```
 
@@ -38,7 +38,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```shell
 > gettransaction "txid"
 > ```
 
@@ -94,7 +94,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```shell
 decoderawtransaction "hexstring"
 ```
 
@@ -102,13 +102,13 @@ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction.
 
-```text
+```shell
 sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
+```shell
 getrawtransaction "txid" true
 ```
 
@@ -118,7 +118,6 @@ We note that the OP\_RETURN UTXO is marked with the special type `nulldata`.
 
 To decode the OP\_RETURN data we can use the `xxd` library in a terminal which make a hexdump or the reverse.
 
-```text
+```shell
 echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
 ```
-

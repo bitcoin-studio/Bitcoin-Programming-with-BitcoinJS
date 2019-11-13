@@ -1,4 +1,4 @@
-# Introduction to Bitcoin Programming
+# Introduction to Bitcoin Programming with BitcoinJS and Bitcoin Core
 
 ## How to Start
 
@@ -16,7 +16,7 @@ Install the javascript libraries.
 
 > Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json references a github commit.
 >
-> ```text
+> ```shell
 > cd code
 > npm install
 > ```
