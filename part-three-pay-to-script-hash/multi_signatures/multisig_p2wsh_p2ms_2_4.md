@@ -44,13 +44,14 @@ const p2ms = bitcoin.payments.p2ms({
     keyPairBob1.publicKey,
     keyPairCarol1.publicKey,
     keyPairDave1.publicKey], network})
-    
+
 console.log('Script:')  
-console.log(p2ms.output.toString('hex'))      
+console.log(p2ms.output.toString('hex'))
 ```
 
 Check the locking script.
-```shell
+
+```text
 decodescript SCRIPT
 ```
 
@@ -64,7 +65,7 @@ const p2wsh = bitcoin.payments.p2wsh({redeem: p2ms, network})
 
 Send 1 BTC to this P2WSH address.
 
-```shell
+```text
 sendtoaddress bcrt1qtvraes6lc2efmwqtupv7f9wg3adhvzwpu0vg3s2zgpnc7qpp0v7sj6dkmu 1
 ```
 
@@ -72,7 +73,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```shell
+> ```text
 > gettransaction TX_ID
 > ```
 
@@ -111,7 +112,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```shell
+```text
 decoderawtransaction TX_HEX
 ```
 
@@ -119,13 +120,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```shell
+```text
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```shell
+```text
 getrawtransaction TX_ID true
 ```
 
@@ -139,5 +140,5 @@ We can see that the scriptSig unlocking script is empty and instead all the data
 
 ## What's Next?
 
-Continue "Part Three: Pay To Script Hash" with [Multi-signature Embedded Segwit 2 of 4](multisig_p2sh_p2wsh_p2ms_2_4.md).
+Continue "Part Three: Pay To Script Hash" with [Multi-signature Embedded Segwit 2 of 4](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/64d6ce54da567802508ffdc79e00a21060d8450d/part-three-pay-to-script-hash/multi_signatures/multisig_p2sh_p2wsh_p2ms_2_4.md).
 

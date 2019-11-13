@@ -98,7 +98,7 @@ Generate the P2SH.
 
 Send 1 BTC to this P2SH address.
 
-```shell
+```text
 sendtoaddress [p2sh.address] 1
 ```
 
@@ -106,7 +106,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```shell
+> ```text
 > gettransaction TX_ID
 > ```
 
@@ -205,7 +205,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```shell
+```text
 decoderawtransaction TX_HEX
 ```
 
@@ -217,7 +217,7 @@ If you are spending the P2SH as Alice + timelock after expiry, you must have the
 
 Check the current mediantime
 
-```shell
+```text
 getblockchaininfo
 ```
 
@@ -225,19 +225,19 @@ You need to generate some blocks in order to have the node's `mediantime` synchr
 
 > It is not possible to give you an exact number. 20 should be enough. Dave\_1 is our miner
 >
-> ```shell
+> ```text
 > generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 > ```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
 
-```shell
+```text
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```shell
+```text
 getrawtransaction TX_ID true
 ```
 
