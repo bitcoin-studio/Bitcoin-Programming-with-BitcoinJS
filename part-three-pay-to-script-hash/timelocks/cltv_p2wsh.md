@@ -77,41 +77,47 @@ Encode the lockTime value according to BIP65 specification \(now - 6 hours\).
 Generate the witnessScript with CLTV.
 
 > In a P2WSH context, a redeem script is called a witness script. If you do it multiple times you will notice that the hex script is never the same, this is because of the changing timestamp.
-```javascript
-const witnessScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
-console.log('Witness script:')
-console.log(witnessScript.toString('hex'))
-```
+>
+> ```javascript
+> const witnessScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
+> console.log('Witness script:')
+> console.log(witnessScript.toString('hex'))
+> ```
 
 You can decode the script in Bitcoin Core CLI with `decodescript`.
 
 Generate the P2WSH.
 
 > If you do it multiple times you will notice that the P2WSH address is never the same, this is because of the changing witness script.
-```javascript
-const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
-console.log('P2WSH address:')
-console.log(p2wsh.address)
-```
+>
+> ```javascript
+> const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
+> console.log('P2WSH address:')
+> console.log(p2wsh.address)
+> ```
 
 Send 1 BTC to this P2WSH address.
-```shell
+
+```text
 sendtoaddress P2WSH_ADDR 1
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
-```shell
+
+```text
 getrawtransaction TX_ID true
-```     
-&nbsp;
+```
 
 The output script of our funding transaction is a versioned witness program. It is composed as follow: `<00 version byte>` + `<32-byte hash witness program>`.  
 The SHA256 hash of the witness script \(in the witness of the spending tx\) must match the 32-byte witness program \(in prevTxOut\).
+
 ```javascript
 console.log(bitcoin.crypto.sha256(witnessScript).toString('hex'))
 ```
+
 or
-```shell
+
+```text
 bx sha256 WITNESS_SCRIPT
 ```
 
@@ -147,6 +153,7 @@ txb.addOutput(p2wpkhAlice1.address, 999e5)
 ```
 
 Prepare the transaction.
+
 ```javascript
 const tx = txb.buildIncomplete()
 ```
@@ -202,6 +209,7 @@ console.log(witnessStackSecondBranch.map(x => x.toString('hex')))
 ```
 
 We provide the witness stack that BitcoinJS prepared for us.
+
 ```javascript
 tx.setWitness(0, witnessStackFirstBranch || witnessStackSecondBranch)
 ```
@@ -209,13 +217,15 @@ tx.setWitness(0, witnessStackFirstBranch || witnessStackSecondBranch)
 Get the raw hex serialization.
 
 > No `build` step here as we have already called `buildIncomplete`
-```javascript
-console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
-```
+>
+> ```javascript
+> console.log('Transaction hexadecimal:')
+> console.log(tx.toHex())
+> ```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-```shell
+
+```text
 decoderawtransaction TX_HEX
 ```
 
@@ -227,7 +237,7 @@ If you are spending the P2WSH as alice\_1 + timelock after expiry, you must have
 
 Check the current mediantime
 
-```shell
+```text
 getblockchaininfo
 ```
 
@@ -235,17 +245,19 @@ You need to generate some blocks in order to have the node's `mediantime` synchr
 
 > It is not possible to give you an exact number. 20 should be enough. Dave\_1 is our miner
 >
-> ```shell
+> ```text
 > generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 > ```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
-```shell
+
+```text
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
-```shell
+
+```text
 getrawtransaction TX_ID true
 ```
 
@@ -254,11 +266,13 @@ getrawtransaction TX_ID true
 For both scenarios we note that our scriptSig is empty.
 
 For the first scenario, we note that our witness stack contains:
+
 * Alice\_1 signature
 * 1, which is equivalent to OP\_TRUE
 * The witness script, that we can decode with `decodescript` 
 
 For the second scenario, we note that our witness stack contains:
+
 * Alice\_1 signature
 * Bob\_1 signature
 * An empty string, which is equivalent to OP\_FALSE

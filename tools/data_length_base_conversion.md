@@ -4,7 +4,7 @@ As a bitcoin programmer, it is often useful to know the length of some data or c
 
 ## Convert base
 
-```nodemon
+```text
 $ convert.hex2dec(10)
 16
 ```
@@ -13,7 +13,7 @@ $ convert.hex2dec(10)
 
 > `lenBytesHex` takes a hex string and returns the byte length expressed in hexadecimal
 >
-> ```nodemon
+> ```text
 > $ convert.lenBytesHex('fb8820f35effa054399540b8ca86040d8ddaa4d5')
 > 14
 > ```
@@ -22,7 +22,7 @@ If we want to push this pubKeyHash onto the stack we will use a PUSHBYTES\_14, w
 
 > `lenBytesDec` takes a hex string and returns the byte length expressed in decimal
 >
-> ```nodemon
+> ```text
 > $ convert.lenBytesDec('fb8820f35effa054399540b8ca86040d8ddaa4d5')
 > 20
 > ```

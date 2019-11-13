@@ -1,4 +1,4 @@
-# Timelock Transactions
+# Timelocks
 
 ## Absolute Timelock
 
