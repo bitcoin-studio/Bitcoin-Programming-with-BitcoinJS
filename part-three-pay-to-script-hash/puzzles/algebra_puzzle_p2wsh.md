@@ -24,17 +24,22 @@ const network = bitcoin.networks.regtest
 Create the witness script and generate its address.
 
 > In a P2WSH context, a redeem script is called a witness script.
->
-> \`\`\`javascript const witnessScript = bitcoin.script.compile\(\[ bitcoin.opcodes.OP\_ADD, bitcoin.opcodes.OP\_5, bitcoin.opcodes.OP\_EQUAL\]\)
 
-console.log\('Witness script:'\)  
-console.log\(witnessScript.toString\('hex'\)\) // '935587'
+```javascript
+const witnessScript = bitcoin.script.compile([ 
+    bitcoin.opcodes.OP_ADD, 
+    bitcoin.opcodes.OP_5, 
+    bitcoin.opcodes.OP_EQUAL
+])
 
-```text
-&nbsp;
+console.log('Witness script:')
+console.log(witnessScript.toString('hex')) 
+// '935587'
+```
 
 You can decode the witness script in Bitcoin Core CLI.
-```shell
+
+```text
 decodescript 935587
 ```
 
