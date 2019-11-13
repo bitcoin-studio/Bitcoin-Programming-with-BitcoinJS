@@ -39,7 +39,7 @@ console.log(witnessScript.toString('hex'))
 
 You can decode the witness script in Bitcoin Core CLI.
 
-```text
+```shell
 decodescript 935587
 ```
 
