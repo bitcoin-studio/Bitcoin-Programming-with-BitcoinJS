@@ -7,7 +7,7 @@
 > * Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
 > * Use `bx` aka `Libbitcoin-explorer` as a handy complement
 
-Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The script is almost the same as [_**9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH**_](09_1_p2sh_cltv.md) but with a relative timelock of 5 blocks.
+Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The script is almost the same as [_**9.1: Script with CHECKLOCKTIMEVERIFY - Legacy P2SH**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/cf888de17d581956ad59ebe46c65be974067218e/part-three-pay-to-script-hash/timelocks/09_1_p2sh_cltv.md) but with a relative timelock of 5 blocks.
 
 > To read more about OP\_CHECKSEQUENCEVERIFY
 >
@@ -93,7 +93,7 @@ Send 1 BTC to this P2SH address.
 
 > Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
 >
-> ```shell
+> ```text
 > sendtoaddress 2Mw8mn5xQWk8Pz2KNXLnjSvS6TemKVELLyy 1
 > ```
 
@@ -101,7 +101,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```shell
+> ```text
 > gettransaction TX_ID
 > ```
 
@@ -190,7 +190,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```shell
+```text
 decoderawtransaction TX_HEX
 ```
 
@@ -198,19 +198,19 @@ decoderawtransaction TX_HEX
 
 If we run the first scenario we need 5 blocks to be mined so that the timelock will expire.
 
-```shell
+```text
 generatetoaddress 5 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```shell
+```text
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```shell
+```text
 getrawtransaction TX_ID true
 ```
 

@@ -1,4 +1,4 @@
-# Spend a Embedded Segwit P2SH-P2WPKH UTXO
+# Spend a Nested Segwit P2SH-P2WPKH UTXO
 
 > To follow along this tutorial
 >
@@ -23,13 +23,13 @@ Send 1 BTC to alice\_1 embedded Segwit P2SH-P2WPKH address in order to create a 
 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```shell
+> ```text
 > sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
 > ```
 
 Inspect the transaction.
 
-```shell
+```text
 getrawtransaction "txid" true
 ```
 
@@ -75,7 +75,7 @@ txb.addInput('TX_ID', TX_VOUT)
 txb.addOutput(p2wpkhBob1.address, 999e5)
 ```
 
-The redeem script is composed of a `0` version byte and a 20 bytes witness program, HASH160 of alice\_1 public key. It is the same as the previous output script `p2wpkhAlice1.output` that we pass to `txb.addInput()` in [Spend a Native Segwit P2WPKH UTXO](p2wpkh/04_1_p2wpkh_spend_1_1.md).
+The redeem script is composed of a `0` version byte and a 20 bytes witness program, HASH160 of alice\_1 public key. It is the same as the previous output script `p2wpkhAlice1.output` that we pass to `txb.addInput()` in [Spend a Native Segwit P2WPKH UTXO](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/cf888de17d581956ad59ebe46c65be974067218e/part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2wpkh/04_1_p2wpkh_spend_1_1.md).
 
 ```javascript
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
@@ -92,7 +92,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```shell
+```text
 decoderawtransaction "hexstring"
 ```
 
@@ -100,13 +100,13 @@ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction.
 
-```shell
+```text
 sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```shell
+```text
 getrawtransaction "txid" true
 ```
 
@@ -114,7 +114,7 @@ getrawtransaction "txid" true
 
 In the vin section the scriptSig is the redeem script. When passed through HASH160 it should match the hash contained in the script of the `scripthash` UTXO that we are spending.
 
-```shell
+```text
 $ bx bitcoin 160 0014fb8820f35effa054399540b8ca86040d8ddaa4d5
 4cea7ef76a4423240d5f06d96868726f57bd7d30
 ```
@@ -125,5 +125,5 @@ In the vout section we have one `witness_v0_keyhash` UTXO.
 
 ## What's Next?
 
-Advance through "Part Three: Pay To Script Hash" with [Puzzles](../part-three-pay-to-script-hash/bitcoin_script_puzzles/).
+Advance through "Part Three: Pay To Script Hash" with [Puzzles](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/cf888de17d581956ad59ebe46c65be974067218e/part-two-pay-to-public-key-hash/part-three-pay-to-script-hash/bitcoin_script_puzzles/README.md).
 
