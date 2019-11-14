@@ -41,7 +41,7 @@ Let's send this three payments, of 0.2 BTC each.
 
 > Check out [_**Generating and Importing Wallets**_](../../part-one-preparing-the-work-environment/generating_and_importing_wallets.md) and your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```bash
 > sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.33, "mgZt5Fqzszdwf8hDgZt3mUf7js611aKRPc":0.33, "n3ZLcnCtfRucM4WLnXqukm9bTdb1PWeETk":0.33}'
 > ```
 
@@ -53,10 +53,10 @@ Get the output indexes of the transaction, so that we have their outpoint \(txid
 > Each UXTO appears twice, once in the 'send' category, once in the 'receive' category.  
 > You may think that the indexes will be 0, 1 and 2. If so you are forgetting that there is also a change UTXO, that can be located at any position.  
 > The command `gettransaction` doesn't display the change UTXO, but a `decoderawtransaction` does.
->
-> ```text
-> gettransaction "txid"
-> ```
+
+```bash
+gettransaction "txid"
+```
 
 ## Creating the aggregating transaction
 
@@ -115,7 +115,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -123,13 +123,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

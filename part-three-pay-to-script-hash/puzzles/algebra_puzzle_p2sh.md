@@ -33,7 +33,7 @@ console.log(redeemScript.toString('hex'))
 
 You can decode the script in Bitcoin Core CLI.
 
-```text
+```bash
 decodescript 935587
 ```
 
@@ -47,7 +47,7 @@ console.log(p2sh.address)
 
 Let's fund this address with 1 BTC. This is the reward for whoever as the solution to the locking script.
 
-```text
+```bash
 sendtoaddress 2N7WfHK1ftrTdhWej8rnFNR7guhvhfGWwFR 1
 ```
 
@@ -57,7 +57,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```bash
 > gettransaction TX_ID
 > ```
 
@@ -120,7 +120,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -128,13 +128,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 
@@ -144,7 +144,7 @@ We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`. You
 
 Be aware that the hex script is the serialized version, which includes a before the redeem script. In order to decode the script we need to remove this pushbyte.
 
-```text
+```bash
 decodescript 5253935587
 ```
 

@@ -26,20 +26,20 @@ const network = bitcoin.networks.regtest
 First we need to create a previous transaction in order to have an UTXO at our disposal. Send 1.001 BTC to alice\_1 P2PKH address with Bitcoin Core CLI \(0.001 will be spent on the mining fees\).
 
 > Check out your `wallets.json` file in the `code` directory. Replace the address if necessary.
->
-> ```text
-> sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1.001
-> ```
+
+```bash
+sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1.001
+```
 
 We have now a UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**.
 
 Get the output indexes of the five transactions, so that we have their outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```text
-> gettransaction TX_ID
-> ```
+
+```bash
+gettransaction TX_ID
+```
 
 ## Creating the batching transaction
 
@@ -101,7 +101,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -109,13 +109,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

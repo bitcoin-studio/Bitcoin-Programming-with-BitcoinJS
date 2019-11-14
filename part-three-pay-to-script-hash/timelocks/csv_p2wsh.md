@@ -99,13 +99,13 @@ Send 1 BTC to this P2WSH address.
 
 > Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
 >
-> ```text
+> ```bash
 > sendtoaddress bcrt1qjnc0eeslkedv2le9q4t4gak98ygtfx69dlfchlurkyw9rauhuy0qgmazhq 1
 > ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 
@@ -118,7 +118,7 @@ bitcoin.crypto.sha256(witnessScript).toString('hex')
 
 or
 
-```text
+```bash
 bx sha256 WITNESS_SCRIPT
 ```
 
@@ -218,7 +218,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -226,19 +226,19 @@ decoderawtransaction TX_HEX
 
 If we run the first scenario we need 5 blocks to be mined so that the timelock will expire.
 
-```text
+```bash
 generatetoaddress 5 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

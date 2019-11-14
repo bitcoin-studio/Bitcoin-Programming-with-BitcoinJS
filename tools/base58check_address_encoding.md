@@ -6,14 +6,14 @@ A Bitcoin user usually send money to an address, but in fact the corresponding p
 
 ## Encode a public key hash to a P2PKH address
 
-```text
+```bash
 cd code 
 npm run Base58CheckEncodeP2PKH fb8820f35effa054399540b8ca86040d8ddaa4d5
 ```
 
 ## Decode a P2PKH address to a public key hash
 
-```text
+```bash
 cd code 
 npm run Base58CheckDecodeP2PKH n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq
 ```

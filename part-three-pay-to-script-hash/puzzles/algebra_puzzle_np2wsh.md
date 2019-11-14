@@ -35,7 +35,7 @@ console.log(witnessScript.toString('hex'))
 
 You can decode the script in Bitcoin Core CLI.
 
-```text
+```bash
 decodescript 935587
 ```
 
@@ -50,7 +50,7 @@ console.log(p2sh.address)
 
 Send 1 BTC to this P2SH-P2WSH address, which is the reward for whoever as the solution to the locking script.
 
-```text
+```bash
 sendtoaddress 2MwnRrQxKhCdr8e3vbL7ymhtzQFYPTx9xww 1
 ```
 
@@ -58,7 +58,7 @@ sendtoaddress 2MwnRrQxKhCdr8e3vbL7ymhtzQFYPTx9xww 1
 
 Generate one block to dave\_1's P2WPKH address so that we can spend the UTXO.
 
-```text
+```bash
 generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
@@ -66,7 +66,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```bash
 > gettransaction TX_ID
 > ```
 
@@ -151,7 +151,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -159,13 +159,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

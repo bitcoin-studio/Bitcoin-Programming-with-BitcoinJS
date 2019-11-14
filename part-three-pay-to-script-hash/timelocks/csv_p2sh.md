@@ -68,10 +68,10 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 Set the relative timelock to 5 blocks \(to be mined on top of the funding transaction confirmation\).
 
 > We encode the sequence value according to BIP68 specification.
->
-> ```javascript
-> const timelock = bip68.encode({blocks: 5})
-> ```
+
+```javascript
+const timelock = bip68.encode({blocks: 5})
+```
 
 Generate the redeem script.
 
@@ -92,18 +92,18 @@ console.log(p2sh.address)
 Send 1 BTC to this P2SH address.
 
 > Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
->
-> ```text
-> sendtoaddress 2Mw8mn5xQWk8Pz2KNXLnjSvS6TemKVELLyy 1
-> ```
+
+```bash
+sendtoaddress 2Mw8mn5xQWk8Pz2KNXLnjSvS6TemKVELLyy 1
+```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```text
-> gettransaction TX_ID
-> ```
+
+```bash
+gettransaction TX_ID
+```
 
 ## Preparing the spending transaction
 
@@ -182,15 +182,15 @@ tx.setInputScript(0, inputScriptFirstBranch || inputScriptSecondBranch)
 Get the raw hex serialization.
 
 > No `build` step here as we have already called `buildIncomplete`.
->
-> ```javascript
-> console.log('Transaction hexadecimal:')
-> console.log(tx.toHex())
-> ```
+
+```javascript
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
+```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -198,19 +198,19 @@ decoderawtransaction TX_HEX
 
 If we run the first scenario we need 5 blocks to be mined so that the timelock will expire.
 
-```text
+```bash
 generatetoaddress 5 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

@@ -23,13 +23,13 @@ Send 1 BTC to alice\_1 embedded Segwit P2SH-P2WPKH address in order to create a 
 
 > Check out the address in your `wallets.json` file in the `code` directory. Replace the address if necessary.
 >
-> ```text
+> ```bash
 > sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
 > ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction "txid" true
 ```
 
@@ -92,7 +92,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction "hexstring"
 ```
 
@@ -100,13 +100,13 @@ decoderawtransaction "hexstring"
 
 It's time to broadcast the transaction.
 
-```text
+```bash
 sendrawtransaction "hexstring"
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction "txid" true
 ```
 
@@ -114,7 +114,7 @@ getrawtransaction "txid" true
 
 In the vin section the scriptSig is the redeem script. When passed through HASH160 it should match the hash contained in the script of the `scripthash` UTXO that we are spending.
 
-```text
+```bash
 $ bx bitcoin 160 0014fb8820f35effa054399540b8ca86040d8ddaa4d5
 4cea7ef76a4423240d5f06d96868726f57bd7d30
 ```

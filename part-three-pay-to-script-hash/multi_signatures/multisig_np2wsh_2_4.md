@@ -51,7 +51,7 @@ console.log(p2ms.output.toString('hex'))
 
 Check the locking script.
 
-```text
+```bash
 decodescript SCRIPT
 ```
 
@@ -66,7 +66,7 @@ const p2sh = bitcoin.payments.p2sh({redeem: p2wsh, network})
 
 Send 1 BTC to this P2SH address.
 
-```text
+```bash
 sendtoaddress 2N4LnN5rp8JAmqE3LBVQhYEQg83piAF15sX 1
 ```
 
@@ -74,7 +74,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```bash
 > gettransaction TX_ID
 > ```
 
@@ -113,7 +113,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -121,13 +121,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 
@@ -137,7 +137,7 @@ We can see that the scriptSig is a special unlocking script that contains the ve
 
 Verify the unlocking script HASH160.
 
-```text
+```bash
 $ bx bitcoin160 '00205b07dcc35fc2b29db80be059e495c88f5b7609c1e3d888c14240678f00217b3d'   
 79b67d4c7bff512939e90e170ee9b969eb1203a8
 ```

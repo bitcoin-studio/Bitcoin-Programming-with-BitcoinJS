@@ -4,13 +4,13 @@ The Regtest mode replicates the 100-block maturation time rule, forcing us to wa
 
 > Here we use the native segwit address of Dave's first account. See [_**wallets.json**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/wallets.json)
 >
-> ```text
+> ```bash
 > generatetoaddress 101 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 > ```
 
 We can then list all the generated UTXOs using an output descriptor.
 
-```text
+```bash
 scantxoutset start '["addr(bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r)"]'
 ```
 

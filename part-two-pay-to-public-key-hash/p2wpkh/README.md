@@ -6,10 +6,10 @@ P2WPKH is the native Segwit version of a Pay to Public Key hash.
 
 The scripts and script data are spread out as follows
 
-```text
-witness:      <signature> <pubkey>
-scriptSig:    (empty)
-scriptPubKey: 0 <20-byte-key-hash>
+```bash
+witness:      SIGNATURE PUBKEY
+scriptSig:    empty
+scriptPubKey: 0 20-BYTE-KEY-HASH
 ```
 
 Each Bitcoin full node will parse the `scriptPubKey` and check the witness program size. If it is 20 bytes long, it is interpreted as a P2WPKH program.

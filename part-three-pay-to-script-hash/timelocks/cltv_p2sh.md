@@ -67,48 +67,48 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 Encode the lockTime value according to BIP65 specification \(now - 6 hours\).
 
 > Method argument is a UNIX timestamp.
->
-> ```javascript
-> const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
-> console.log('Timelock in UNIX timestamp:')
-> console.log(lockTime)
-> ```
+
+```javascript
+const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
+console.log('Timelock in UNIX timestamp:')
+console.log(lockTime)
+```
 
 Generate the redeemScript with CLTV.
 
 > If you do it multiple times you will notice that the hex script is never the same, this is because of the locktime.
->
-> ```javascript
-> const redeemScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
-> console.log('Redeem script:')
-> console.log(redeemScript.toString('hex'))
-> ```
+
+```javascript
+const redeemScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
+console.log('Redeem script:')
+console.log(redeemScript.toString('hex'))
+```
 
 You can decode the script in Bitcoin Core CLI with `decodescript`.
 
 Generate the P2SH.
 
 > If you do it multiple times you will notice that the P2SH address is never the same, this is because of redeemScript.
->
-> ```javascript
-> const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
-> console.log('P2SH address')
-> console.log(p2sh.address)
-> ```
+
+```javascript
+const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
+console.log('P2SH address:')
+console.log(p2sh.address)
+```
 
 Send 1 BTC to this P2SH address.
 
-```text
+```bash
 sendtoaddress [p2sh.address] 1
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```text
-> gettransaction TX_ID
-> ```
+
+```bash
+gettransaction TX_ID
+```
 
 ## Preparing the spending transaction
 
@@ -123,15 +123,15 @@ const txb = new bitcoin.TransactionBuilder(network)
 We need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV. You can use the same value as in the redeemScript.
 
 > Because CLTV actually uses nLocktime enforcement consensus rules the time is checked indirectly by comparing redeem transaction nLocktime with the CLTV value. nLocktime must be &lt;= present time and &gt;= CLTV timelock
->
-> ```javascript
-> txb.setLockTime(lockTime)
-> ```
+
+```javascript
+txb.setLockTime(lockTime)
+```
 
 Create the input by referencing the outpoint of our P2SH funding transaction. The input-level nSequence value needs to be change to `0xfffffffe`, which means that nSequence is disabled, nLocktime is enabled and RBF is not signaled.
 
 ```javascript
-// txb.addInput(prevTx, vout, sequence, prevTxScript)
+// txb.addInput(prevTx, prevOut, sequence, prevTxScript)
 txb.addInput('TX_ID', TX_VOUT, 0xfffffffe, null)
 ```
 
@@ -205,7 +205,7 @@ Get the raw hex serialization.
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -217,27 +217,27 @@ If you are spending the P2SH as Alice + timelock after expiry, you must have the
 
 Check the current mediantime
 
-```text
+```bash
 getblockchaininfo
 ```
 
 You need to generate some blocks in order to have the node's `mediantime` synchronized with your computer local time.
 
 > It is not possible to give you an exact number. 20 should be enough. Dave\_1 is our miner
->
-> ```text
-> generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
-> ```
+
+```bash
+generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
+```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

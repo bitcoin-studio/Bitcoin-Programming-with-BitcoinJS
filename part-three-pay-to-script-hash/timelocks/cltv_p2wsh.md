@@ -67,44 +67,44 @@ const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, n
 Encode the lockTime value according to BIP65 specification \(now - 6 hours\).
 
 > Method argument is a UNIX timestamp.
->
-> ```javascript
-> const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
-> console.log('Timelock in UNIX timestamp:')
-> console.log(lockTime)
-> ```
+
+```javascript
+const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
+console.log('Timelock in UNIX timestamp:')
+console.log(lockTime)
+```
 
 Generate the witnessScript with CLTV.
 
 > In a P2WSH context, a redeem script is called a witness script. If you do it multiple times you will notice that the hex script is never the same, this is because of the changing timestamp.
->
-> ```javascript
-> const witnessScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
-> console.log('Witness script:')
-> console.log(witnessScript.toString('hex'))
-> ```
+
+```javascript
+const witnessScript = cltvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
+console.log('Witness script:')
+console.log(witnessScript.toString('hex'))
+```
 
 You can decode the script in Bitcoin Core CLI with `decodescript`.
 
 Generate the P2WSH.
 
 > If you do it multiple times you will notice that the P2WSH address is never the same, this is because of the changing witness script.
->
-> ```javascript
-> const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
-> console.log('P2WSH address:')
-> console.log(p2wsh.address)
-> ```
+
+```javascript
+const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
+console.log('P2WSH address:')
+console.log(p2wsh.address)
+```
 
 Send 1 BTC to this P2WSH address.
 
-```text
+```bash
 sendtoaddress P2WSH_ADDR 1
 ```
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 
@@ -117,7 +117,7 @@ console.log(bitcoin.crypto.sha256(witnessScript).toString('hex'))
 
 or
 
-```text
+```bash
 bx sha256 WITNESS_SCRIPT
 ```
 
@@ -142,7 +142,7 @@ We need to set the transaction-level locktime in our redeem transaction in order
 Create the input by referencing the outpoint of our P2WSH funding transaction. The input-level nSequence value needs to be change to `0xfffffffe`, which means that nSequence is disabled, nLocktime is enabled and RBF is not signaled.
 
 ```javascript
-// txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
+// txb.addInput(prevTx, prevOut, sequence, prevTxScript)
 txb.addInput('TX_ID', TX_VOUT, 0xfffffffe)
 ```
 
@@ -217,15 +217,15 @@ tx.setWitness(0, witnessStackFirstBranch || witnessStackSecondBranch)
 Get the raw hex serialization.
 
 > No `build` step here as we have already called `buildIncomplete`
->
-> ```javascript
-> console.log('Transaction hexadecimal:')
-> console.log(tx.toHex())
-> ```
+
+```javascript
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
+```
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -237,27 +237,27 @@ If you are spending the P2WSH as alice\_1 + timelock after expiry, you must have
 
 Check the current mediantime
 
-```text
+```bash
 getblockchaininfo
 ```
 
 You need to generate some blocks in order to have the node's `mediantime` synchronized with your computer local time.
 
 > It is not possible to give you an exact number. 20 should be enough. Dave\_1 is our miner
->
-> ```text
-> generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
-> ```
+
+```bash
+generatetoaddress 20 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
+```
 
 It's now time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

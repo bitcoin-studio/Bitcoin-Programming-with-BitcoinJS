@@ -51,7 +51,7 @@ console.log(p2ms.output.toString('hex'))
 
 Check the locking script.
 
-```text
+```bash
 decodescript SCRIPT
 ```
 
@@ -65,7 +65,7 @@ const p2sh = bitcoin.payments.p2sh({redeem: p2ms, network})
 
 Send 1 BTC to this P2SH address.
 
-```text
+```bash
 sendtoaddress 2NAjnUkVxAv34bnfpC1edhW5qstF2QHSUk5 1
 ```
 
@@ -73,7 +73,7 @@ Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```bash
 > gettransaction TX_ID
 > ```
 
@@ -112,7 +112,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -120,13 +120,13 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
-```text
+```bash
 getrawtransaction TX_ID true
 ```
 

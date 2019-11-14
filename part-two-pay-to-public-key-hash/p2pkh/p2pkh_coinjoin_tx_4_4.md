@@ -54,14 +54,14 @@ First let's create four UTXOs with a single transaction.
 > Send 0.2 BTC to carol\_1 P2PKH address.  
 > Send 0.25 BTC to eve\_1 P2PKH address.  
 > Send 0.3 BTC to mallory\_1 P2PKH address.
->
-> ```text
-> sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.2, "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R":0.2, "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt":0.25, "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh": 0.3}'
-> ```
+
+```bash
+sendmany "" '{"n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq":0.2, "mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R":0.2, "mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt":0.25, "mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh": 0.3}'
+```
 
 Generate a block to dave\_1 P2WPKH address.
 
-```text
+```bash
 generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ```
 
@@ -69,13 +69,13 @@ Then we need to know which UTXO corresponds to which address Get the output inde
 
 > Find the output index \(or vout\) under `details > vout`.
 >
-> ```text
+> ```bash
 > gettransaction TX_ID
 > ```
 
 We can also check UTXOs of specific addresses.
 
-```text
+```bash
 scantxoutset start '["addr(n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq)", "addr(mh1HAVWhKkzcvF41MNRKfakVvPV2sfaf3R)", "addr(mqbYBESF4bib4VTmsqe6twxMDKtVpeeJpt)", "addr(mwkyEhauZdkziHJijx9rwZgShr9gYi9Hkh)"]'
 ```
 
@@ -167,7 +167,7 @@ console.log(tx.toHex())
 
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
-```text
+```bash
 decoderawtransaction TX_HEX
 ```
 
@@ -175,17 +175,17 @@ decoderawtransaction TX_HEX
 
 It's time to broadcast the transaction via Bitcoin Core CLI.
 
-```text
+```bash
 sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
 > Don't forget the second argument to returns a detailed json object.
->
-> ```text
-> getrawtransaction TX_ID true
-> ```
+
+```bash
+getrawtransaction TX_ID true
+```
 
 ## What's Next?
 

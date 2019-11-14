@@ -29,7 +29,7 @@ Explanation:
 
 The merchant bob\_1 creates a Lightning invoice \(also called payment request\) for 1000 satoshis.
 
-```text
+```bash
 $ lncli-merchant addinvoice 1000
 PAYMENT_REQUEST
 ```
@@ -37,7 +37,7 @@ PAYMENT_REQUEST
 The merchant extract the payment hash from the invoice.  
 This payment hash is the SHA256 hash of the payment preimage, the secret revealed when the invoice is paid.
 
-```text
+```bash
 $ lncli-merchant decodepayreq PAYMENT_REQUEST
 PAYMENT_HASH
 ```
@@ -91,7 +91,7 @@ const keyPairSwapProvider = bitcoin.ECPair.fromWIF(dave[1].wif, network)
 We have to choose a timelock expressed in block height.  
 Check the current block height and add 10 blocks to it. It means that the refund transaction will only be available 10 blocks after that the funding of the swap contract is confirmed.
 
-```text
+```bash
 getblockchaininfo
 ```
 
@@ -113,7 +113,7 @@ console.log(swapContract.toString('hex'))
 
 We can decode the swap contract \(witness script\) in Bitcoin Core CLI.
 
-```text
+```bash
 decodescript SWAP_CONTRACT
 ```
 
@@ -131,19 +131,19 @@ Alice\_1 sends 1200 satoshis to the P2WSH swap smart contract address.
 
 > The user is paying 200 satoshis more than what is asked by the merchant to compensate for the mining fees that the swap provider will have to pay to redeem the funds.
 >
-> ```text
+> ```bash
 > sendtoaddress SWAP_CONTRACT_ADDRESS 0.000012
 > ```
 
 Get the output index \(TX\_VOUT\). The swap provider \(or the user in the refund case\) will need it to redeem the funds.
 
-```text
+```bash
 gettransaction TX_ID
 ```
 
 or
 
-```text
+```bash
 getrawtransaction TX_ID
 ```
 
@@ -156,7 +156,7 @@ console.log(bitcoin.crypto.sha256(SWAP_CONTRACT).toString('hex'))
 
 or
 
-```text
+```bash
 bx sha256 SWAP_CONTRACT
 ```
 
@@ -164,7 +164,7 @@ bx sha256 SWAP_CONTRACT
 
 Now that the swap contract is funded, the swap provider must pay the merchant's invoice in order to get the _payment preimage_ that allows him to redeem the swap contract on-chain funds.
 
-```text
+```bash
 $ lncli-sp payinvoice PAYMENT_REQUEST
 PAYMENT_PREIMAGE
 ```
