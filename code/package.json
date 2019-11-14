@@ -7,7 +7,15 @@
     "Base58CheckEncodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
     "Base58CheckDecodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'",
     "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'",
-    "bitcointestwallets": "npx bitcointestwallets"
+    "bitcointestwallets": "npx bitcointestwallets",
+    "bin2dec": "node -p 'require(\"./baseConverter\").bin2dec(process.argv.slice(1)[0])'",
+    "bin2hex": "node -p 'require(\"./baseConverter\").bin2hex(process.argv.slice(1)[0])'",
+    "dec2bin": "node -p 'require(\"./baseConverter\").dec2bin(process.argv.slice(1)[0])'",
+    "dec2hex": "node -p 'require(\"./baseConverter\").dec2hex(process.argv.slice(1)[0])'",
+    "hex2bin": "node -p 'require(\"./baseConverter\").hex2bin(process.argv.slice(1)[0])'",
+    "hex2dec": "node -p 'require(\"./baseConverter\").hex2dec(process.argv.slice(1)[0])'",
+    "lenBytesDec": "node -p 'require(\"./baseConverter\").lenBytesDec(process.argv.slice(1)[0])'",
+    "lenBytesHex": "node -p 'require(\"./baseConverter\").lenBytesHex(process.argv.slice(1)[0])'"
   },
   "author": {
     "name": "Stephane Roche",

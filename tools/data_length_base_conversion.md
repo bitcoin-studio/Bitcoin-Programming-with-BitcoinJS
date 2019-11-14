@@ -2,19 +2,48 @@
 
 As a bitcoin programmer, it is often useful to know the length of some data or convert to a different base. The file [baseConverter.js](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/baseConverter.js) provides a very simple tool box to do just that.
 
-## Convert base
 
-```javascript
-convert.hex2dec(10)
-16
+## Base Conversion
+
+```bash
+$ npm run bin2dec 101010
+42
 ```
 
-## Calculate the byte length of alice\_1 pubKeyHash
+```bash
+$ npm run bin2hex 101010
+2a
+```
+
+```bash
+$ npm run dec2bin 42
+101010
+```
+
+```bash
+$ npm run dec2hex 42
+2a
+```
+
+```bash
+$ npm run hex2bin 2a
+101010
+```
+
+```bash
+$ npm run hex2dec 2a
+42
+```
+
+
+## Data Length
+
+Let's calculate the byte length of alice\_1 pubKeyHash
 
 > `lenBytesHex` takes a hex string and returns the byte length expressed in hexadecimal
 
-```javascript
-convert.lenBytesHex('fb8820f35effa054399540b8ca86040d8ddaa4d5')
+```bash
+$ npm run lenBytesHex fb8820f35effa054399540b8ca86040d8ddaa4d5
 14
 ```
 
@@ -22,8 +51,8 @@ If we want to push this pubKeyHash onto the stack we will use a PUSHBYTES\_14, w
 
 > `lenBytesDec` takes a hex string and returns the byte length expressed in decimal
 
-```javascript
-convert.lenBytesDec('fb8820f35effa054399540b8ca86040d8ddaa4d5')
+```bash
+$ npm run lenBytesDec fb8820f35effa054399540b8ca86040d8ddaa4d5
 20
 ```
 
