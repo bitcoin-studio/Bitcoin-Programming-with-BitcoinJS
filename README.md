@@ -53,7 +53,7 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 * [Native Segwit P2WPKH](part-two-pay-to-public-key-hash/p2wpkh/)
   * [Spend a Native Segwit P2WPKH UTXO](part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_spend_1_1.md)
   * [Typical Transaction \(1 input, 2 outputs\) - Native Segwit P2WPKH](part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_typical_tx_1_2.md)
-* [Spend a Nested Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/)
+* [Nested Segwit P2SH-P2WPKH](part-two-pay-to-public-key-hash/p2sh_p2wpkh/)
   * [Spend a Nested Segwit P2SH-P2WPKH UTXO](part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2sh_p2wpkh_spend_1_1.md)
 
 ### Part Three: Pay To Script Hash
