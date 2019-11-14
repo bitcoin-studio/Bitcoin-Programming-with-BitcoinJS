@@ -20,6 +20,7 @@ Technical requirements
 * BitcoinJS v4
 * Bitcoin Core v18
 * Bash or a Bash interpreter like Cygwin or Windows Subsystem for Linux \(WSL\)
+* JQ (json parser)
 * Libbitcoin Explorer v3 \(optional\)
 
 ## Copyright

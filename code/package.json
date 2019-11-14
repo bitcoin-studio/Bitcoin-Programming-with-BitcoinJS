@@ -6,7 +6,8 @@
   "scripts": {
     "Base58CheckEncodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
     "Base58CheckDecodeP2PKH": "node -e 'require(\"./addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'",
-    "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'"
+    "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'",
+    "bitcointestwallets": "npx bitcointestwallets"
   },
   "author": {
     "name": "Stephane Roche",
@@ -20,6 +21,7 @@
     "bip65": "^1.0.3",
     "bip68": "^1.0.4",
     "bitcoinjs-lib": "^4.0.5",
+    "bitcointestwalletsgenerator": "^1.0.5",
     "bs58": "^4.0.1",
     "bs58check": "^2.1.2"
   }
