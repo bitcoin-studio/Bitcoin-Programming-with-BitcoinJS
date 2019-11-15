@@ -10,8 +10,8 @@ Each bitcoin address is marked by a label such as _alice\_1_, which you can list
 
 ## Instructions
 
-First launch Bitcoin Core.  
-Then, generate six test wallets, create a `wallets.json` file and import all private keys into Bitcoin Core.
+After launching Bitcoin Core in regtest mode, run the following commands.  
+It will generate for you six test wallets, create a `wallets.json` file and import all private keys into Bitcoin Core.
 
 ```bash
 cd code
