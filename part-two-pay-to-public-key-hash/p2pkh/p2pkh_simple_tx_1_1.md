@@ -29,8 +29,7 @@ Send 1 BTC to alice\_1 P2PKH address with Bitcoin Core CLI.
 > sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
 > ```
 
-We have now an UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**. Fortunately, `sendtoaddress` returns the id of the transaction.  
- 
+We have now an UTXO locked with alice\_1 public key hash. In order to spend it, we refer to it with the transaction id \(txid\) and the output index \(vout\), also called **outpoint**. Fortunately, `sendtoaddress` returns the id of the transaction.
 
 Get the output index so that we have the outpoint \(txid / vout\).
 
@@ -70,8 +69,7 @@ The miner fee is calculated by subtracting the outputs from the inputs.
 100 000 000 - 99 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
 {% endhint %}
 
-The UTXO is locked with alice\_1's public key hash. If she wants to spend it, she needs to prove her ownership of the private key that is linked to the public key, which hash is written in the UTXO.  
- 
+The UTXO is locked with alice\_1's public key hash. If she wants to spend it, she needs to prove her ownership of the private key that is linked to the public key, which hash is written in the UTXO.
 
 To do so, alice\_1 will sign this transaction that we just built with her private key. BitcoinJS will automatically place the signature into the `scriptSig` field of the input 0.
 

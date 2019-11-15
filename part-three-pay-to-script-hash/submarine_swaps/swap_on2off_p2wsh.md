@@ -8,10 +8,9 @@ To follow along this tutorial:
   * One LND node is the swap provider \(lncli-sp\)  
 {% endhint %}
 
-A bitcoin user \(alice\_1\) would like to pay on-chain a merchant \(bob\_1\) selling a good off-chain, using a _swap provider_ \(dave\_1\). Technically alice\_1 could operate the swap provider herself, but we will suppose here that the _swap provider_ is a trustless third party.  
+A bitcoin user \(alice\_1\) would like to pay on-chain a merchant \(bob\_1\) selling a good off-chain, using a _swap provider_ \(dave\_1\). Technically alice\_1 could operate the swap provider herself, but we will suppose here that the _swap provider_ is a trustless third party.
 
-This animation sums up the process.  
-  
+This animation sums up the process.
 
 ![submarine swap - paying merchant on2off](../../.gitbook/assets/submarine_swap_pay_merchant.gif)
 
@@ -42,12 +41,11 @@ $ lncli-merchant decodepayreq PAYMENT_REQUEST
 PAYMENT_HASH
 ```
 
-We can now imagine that the merchant sends this PAYMENT\_HASH to the swap provider.  
- 
+We can now imagine that the merchant sends this PAYMENT\_HASH to the swap provider.
 
 ## Creating and Funding the P2WSH Swap Contract
 
-The goal now is for the swap provider to create the swap P2WSH smart contract, generate its bitcoin address and ask the bitcoin user to pay this address.  
+The goal now is for the swap provider to create the swap P2WSH smart contract, generate its bitcoin address and ask the bitcoin user to pay this address.
 
 Import libraries, test wallets and set the network.
 

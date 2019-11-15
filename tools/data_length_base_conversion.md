@@ -2,7 +2,6 @@
 
 As a bitcoin programmer, it is often useful to know the length of some data or convert to a different base. The file [baseConverter.js](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/baseConverter.js) provides a very simple tool box to do just that.
 
-
 ## Base Conversion
 
 ```bash
@@ -34,7 +33,6 @@ $ npm run hex2bin 2a
 $ npm run hex2dec 2a
 42
 ```
-
 
 ## Data Length
 
