@@ -1,6 +1,6 @@
 // Import dependencies
 const bitcoin = require('bitcoinjs-lib')
-const { alice, bob, dave } = require('./wallets.json')
+const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 const bip65 = require('bip65')
 

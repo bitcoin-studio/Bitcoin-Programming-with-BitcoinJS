@@ -63,7 +63,7 @@ Here is the swap smart contract that we will use. This is technically a witness 
 const swapContractGenerator = function(claimPublicKey, refundPublicKey, preimageHash, cltv) {
   return bitcoin.script.compile([
     bitcoin.opcodes.OP_HASH160,
-    bitcoin.crypto.ripemd160(PAYMENT_HASH), // HASH160 of invoice payment hash
+    bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')),
     bitcoin.opcodes.OP_EQUAL,
     bitcoin.opcodes.OP_IF,
     claimPublicKey,
@@ -184,9 +184,10 @@ Create an instance of BitcoinJS TransactionBuilder.
 const txb = new bitcoin.TransactionBuilder(network)
 ```
 
-We need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV timelock. You can use the same value as before.
+For the refund case we need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV timelock. You can use the same value as before.
 
-> Because CLTV actually uses nLocktime enforcement consensus rules the time is checked indirectly by comparing redeem transaction nLocktime with the CLTV value. nLocktime must be &lt;= present time and &gt;= CLTV timelock
+> Because CLTV actually uses nLocktime enforcement consensus rules the time is checked indirectly by comparing redeem transaction-level nLocktime with the CLTV value.  
+> nLocktime must be &lt;= present time and &gt;= CLTV timelock
 
 ```javascript
 txb.setLockTime(timelock)
@@ -225,7 +226,7 @@ Amongst other things, it commits to the witness script, the bitcoin amount of th
 
 ```javascript
 const sigHash = bitcoin.Transaction.SIGHASH_ALL
-signatureHash = tx.hashForWitnessV0(0, WITNESS_SCRIPT, 12e2, sigHash)
+signatureHash = tx.hashForWitnessV0(0, buffer.from(WITNESS_SCRIPT, 'hex'), 12e2, sigHash)
 console.log('Signature hash:')
 console.log(signatureHash.toString('hex'))
 ```
@@ -241,10 +242,10 @@ The swap provider provides a valid signature and the _payment preimage_.
 const witnessStackClaimBranch = bitcoin.payments.p2wsh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairSwapProvider.sign(signatureHash), hashType),
-      PREIMAGE
+      bitcoin.script.signature.encode(keyPairSwapProvider.sign(signatureHash), sigHash),
+      buffer.from(PREIMAGE, 'hex')
     ]),
-    output: WITNESS_SCRIPT
+    output: buffer.from(WITNESS_SCRIPT, 'hex')
   }
 }).witness
 
@@ -259,10 +260,10 @@ The user provides a valid signature and any invalid preimage in order to trigger
 const witnessStackRefundBranch = bitcoin.payments.p2wsh({
   redeem: {
     input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairUser.sign(signatureHash), hashType),
+      bitcoin.script.signature.encode(keyPairUser.sign(signatureHash), sigHash),
       Buffer.from('0000000000000000000000000000000000000000000000000000000000000001', 'hex')
     ]),
-    output: WITNESS_SCRIPT
+    output: buffer.from(WITNESS_SCRIPT, 'hex')
   }
 }).witness
 
