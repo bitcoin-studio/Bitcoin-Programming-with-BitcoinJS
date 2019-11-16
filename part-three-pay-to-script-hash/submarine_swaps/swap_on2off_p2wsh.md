@@ -35,7 +35,7 @@ PAYMENT_REQUEST and PAYMENT_HASH
 
 This payment hash is the SHA256 hash of the _**payment preimage**_, the secret revealed when the invoice is paid.
 
-`addinvoice` returns the payment hash, but we can also get it by decoding the payment request. 
+`addinvoice` returns the payment hash, but we can also get it by decoding the payment request.
 
 ```bash
 $ lncli-merchant decodepayreq PAYMENT_REQUEST
@@ -182,6 +182,14 @@ Create an instance of BitcoinJS TransactionBuilder.
 
 ```javascript
 const txb = new bitcoin.TransactionBuilder(network)
+```
+
+We need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV timelock. You can use the same value as before.
+
+> Because CLTV actually uses nLocktime enforcement consensus rules the time is checked indirectly by comparing redeem transaction nLocktime with the CLTV value. nLocktime must be &lt;= present time and &gt;= CLTV timelock
+
+```javascript
+txb.setLockTime(TIMELOCK)
 ```
 
 Set the transaction input by pointing to the swap contract UTXO we are spending.
