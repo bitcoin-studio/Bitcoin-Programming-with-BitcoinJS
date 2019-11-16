@@ -8,7 +8,7 @@ To follow along this tutorial:
   * One LND node is the swap provider \(lncli-sp\)  
 {% endhint %}
 
-A bitcoin user \(alice\_1\) would like to pay on-chain a merchant \(bob\_1\) selling a good off-chain, using a _swap provider_ \(dave\_1\). Technically alice\_1 could operate the swap provider herself, but we will suppose here that the _swap provider_ is a trustless third party.
+A bitcoin user \(alice\_1\) would like to pay on-chain a merchant selling a good off-chain, using a _swap provider_ \(bob\_1\). Technically alice\_1 could operate the swap provider herself, but we will suppose here that the _swap provider_ is a trustless third party.
 
 This animation sums up the process.
 
@@ -26,7 +26,7 @@ Explanation:
 
 ## Generating a Lightning invoice
 
-The merchant bob\_1 creates a Lightning invoice \(also called payment request\) for 1000 satoshis.
+The merchant creates a Lightning invoice \(also called payment request\) for 1000 satoshis.
 
 ```bash
 $ lncli-merchant addinvoice 1000
@@ -52,7 +52,7 @@ Import libraries, test wallets and set the network.
 
 ```javascript
 const bitcoin = require('bitcoinjs-lib')
-const { alice, bob, dave } = require('./wallets.json')
+const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 const bip65 = require('bip65')
 ```
@@ -83,8 +83,7 @@ We prepare the key pairs for our three personas.
 ```javascript
 // Signers
 const keyPairUser = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const keyPairMerchant = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const keyPairSwapProvider = bitcoin.ECPair.fromWIF(dave[1].wif, network)
+const keyPairSwapProvider = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 ```
 
 We have to choose a timelock expressed in block height.  
@@ -285,7 +284,7 @@ For both scenarios we note that our scriptSig is empty.
 
 For the first scenario, we note that our witness stack contains:
 
-* Dave\_1 swap provider signature
+* Bob\_1 swap provider signature
 * The LN payment preimage
 * The witness script, that we can decode with `decodescript` 
 
