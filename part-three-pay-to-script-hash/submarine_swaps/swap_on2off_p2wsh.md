@@ -30,11 +30,12 @@ The merchant bob\_1 creates a Lightning invoice \(also called payment request\) 
 
 ```bash
 $ lncli-merchant addinvoice 1000
-PAYMENT_REQUEST
+PAYMENT_REQUEST and PAYMENT_HASH
 ```
 
-The merchant extract the payment hash from the invoice.  
-This payment hash is the SHA256 hash of the payment preimage, the secret revealed when the invoice is paid.
+This payment hash is the SHA256 hash of the _**payment preimage**_, the secret revealed when the invoice is paid.
+
+`addinvoice` returns the payment hash, but we can also get it by decoding the payment request. 
 
 ```bash
 $ lncli-merchant decodepayreq PAYMENT_REQUEST
@@ -102,9 +103,7 @@ console.log(timelock)
 We now have all the elements to generate the swap contract, namely the swap provider's public key, the user's public key, the Lightning invoice's payment hash and the timelock.
 
 ```javascript
-let swapContract
-swapContract =  swapContractGenerator(keyPairSwapProvider.publicKey, keyPairUser.publicKey, PAYMENT_HASH, timelock)
-
+const swapContract = swapContractGenerator(keyPairSwapProvider.publicKey, keyPairUser.publicKey, PAYMENT_HASH, timelock)
 console.log('Swap contract (witness script):')
 console.log(swapContract.toString('hex'))
 ```
