@@ -189,7 +189,7 @@ We need to set the transaction-level locktime in our redeem transaction in order
 > Because CLTV actually uses nLocktime enforcement consensus rules the time is checked indirectly by comparing redeem transaction nLocktime with the CLTV value. nLocktime must be &lt;= present time and &gt;= CLTV timelock
 
 ```javascript
-txb.setLockTime(TIMELOCK)
+txb.setLockTime(timelock)
 ```
 
 Set the transaction input by pointing to the swap contract UTXO we are spending.
