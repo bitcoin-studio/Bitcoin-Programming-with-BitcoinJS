@@ -37,10 +37,10 @@ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 Get the output index so that we have the outpoint \(txid / vout\).
 
 > Find the output index \(or vout\) under `details > vout`.
->
-> ```bash
-> gettransaction "txid"
-> ```
+
+```bash
+gettransaction TX_ID
+```
 
 ## Creating the transaction
 
@@ -62,20 +62,20 @@ const txb = new bitcoin.TransactionBuilder(network)
 Fill in the outpoint. Don't forget the prevTxScript, necessary because we are spending a P2WPKH.
 
 ```javascript
-// txb.addInput(prevTx, prevTxOut, sequence, prevTxScript)
+// txb.addInput(prevTx, prevOut, sequence, prevTxScript)
 txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
 ```
 
 Create an OP\_RETURN output with BitcoinJS `embed` payment method. Create a second output to get back the change. 100 000 000 - 100 000\(fees\) = 99 900 000 sats
 
 > An output using an OP\_RETURN is provably unspendable. For this reason, the value of an OP\_RETURN output is usually set to 0.
->
-> ```javascript
-> const data = Buffer.from('Programmable money FTW!', 'utf8')
-> const embed = bitcoin.payments.embed({data: [data]})
-> txb.addOutput(embed.output, 0)
-> txb.addOutput(p2wpkhAlice1.address, 99900000)
-> ```
+
+```javascript
+const data = Buffer.from('Programmable money FTW!', 'utf8')
+const embed = bitcoin.payments.embed({data: [data]})
+txb.addOutput(embed.output, 0)
+txb.addOutput(p2wpkhAlice1.address, 99900000)
+```
 
 Don't forget the bitcoin value of the UTXO we are spending, necessary because we are spending a P2WPKH.
 
@@ -95,7 +95,7 @@ console.log(tx.toHex())
 Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 
 ```bash
-decoderawtransaction "hexstring"
+decoderawtransaction TX_HEX
 ```
 
 ## Broadcasting the transaction
@@ -103,13 +103,13 @@ decoderawtransaction "hexstring"
 It's time to broadcast the transaction.
 
 ```bash
-sendrawtransaction "hexstring"
+sendrawtransaction TX_HEX
 ```
 
 Inspect the transaction.
 
 ```bash
-getrawtransaction "txid" true
+getrawtransaction TX_ID true
 ```
 
 ## Observations
@@ -121,4 +121,3 @@ To decode the OP\_RETURN data we can use the `xxd` library in a terminal which m
 ```bash
 echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
 ```
-
