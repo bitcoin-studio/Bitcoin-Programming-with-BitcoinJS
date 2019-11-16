@@ -80,7 +80,7 @@ const witnessStackRefundBranch = bitcoin.payments.p2wsh({
   redeem: {
     input: bitcoin.script.compile([
       bitcoin.script.signature.encode(keyPairUser.sign(signatureHash), sigHash),
-      Buffer.from('0000000000000000000000000000000000000000000000000000000000000001', 'hex')
+      Buffer.from(PREIMAGE, 'hex')
     ]),
     output: Buffer.from(WITNESS_SCRIPT, 'hex')
   }
