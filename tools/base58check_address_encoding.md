@@ -1,6 +1,6 @@
 # Base58Check encoding and decoding of P2PKH address
 
-A P2PKH address is a public key hash encoded in Base58Check. Starting from a public key hash, we add a version byte at the beginning and a checksum at the end, then we encode this in Base58. To have a better understanding of this encoding have a look at [_**addressEncoding.js**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/addressEncoding.js).
+A P2PKH address is a public key hash encoded in Base58Check. Starting from a public key hash, we add a version byte at the beginning and a checksum at the end, then we encode this in Base58. To have a better understanding of this encoding have a look at [_**addressEncoding.js**_](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/tools/addressEncoding.js).
 
 A Bitcoin user usually send money to an address, but in fact the corresponding public key hash is stored into the blockchain.
 

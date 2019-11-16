@@ -74,7 +74,6 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
   * [Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH](part-three-pay-to-script-hash/timelocks/csv_p2wsh.md)
 * [Submarine Swaps](part-three-pay-to-script-hash/submarine_swaps/)
   * [Submarine Swap - On-chain to Off-chain](part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.md)  
-  * [Reverse Submarine Swap - Off-chain to On-chain](part-three-pay-to-script-hash/submarine_swaps/swap_off2on_p2wsh.md)  
 
 ### Part Four: Data Embedding
 
