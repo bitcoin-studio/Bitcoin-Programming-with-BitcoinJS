@@ -47,6 +47,7 @@
 
 ## Tools
 
-* [Base58Check encoding and decoding of P2PKH address](tools/base58check_address_encoding.md)
+* [Base58Check Address Encoding](tools/base58check_address_encoding.md)
 * [Data Length and Base Conversion](tools/data_length_base_conversion.md)
+* [Number Encoding](tools/number_encoding.md)
 

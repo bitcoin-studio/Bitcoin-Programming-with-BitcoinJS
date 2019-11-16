@@ -81,8 +81,9 @@ Unless otherwise noted, the contents of this repository are Copyright ©2019 by 
 
 ### Tools
 
-* [Base58Check encoding and decoding of P2PKH address](tools/base58check_address_encoding.md)
+* [Base58Check Address Encoding](tools/base58check_address_encoding.md)
 * [Data Length and Base Conversion](tools/data_length_base_conversion.md)
+* [Number Encoding](tools/number_encoding.md)
 
 Please consider making a donation so that I can continue producing free educational content  
 [Donate with Bitcoin \| 3CmJsUcx6txveq32kVqG92pczc1suLh6BD](https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/bitcoin_donation.png)

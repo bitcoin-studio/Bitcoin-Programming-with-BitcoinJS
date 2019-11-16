@@ -28,9 +28,9 @@ Complementary library `bx` aka [Libbitcoin Explorer](https://github.com/libbitco
 It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. We use the [Bitcoin Test Wallets Generator](https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator) library to help with wallet generation and private key importation. Check out [Generating and Importing Wallets](generating_and_importing_wallets.md) for more information.
 
 You will find additional handy scripts in the `./code/tools` directory. Read the Tools section for more information.
- * [Base58 Address Encoding](../tools/base58check_address_encoding.md)
- * [Data Length and Base Conversion](../tools/data_length_base_conversion.md)
- * [Number Encoding](../tools/number_encoding.md)
+* [Base58Check Address Encoding](../tools/base58check_address_encoding.md)
+* [Data Length and Base Conversion](../tools/data_length_base_conversion.md)
+* [Number Encoding](../tools/number_encoding.md)
 
 
 ## Transaction Basics
