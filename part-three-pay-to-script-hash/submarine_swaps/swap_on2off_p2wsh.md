@@ -302,8 +302,3 @@ For the second scenario, we note that our witness stack contains:
 * Alice\_1 user signature
 * A dummy LN payment preimage
 * The witness script, that we can decode with `decodescript`
-
-## What's Next?
-
-Continue "Part Two: Pay To Script Hash" with [Reverse Submarine Swap - Off-chain to On-chain](swap_off2on_p2wsh.md).
-
