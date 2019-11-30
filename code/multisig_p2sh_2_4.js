@@ -21,9 +21,17 @@ const p2ms = bitcoin.payments.p2ms({
     keyPairDave1.publicKey], network})
 
 console.log('Redeem script:')
-console.log(redeemScript.toString('hex'))
+console.log(p2ms.output.toString('hex'))
+console.log()
+
+console.log('Redeem script Hash160:')
+console.log(bitcoin.crypto.hash160(Buffer.from(p2ms.output.toString('hex'), 'hex')).toString('hex'))
+console.log()
 
 const p2sh = bitcoin.payments.p2sh({redeem: p2ms, network})
+console.log('P2SH address:')
+console.log(p2sh.address)
+console.log()
 
 const txb = new bitcoin.TransactionBuilder(network)
 
@@ -35,6 +43,7 @@ txb.addOutput(p2wpkhAlice2.address, 999e5)
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
 txb.sign(0, keyPairAlice1, p2sh.redeem.output)
 txb.sign(0, keyPairBob1, p2sh.redeem.output)
+
 
 const tx = txb.build()
 console.log('Transaction hexadecimal:')

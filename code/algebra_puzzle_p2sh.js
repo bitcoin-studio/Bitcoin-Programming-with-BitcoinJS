@@ -9,8 +9,12 @@ const redeemScript = bitcoin.script.compile([
 
 console.log('Redeem script:')
 console.log(redeemScript.toString('hex'))
+console.log()
 
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
+console.log('P2SH address:')
+console.log(p2sh.address)
+console.log()
 
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})

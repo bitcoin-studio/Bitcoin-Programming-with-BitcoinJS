@@ -9,11 +9,13 @@ const witnessScript = bitcoin.script.compile([
 
 console.log('Witness script:')
 console.log(witnessScript.toString('hex'))
+console.log()
 
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
 const p2sh = bitcoin.payments.p2sh({redeem: p2wsh, network: network})
 console.log('P2SH address:')
 console.log(p2sh.address)
+console.log()
 
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
