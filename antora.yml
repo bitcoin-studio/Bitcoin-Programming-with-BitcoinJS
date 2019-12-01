@@ -1,5 +1,5 @@
 name: bitcoinjs-guide
 title: BitcoinJS Guide
-version: '4'
+version: 'BitcoinJS v4'
 nav:
   - modules/ROOT/nav.adoc

@@ -1,0 +1,13 @@
+<div class="toolbar" role="navigation">
+{{> nav-toggle}}
+  {{#if site.homeUrl}}
+  <a href="{{relativize site.homeUrl}}" class="home-link{{#if page.home}} is-current{{/if}}"></a>
+  {{/if}}
+{{> breadcrumbs}}
+{{> page-versions}}
+  {{#if (and page.fileUri (not env.CI))}}
+  <div class="edit-this-page"><a href="{{page.fileUri}}">Edit this Page</a></div>
+  {{else if (and page.editUrl (not page.origin.private))}}
+  <div class="edit-this-page"><a href="{{page.editUrl}}">Edit this Page</a></div>
+  {{/if}}
+</div>

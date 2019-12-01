@@ -1,8 +1,13 @@
+site:
+  title: Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
 content:
   sources:
     - url: .
-      start_path: ./bitcoinjs-guide
+      branches: [v4-antora]
 ui:
   bundle:
-    url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
     snapshot: true
+    url: ./ui/build/ui-bundle.zip
+    #url: https://gitlab.com/antora/antora-ui-default/-/jobs/artifacts/master/raw/build/ui-bundle.zip?job=bundle-stable
+    #url: https://github.com/aerogear/antora-ui/raw/master/build/ui-bundle.zip
+    #url: https://deepsymmetry.org/media/antora/ui-bundle.zip

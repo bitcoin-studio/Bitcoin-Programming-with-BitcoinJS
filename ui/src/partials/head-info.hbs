@@ -1,0 +1,14 @@
+    {{#if page.canonicalUrl}}
+    <link rel="canonical" href="{{page.canonicalUrl}}">
+    {{/if}}
+    {{#if page.component}}
+    {{#if page.description}}
+    <meta name="description" content="{{page.description}}">
+    {{/if}}
+    {{#if page.keywords}}
+    <meta name="keywords" content="{{page.keywords}}">
+    {{/if}}
+    {{/if}}
+    {{#if (or antoraVersion site.antoraVersion)}}
+    <meta name="generator" content="Antora {{or antoraVersion site.antoraVersion}}">
+    {{/if}}
