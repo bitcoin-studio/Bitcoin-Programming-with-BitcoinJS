@@ -190,11 +190,16 @@ window.antoraLunr = (function (lunr) {
   function init (data) {
     var index = Object.assign({ index: lunr.Index.load(data.index), store: data.store })
     var search = debounce(function () {
-      console.log('hello')
       searchIndex(index.index, index.store, searchInput.value)
     }, 100)
     // TODO listen to blur, focus and input events
     searchInput.addEventListener('keydown', search)
+    searchInput.addEventListener('blur', function (e) {
+      e.target.value = ''
+      while (searchResult.firstChild) {
+        searchResult.removeChild(searchResult.firstChild)
+      }
+    })
   }
 
   return {

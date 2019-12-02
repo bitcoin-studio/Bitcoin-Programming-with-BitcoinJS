@@ -52,7 +52,6 @@
       }
       ancestor = ancestor.parentNode
     }
-    console.log('navItem', navItem)
     navItem.classList.add('is-active')
   }
 
