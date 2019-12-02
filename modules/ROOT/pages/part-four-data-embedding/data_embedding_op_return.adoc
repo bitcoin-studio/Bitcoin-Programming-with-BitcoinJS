@@ -1,156 +1,113 @@
 = Data Embedding with OP_RETURN
 
-____
-
-To follow along this tutorial
-
-* Execute all the transaction code in one go by typing `node code/filename.js`
-* Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL
-* Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
-* Use `bx` aka `Libbitcoin-explorer` as a handy complement
-
-____
+include::../includes/basic-help.adoc[]
 
 Let's store for eternity some data on the Bitcoin blockchain using the special OP_RETURN opcode. It will create a special `nulldata` output type.
 
 An output using an OP_RETURN is provably unspendable, so we don't need to lock any BTC in this UTXO. However, we still need to pay the miner fees, so we will spend BTC from a previous P2WPKH UTXO, create one `nulldata` UTXO and an other one for the change, leaving the difference as mining fees.
-
-____
 
 For more information about OP_RETURN check out:
 
 * https://bitcoin.org/en/developer-guide#null-data[Bitcoin Developer Guide - Nulldata Output Type]
 * https://arxiv.org/pdf/1702.01024.pdf[An analysis of Bitcoin OP RETURN metadata]
 
-____
 
 == Create a UTXO to spend from
 
 Let's create a P2WPKH UTXO to spend from.
 
-Import libraries, test wallet and set the network.
-
+.Import libraries, test wallet and set the network.
 [source,javascript]
 ----
 const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
-
 ----
 
-Send 1 BTC to alice_1 P2WPKH address via Bitcoin Core CLI.
+.Send 1 BTC to alice_1 P2WPKH address via Bitcoin Core CLI.
+ sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
 
-[source,bash]
-----
-sendtoaddress bcrt1qlwyzpu67l7s9gwv4gzuv4psypkxa4fx4ggs05g 1
+.Get the output index so that we have the outpoint (txid / vout).
+ gettransaction TX_ID
 
-----
+NOTE: Find the output index (or vout) under `details &gt; vout`.
 
-Get the output index so that we have the outpoint (txid / vout).
-
-____
-
-Find the output index (or vout) under `details &gt; vout`.
-
-____
-
-[source,bash]
-----
-gettransaction TX_ID
-
-----
 
 == Creating the transaction
 
 Now let's create our OP_RETURN P2PKH UTXO.
 
-Create a bitcoinJS key pair object for the spender alice_1 and a P2WPKH address that we will use for the change.
-
+.Create a bitcoinJS key pair object for the spender alice_1 and a P2WPKH address that we will use for the change.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-
+console.log('P2WPKH alice_1 address:')
+console.log(p2wpkhAlice1.address)
 ----
 
-Create a BitcoinJS transaction builder object.
-
+.Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
 const txb = new bitcoin.TransactionBuilder(network)
-
 ----
 
-Fill in the outpoint. Don't forget the prevTxScript, necessary because we are spending a P2WPKH.
-
+.Fill in the outpoint.
 [source,javascript]
 ----
 // txb.addInput(prevTx, prevOut, sequence, prevTxScript)
 txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
-
 ----
+NOTE: Don't forget the prevTxScript, necessary because we are spending a P2WPKH.
 
-Create an OP_RETURN output with BitcoinJS `embed` payment method. Create a second output to get back the change. 100 000 000 - 100 000(fees) = 99 900 000 sats
-
-____
-
-An output using an OP_RETURN is provably unspendable. For this reason, the value of an OP_RETURN output is usually set to 0.
-
-____
-
+.Create an OP_RETURN output with BitcoinJS `embed` payment method.
 [source,javascript]
 ----
 const data = Buffer.from('Programmable money FTW!', 'utf8')
 const embed = bitcoin.payments.embed({data: [data]})
 txb.addOutput(embed.output, 0)
-txb.addOutput(p2wpkhAlice1.address, 99900000)
-
 ----
 
-Don't forget the bitcoin value of the UTXO we are spending, necessary because we are spending a P2WPKH.
+NOTE: An output using an OP_RETURN is provably unspendable, the script will always evaluate to _false_.
+For this reason, and because this is a Bitcoin Core policy rule, the value of an OP_RETURN output is set to 0.
 
+.Create a second output to get back the change. 100 000 000 - 100 000(fees) = 99 900 000 sats
+[source,javascript]
+----
+txb.addOutput(p2wpkhAlice1.address, 99900000)
+----
+
+Keep note of the bitcoin value of the UTXO we are spending, necessary because we are spending a P2WPKH.
+
+.Alice_1 signs the first input.
 [source,javascript]
 ----
 // txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
 txb.sign(0, keyPairAlice1, null, null, 1e8, null)
-
 ----
 
-Finally we can build the transaction and get the raw hex serialization.
+NOTE: Since we are spending a Segwit UTXO, we need to sign its value, _1e8_ btc.
 
+.Finally we can build the transaction and get the raw hex serialization.
 [source,javascript]
 ----
 const tx = txb.build()
 console.log('Transaction hexadecimal:')
 console.log(tx.toHex())
-
 ----
 
-Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
+.Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
+ decoderawtransaction TX_HEX
 
-[source,bash]
-----
-decoderawtransaction TX_HEX
-
-----
 
 == Broadcasting the transaction
 
-It's time to broadcast the transaction.
+.It's time to broadcast the transaction.
+ sendrawtransaction TX_HEX
 
-[source,bash]
-----
-sendrawtransaction TX_HEX
+.Inspect the transaction.
+ getrawtransaction TX_ID true
 
-----
-
-Inspect the transaction.
-
-[source,bash]
-----
-getrawtransaction TX_ID true
-
-----
 
 == Observations
 
@@ -158,7 +115,4 @@ We note that the OP_RETURN UTXO is marked with the special type `nulldata`.
 
 To decode the OP_RETURN data we can use the `xxd` library in a terminal which make a hexdump or the reverse.
 
-[source,bash]
-----
-echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
-----
+ echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r

@@ -41,3 +41,26 @@
     url(~typeface-roboto/files/roboto-latin-500italic.woff2) format("woff2"),
     url(~typeface-roboto/files/roboto-latin-500italic.woff) format("woff");
 }
+
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 400;
+  src:
+    local("Roboto Mono"),
+    local("RobotoMono-Regular"),
+    url(~typeface-roboto-mono/files/roboto-mono-latin-400.woff2) format("woff2"),
+    url(~typeface-roboto-mono/files/roboto-mono-latin-400.woff) format("woff");
+}
+
+@font-face {
+  font-family: "Roboto Mono";
+  font-style: normal;
+  font-weight: 500;
+  src:
+    local("Roboto Mono Medium"),
+    local("RobotoMono-Medium"),
+    url(~typeface-roboto-mono/files/roboto-mono-latin-500.woff2) format("woff2"),
+    url(~typeface-roboto-mono/files/roboto-mono-latin-500.woff) format("woff");
+}

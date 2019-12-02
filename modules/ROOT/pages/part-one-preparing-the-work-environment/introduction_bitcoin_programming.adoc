@@ -8,27 +8,20 @@ We will also use the Bitcoin Core command-line interface in Regtest mode for var
 
 You are able to use the integrated console of Bitcoin Core GUI (_Help &gt; Debug window &gt; Console_). The GUI also gives you the ability to check your wallet and transaction details. Otherwise you can type the commands into `bitcoin-cli` which connects to the `bitcoind` daemon. Check the documentation of the two websites cited above if you need more help.
 
-____
-
-Bitcoin Core software is not the only implementation of the Bitcoin protocol and other implementations should work. However Bitcoin Core is by far the most used and most robust implementation. Also, beware of Bitcoin scam forks. Many websites like bitcoin.com are promoting other coins pretending to be a Bitcoin upgrade. Download only trusted Bitcoin software after rigorous due diligence.
-
-____
+WARNING: Bitcoin Core software is not the only implementation of the Bitcoin protocol and other implementations should work. However
+Bitcoin Core is by far the most used and most robust implementation. Also, beware of Bitcoin scam forks. Many websites like bitcoin.com
+are promoting other coins pretending to be a Bitcoin upgrade. Download only trusted Bitcoin software after rigorous due diligence.
 
 You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default configuration with the one in https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/bitcoin.conf[_*code/bitcoin.conf*_]. Make sure it suits your needs before running the software.
 
 Install the javascript libraries.
 
-____
+CAUTION: Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json
+references a github commit.
 
-Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json references a github commit.
+ cd code
+ npm install
 
-____
-
-[source,bash]
-----
-cd code
-npm install
-----
 
 === Complementary libraries and scripts
 
@@ -37,9 +30,11 @@ Complementary library `bx` aka https://github.com/libbitcoin/libbitcoin-explorer
 It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. We use the https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator] library to help with wallet generation and private key importation. Check out link:generating_and_importing_wallets.md[Generating and Importing Wallets] for more information.
 
 You will find additional handy scripts in the `./code/tools` directory. Read the Tools section for more information.
+
 * link:../tools/base58check_address_encoding.md[Base58Check Address Encoding]
 * link:../tools/data_length_base_conversion.md[Data Length and Base Conversion]
 * link:../tools/number_encoding.md[Number Encoding]
+
 
 == Transaction Basics
 
@@ -55,6 +50,7 @@ The unlocking script is created in accordance with the rules specified in the UT
 
 The Bitcoin system is charged with making sure the signatures are correct, that the UTXOs exist and are spendable, and that the sum of the output values is less than or equal to the sum of the input values. Any excess value becomes fees paid to miners for including the transaction.
 
+
 === Legacy, Embedded Backward-compatible Segwit and Native Segwit outputs
 
 The two categories described above, Pay To PubKey Hash and Pay To Script Hash, are actually available in three different flavours: legacy, embedded Segwit and native Segwit.
@@ -64,7 +60,3 @@ Legacy is the output type before the Segregated Witness soft fork, activated on 
 Native Segwit outputs comprise P2WPKH and P2WSH.
 
 Embedded Segwit has been developed to ensure a smooth transition to Segwit. The idea is to embed P2WPKH or P2WSH into a regular P2SH. The two resulting types are abbreviated in P2SH-P2WPKH and P2SH-P2WSH.
-
-== What's Next?
-
-Continue "Part One: Preparing The Work Environment" with link:generating_and_importing_wallets.md[Generating and Importing Wallets].
