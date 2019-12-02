@@ -1,4 +1,6 @@
 build
+node_modules
+public
 
 ### Node template
 # Logs

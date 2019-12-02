@@ -1,11 +1,11 @@
 {
-  "name": "antora-ui-default",
-  "description": "An archetype project that produces a UI for creating documentation sites with Antora",
-  "homepage": "https://gitlab.com/antora/antora-ui-default",
+  "name": "antora-ui",
+  "description": "Antora UI",
+  "homepage": "https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS",
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://gitlab.com/antora/antora-ui-default.git"
+    "url": "https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS"
   },
   "engines": {
     "node": ">= 8.0.0"

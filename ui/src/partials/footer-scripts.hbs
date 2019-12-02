@@ -1,2 +1,37 @@
 <script src="{{uiRootPath}}/js/site.js"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+{{#if env.ALGOLIA_API_KEY}}
+  <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
+  <script>
+    function focusSearchInput () { document.querySelector('#search-input').focus() }
+    var search = docsearch({
+      {{#if env.ALGOLIA_APP_ID}}
+        appId: '{{env.ALGOLIA_APP_ID}}',
+      {{/if}}
+      apiKey: '{{env.ALGOLIA_API_KEY}}',
+      indexName: '{{env.ALGOLIA_IDX_NAME}}',
+      inputSelector: '#search-input',
+      autocompleteOptions: { hint: false, keyboardShortcuts: ['s'] },
+      algoliaOptions: { hitsPerPage: 10 },
+      debug: false,
+    }).autocomplete
+    search.on('autocomplete:closed', function () { search.autocomplete.setVal() })
+    focusSearchInput()
+    window.addEventListener('load', focusSearchInput)
+
+    /*
+    docsearch({
+      // Your apiKey and indexName will be given to you once
+      // we create your config
+      apiKey: '25626fae796133dc1e734c6bcaaeac3c',
+      indexName: 'docsearch',
+      //appId: '<APP_ID>', // Should be only included if you are running DocSearch on your own.
+      // Replace inputSelector with a CSS selector
+      // matching your search input
+      inputSelector: '#search-input',
+      // Set debug to true if you want to inspect the dropdown
+      debug: false,
+    })
+    */
+  </script>
+{{/if}}

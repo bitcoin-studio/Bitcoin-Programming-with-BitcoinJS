@@ -1,0 +1,23 @@
+{
+  "index_name": "dev_bitcoinjs-guide",
+  "start_urls": [
+    {
+      "url": "http://localhost:5252/"
+    }
+  ],
+  "scrape_start_urls": false,
+  "stop_urls": [],
+  "selectors": {
+    "lvl0": {
+      "global": true,
+      "selector": ".nav-panel-explore .context"
+    },
+    "lvl1": ".doc > h1.page",
+    "lvl2": ".doc .sect1 > h2:first-child, .doc > h1.sect0",
+    "lvl3": ".doc .sect2 > h3:first-child",
+    "lvl4": ".doc .sect3 > h4:first-child",
+    "text": ".doc p, .doc dt, .doc td.context, .doc th.tableblock"
+  },
+  "selectors_exclude": [],
+  "min_indexed_level": 1
+}

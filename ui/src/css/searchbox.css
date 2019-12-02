@@ -1,0 +1,21 @@
+.search-box {
+  padding: 1rem 0.75rem 0.1rem;
+}
+
+.search-box.is-active {
+  display: block;
+}
+
+.algolia-autocomplete {
+  width: 100%;
+}
+
+.search-box input {
+  color: #999;
+  font-family: 'open sans', sans-serif;
+  padding: 0.5rem;
+  font-size: 12px;
+  background-color: #fff;
+  width: 100%;
+  border: 1px solid #e1e1e1;
+}
