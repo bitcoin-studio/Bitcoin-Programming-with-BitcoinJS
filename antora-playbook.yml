@@ -1,5 +1,6 @@
 site:
   title: Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
+  start_page: bitcoinjs-guide:ROOT:index.adoc
 content:
   sources:
     - url: .

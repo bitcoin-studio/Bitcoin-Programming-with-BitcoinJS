@@ -8,10 +8,10 @@ site:
     url: '#'
     versions:
     - &latest_version_abc
-      url: '#' 
+      url: '#'
       version: '1.1'
       displayVersion: '1.1'
-    - url: '#' 
+    - url: '#'
       version: '1.0'
       displayVersion: '1.0'
     latestVersion: *latest_version_abc
@@ -25,13 +25,13 @@ site:
       version: '6.0'
       displayVersion: '6.0'
     - &component_version
-      url: '#' 
+      url: '#'
       version: '5.2'
       displayVersion: '5.2'
-    - url: '#' 
+    - url: '#'
       version: '5.1'
       displayVersion: '5.1'
-    - url: '#' 
+    - url: '#'
       version: '5.0'
       displayVersion: '5.0'
     latestVersion: *latest_version_xyz
@@ -40,13 +40,13 @@ site:
     url: '#'
     versions:
     - &latest_version_123
-      url: '#' 
+      url: '#'
       version: '2.2'
       displayVersion: '2.2'
-    - url: '#' 
+    - url: '#'
       version: '2.1'
       displayVersion: '2.1'
-    - url: '#' 
+    - url: '#'
       version: '2.0'
       displayVersion: '2.0'
     latestVersion: *latest_version_123
@@ -62,6 +62,12 @@ page:
   editUrl: http://example.com/project-xyz/blob/master/index.adoc
   origin:
     private: false
+  next:
+    url: ""
+    content: "Next page"
+  previous:
+    url: ""
+    content: "Previous page"
   breadcrumbs:
   - content: Quickstart
     url: '#'

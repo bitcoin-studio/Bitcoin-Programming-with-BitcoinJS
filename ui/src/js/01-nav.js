@@ -31,6 +31,7 @@
   })
 
   nav.querySelector('.context').addEventListener('click', function () {
+    console.log('click')
     var currentPanel = nav.querySelector('.is-active[data-panel]')
     var activatePanel = currentPanel.dataset.panel === 'menu' ? 'explore' : 'menu'
     currentPanel.classList.toggle('is-active')
@@ -51,6 +52,7 @@
       }
       ancestor = ancestor.parentNode
     }
+    console.log('navItem', navItem)
     navItem.classList.add('is-active')
   }
 

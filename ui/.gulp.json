@@ -1,4 +1,4 @@
 {
-  "description": "Build tasks for the Antora default UI project",
+  "description": "Build tasks for the BitcoinJS Guide UI project",
   "flags.tasksDepth": 1
 }

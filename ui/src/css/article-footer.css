@@ -1,0 +1,20 @@
+/* https://github.com/ForeachOS/ax-docs-across-site-ui/blob/master/src/css/extensions/article-footer.css */
+.article-footer-nav {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+  font-size: 0.8rem;
+  text-align: center;
+}
+
+.article-footer-nav > a {
+  margin: 10px;
+  border: solid 1px #ddd;
+  padding: 10px;
+  border-radius: 15px;
+}
+
+.article-footer-nav > a:hover {
+  text-decoration: none;
+  background-color: whitesmoke;
+}

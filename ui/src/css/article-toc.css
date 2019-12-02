@@ -1,0 +1,99 @@
+.main {
+  position: relative;
+}
+
+.doc h1::before,
+.doc h2::before,
+.doc h3::before,
+.doc h4::before,
+.doc h5::before,
+.doc h6::before {
+  display: block;
+  content: " ";
+  height: 130px;
+  margin-top: -130px;
+  visibility: hidden;
+  overflow: hidden;
+}
+
+.article-aside {
+  display: none;
+  max-height: calc(100% - 14rem);
+  overflow-y: auto;
+}
+
+@media screen and (min-width: 1025px) {
+  .article-aside {
+    display: block;
+    position: fixed;
+    top: 150px;
+    right: 0;
+    font-size: 13px;
+    border-left: dotted 1px #e1e1e1;
+    padding-left: 1rem;
+    width: 16rem;
+  }
+
+  .article-aside.hidden {
+    display: none;
+  }
+
+  .doc {
+    float: left;
+    width: calc(100% - 22rem);
+  }
+}
+
+.article-aside h3.toc-title {
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
+  display: block;
+  padding: 0;
+  margin: 0 0 5px;
+}
+
+.article-aside ol {
+  padding: 0;
+  margin: 0;
+}
+
+.article-aside ol ol li {
+  padding-left: 10px;
+}
+
+.toc-list,
+.toc-list-item {
+  list-style: none;
+}
+
+.toc-link {
+  display: block;
+  color: #999;
+  text-decoration: none;
+  padding: 5px 0 5px 5px;
+  line-height: 1.2;
+  font-size: 0.95em;
+  position: relative;
+  width: 100%;
+  font-weight: 400;
+  text-overflow: ellipsis;
+  overflow: auto;
+  white-space: normal;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.toc-link.is-active-link {
+  font-weight: 600;
+  color: #666;
+}
+
+#article-toc:not(.is-position-fixed) > .toc-list > .toc-list-item > .toc-link.is-active-link:first-child {
+  font-weight: normal;
+  color: #999;
+}
+
+.is-collapsed {
+  display: none;
+}

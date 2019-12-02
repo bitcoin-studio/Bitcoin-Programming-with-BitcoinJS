@@ -1,5 +1,6 @@
 <script src="{{uiRootPath}}/js/site.js"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+
 {{#if env.ALGOLIA_API_KEY}}
   <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script>
@@ -35,3 +36,20 @@
     */
   </script>
 {{/if}}
+
+
+<script src="{{uiRootPath}}/js/vendor/tocbot.min.js"></script>
+<script>
+  tocbot.init( {
+    tocSelector: '#article-toc',
+    contentSelector: 'article',
+    headingSelector: 'h2, h3, h4, h5, h6',
+    collapseDepth: 6,
+    positionFixedSelector: '#article-toc',
+    scrollSmooth: false
+  } );
+  var tocList = document.getElementById( 'article-toc' ).getElementsByClassName( 'toc-list' );
+  if ( tocList && tocList.length > 0 && tocList[0].childNodes.length > 0 ) {
+    document.getElementById( 'article-toc' ).parentNode.classList.remove( 'hidden' );
+  }
+</script>

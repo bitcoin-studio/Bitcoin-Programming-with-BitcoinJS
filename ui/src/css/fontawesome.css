@@ -1,12 +1,16 @@
+.fas,
 .fab {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   display: inline-block;
-  font-family: 'FontAwesome', serif;
   font-style: normal;
   font-variant: normal;
   text-rendering: auto;
   line-height: 1;
+}
+
+.fa-align-left::before {
+  content: "\f036";
 }
 
 .fa-beer::before {
@@ -33,18 +37,42 @@
   content: "\f619";
 }
 
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+  transform: rotate(180deg);
+}
+
 .fa-twitter::before {
   color: #1da1f2;
   content: "\f099";
 }
 
 @font-face {
-  font-family: 'FontAwesome';
+  font-family: 'Font Awesome 5 Brands';
   font-style: normal;
   font-weight: normal;
   font-display: auto;
   src: url("../font/fa-brands-400.eot");
   src: url("../font/fa-brands-400.eot?#iefix") format("embedded-opentype"), url("../font/fa-brands-400.woff2") format("woff2"), url("../font/fa-brands-400.woff") format("woff"), url("../font/fa-brands-400.ttf") format("truetype"), url("../font/fa-brands-400.svg#fontawesome") format("svg");
+}
+
+.fab {
+  font-family: 'Font Awesome 5 Brands', serif;
+}
+
+@font-face {
+  font-family: 'Font Awesome 5 Free';
+  font-style: normal;
+  font-weight: 900;
+  font-display: auto;
+  src: url("../font/fa-solid-900.eot");
+  src: url("../font/fa-solid-900.eot?#iefix") format("embedded-opentype"), url("../font/fa-solid-900.woff2") format("woff2"), url("../font/fa-solid-900.woff") format("woff"), url("../font/fa-solid-900.ttf") format("truetype"), url("../font/fa-solid-900.svg#fontawesome") format("svg");
+}
+
+.fas {
+  font-family: 'Font Awesome 5 Free', serif;
+  font-weight: 900;
 }
 
 /* Font Awesome 5 Admonition Support */
