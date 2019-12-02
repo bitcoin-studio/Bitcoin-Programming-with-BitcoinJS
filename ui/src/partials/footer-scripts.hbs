@@ -1,5 +1,17 @@
+<script type="text/javascript">
+  window.antora = window.antora || {}
+  window.antora.basePath = '{{or siteRootPath (or site.url siteRootUrl)}}'
+  window.antora.pagePath = '{{@root.page.url}}'
+</script>
+
+<script src="{{uiRootPath}}/js/vendor/lunr.js"></script>
+
 <script src="{{uiRootPath}}/js/site.js"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+
+<script async src="{{uiRootPath}}/../search-index.js"></script>
+
+{{!-- <script>hljs.initHighlighting()</script> --}}
 
 {{#if env.ALGOLIA_API_KEY}}
   <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
@@ -36,7 +48,6 @@
     */
   </script>
 {{/if}}
-
 
 <script src="{{uiRootPath}}/js/vendor/tocbot.min.js"></script>
 <script>
