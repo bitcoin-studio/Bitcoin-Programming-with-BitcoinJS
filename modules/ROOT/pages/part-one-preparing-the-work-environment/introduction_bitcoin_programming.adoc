@@ -14,13 +14,14 @@ are promoting other coins pretending to be a Bitcoin upgrade. Download only trus
 
 You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default configuration with the one in https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/bitcoin.conf[_*code/bitcoin.conf*_]. Make sure it suits your needs before running the software.
 
-Install the javascript libraries.
+.Install the javascript libraries.
+[source,bash]
+----
+cd code
+npm install
+----
 
-CAUTION: Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json
-references a github commit.
-
- cd code
- npm install
+CAUTION: Be careful, the NPM version of BitcoinJS is not necessarily up to date the github master branch. This is why the package.json references a github commit.
 
 
 === Complementary libraries and scripts

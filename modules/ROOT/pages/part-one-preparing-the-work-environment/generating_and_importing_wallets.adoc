@@ -15,8 +15,11 @@ CAUTION: Windows users will have issues if the library is not able to execute ba
 After launching Bitcoin Core in regtest mode, run the following commands. +
 It will generate for you six test wallets, create a `wallets.json` file and import all private keys into Bitcoin Core.
 
- cd code
- npm install
- npx bitcointestwallets
+[source,bash]
+----
+cd code
+npm install
+npx bitcointestwallets
+----
 
 By default the test wallets used in this guide are the same as the default ones in the https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator] library. Check the library's repository if you want to use different wallets.

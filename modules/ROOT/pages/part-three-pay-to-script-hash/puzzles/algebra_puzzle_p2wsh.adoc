@@ -1,40 +1,25 @@
 = Algebra Puzzle - Native Segwit P2WSH
 
-____
+include::../../includes/basic-help.adoc[]
 
-To follow along this tutorial
+To learn more about P2WSH:
 
-* Execute all the transaction code in one go by typing `node code/filename.js`
-* Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL
-* Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
-* Use `bx` aka `Libbitcoin-explorer` as a handy complement
-
-Read more about P2WSH in https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness]
-
-____
+* https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness]
 
 Let's create a simple maths puzzle with a native Segwit P2WSH transaction.
 
+
 == Creating and Funding the P2WSH
 
-Import libraries, test wallets and set the network
-
+.Import libraries, test wallets and set the network
 [source,javascript]
 ----
 const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
-
 ----
 
-Create the witness script and generate its address.
-
-____
-
-In a P2WSH context, a redeem script is called a witness script.
-
-____
-
+.Create the witness script and generate its address.
 [source,javascript]
 ----
 const witnessScript = bitcoin.script.compile([
@@ -46,51 +31,41 @@ const witnessScript = bitcoin.script.compile([
 console.log('Witness script:')
 console.log(witnessScript.toString('hex'))
 // '935587'
-
 ----
 
-You can decode the witness script in Bitcoin Core CLI.
+NOTE: In a P2WSH context, a redeem script is called a witness script.
 
+.We can decode the witness script in Bitcoin Core CLI.
 [source,bash]
 ----
 decodescript 935587
-
 ----
 
-Now we can generate the address of our simple smart contract. The `p2wsh` method will generate an object that contains the P2WSH address.
-
+.Now we can generate the address of our simple smart contract.
 [source,javascript]
 ----
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
 console.log('P2WSH Address:')
-console.log(p2wsh.address)
-
+console.log(p2wsh.address) // <1>
 ----
 
-Send 1 BTC to this P2WSH address, which is the reward for whoever provides a solution to the locking script.
+<1>  The `p2wsh` method will generate an object that contains the P2WSH address.
 
+.Send 1 BTC to this P2WSH address, which is the reward for whoever provides a solution to the locking script.
 [source,bash]
 ----
 sendtoaddress bcrt1qpt7c23c0wep9e8up4ywn070w3tqz3828ngy34aj8slsfxrh08ddq2d2pyu 1
-
 ----
 
-{% hint style="info" %}
-We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
-{% endhint %}
+NOTE: We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
 
-Get the output index so that we have the full outpoint (txid and output index).
-
-____
-
-Find the output index (or vout) under `details &gt; vout`.
-
-____
-
+.Get the output index so that we have the full outpoint (txid and output index).
 [source,bash]
 ----
 gettransaction TX_ID
 ----
+
+TIP: Find the output index (or vout) under menu:details[vout].
 
 The output of our funding transaction should have a locking script composed as follow `&lt;00 version byte&gt;` + `&lt;32-byte hash witness program&gt;`. The SHA256 of the witness script must match the 32-byte witness program.
 
@@ -99,6 +74,7 @@ The output of our funding transaction should have a locking script composed as f
 bitcoin.crypto.sha256(Buffer.from('935587', 'hex')).toString('hex')
 // '0afd85470f76425c9f81a91d37f9ee8ac0289d479a091af64787e0930eef3b5a'
 ----
+
 
 == Preparing the spending transaction
 
@@ -110,35 +86,34 @@ Alice_1 wants to send the funds to her P2WPKH address.
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+console.log('P2WPKH address')
+console.log(p2wpkhAlice1.address)
 ----
 
-Create a BitcoinJS transaction builder object.
-
+.Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
 const txb = new bitcoin.TransactionBuilder(network)
 ----
 
-Create the input by referencing the outpoint of our P2SH funding transaction.
-
+.Create the input by referencing the outpoint of our P2SH funding transaction.
 [source,javascript]
 ----
 txb.addInput('TX_ID', TX_VOUT)
 ----
 
-Create the output, leaving 100 000 satoshis as mining fees.
-
+.Create the output, leaving 100 000 satoshis as mining fees.
 [source,javascript]
 ----
 txb.addOutput(p2wpkhAlice1.address, 999e5)
 ----
 
-Prepare the transaction.
-
+.Prepare the transaction.
 [source,javascript]
 ----
 const tx = txb.buildIncomplete()
 ----
+
 
 === Adding the witness data
 
@@ -146,36 +121,26 @@ Now we can update the transaction with the witness data, providing a solution to
 
 We provide `02` and `03` as an answer, plus the witness script.
 
-____
-
-Note that we are pushing the integer values, not the corresponding opcode values.
-
-____
-
 [source,javascript]
 ----
 const witness = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]
 tx.setWitness(0, witness)
 ----
 
+NOTE: Note that we are pushing the integer values, not the corresponding opcode values.
+
 We don't need to sign this transaction since the witness script doesn't ask for a signature.
-
-Get the raw hex serialization.
-
-____
 
 No `build` step here as we have already called `buildIncomplete`
 
+.Get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
 console.log(tx.toHex())
 ----
 
-____
-
-Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
+.Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 [source,bash]
 ----
 decoderawtransaction TX_HEX
@@ -183,15 +148,13 @@ decoderawtransaction TX_HEX
 
 == Broadcasting the transaction
 
-It's time to broadcast the transaction via Bitcoin Core CLI.
-
+.It's time to broadcast the transaction via Bitcoin Core CLI.
 [source,bash]
 ----
 sendrawtransaction TX_HEX
 ----
 
-Inspect the transaction.
-
+.Inspect the transaction.
 [source,bash]
 ----
 getrawtransaction TX_ID true
@@ -204,7 +167,3 @@ In the vin section, we note that the `scriptSig` field is empty, and that our so
 The SHA256 hash of the witness script, last item in `txinwitness`, is compared against the 32-byte hash located in the P2WSH UTXO we are spending.
 
 The script is then executed with the remaining data from the witness `txinwitness` field.
-
-== What's Next?
-
-Continue "PART THREE: PAY TO SCRIPT HASH" with link:algebra_puzzle_np2wsh.md[Algebra Puzzle - Nested Segwit P2SH-P2WSH].

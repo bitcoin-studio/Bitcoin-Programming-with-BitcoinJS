@@ -30,7 +30,7 @@ const network = bitcoin.networks.regtest
 .Get the output index so that we have the outpoint (txid / vout).
  gettransaction TX_ID
 
-NOTE: Find the output index (or vout) under `details &gt; vout`.
+NOTE: Find the output index (or vout) under menu:details[vout].
 
 
 == Creating the transaction
@@ -97,16 +97,24 @@ console.log(tx.toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
- decoderawtransaction TX_HEX
-
+[source,bash]
+----
+decoderawtransaction TX_HEX
+----
 
 == Broadcasting the transaction
 
 .It's time to broadcast the transaction.
- sendrawtransaction TX_HEX
+[source,bash]
+----
+sendrawtransaction TX_HEX
+----
 
 .Inspect the transaction.
- getrawtransaction TX_ID true
+[source,bash]
+----
+getrawtransaction TX_ID true
+----
 
 
 == Observations
@@ -115,4 +123,7 @@ We note that the OP_RETURN UTXO is marked with the special type `nulldata`.
 
 To decode the OP_RETURN data we can use the `xxd` library in a terminal which make a hexdump or the reverse.
 
- echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
+[source,bash]
+----
+echo 50726f6772616d6d61626c65206d6f6e65792046545721 | xxd -p -r
+----

@@ -1,32 +1,21 @@
 = Algebra Puzzle - Legacy P2SH
 
-____
-
-To follow along this tutorial
-
-* Execute all the transaction code in one go by typing `node code/filename.js`
-* Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL
-* Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
-* Use `bx` aka `Libbitcoin-explorer` as a handy complement
-
-____
+include::../../includes/basic-help.adoc[]
 
 Let's create a simple maths puzzle with a legacy P2SH transaction.
 
+
 == Creating and Funding the P2SH
 
-Import libraries, test wallets and set the network
-
+.Import libraries, test wallets and set the network
 [source,javascript]
 ----
 const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
-
 ----
 
-Create the script and generate its address.
-
+.Create the script and generate its address.
 [source,javascript]
 ----
 const redeemScript = bitcoin.script.compile([
@@ -36,15 +25,12 @@ const redeemScript = bitcoin.script.compile([
 
 console.log('Redeem script:')
 console.log(redeemScript.toString('hex'))
-
 ----
 
-You can decode the script in Bitcoin Core CLI.
-
+.You can decode the script in Bitcoin Core CLI.
 [source,bash]
 ----
 decodescript 935587
-
 ----
 
 The `p2sh` method will generate an object that contains the P2SH address.
@@ -54,35 +40,24 @@ The `p2sh` method will generate an object that contains the P2SH address.
 const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, network})
 console.log('P2SH address:')
 console.log(p2sh.address)
-
 ----
 
-Let's fund this address with 1 BTC. This is the reward for whoever as the solution to the locking script.
-
+.Let's fund this address with 1 BTC. This is the reward for whoever as the solution to the locking script.
 [source,bash]
 ----
 sendtoaddress 2N7WfHK1ftrTdhWej8rnFNR7guhvhfGWwFR 1
-
 ----
 
-____
+NOTE: We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
 
-We can note that anyone can create this script and generate the corresponding address, it will always result in the same address.
-
-____
-
-Get the output index so that we have the outpoint (txid / vout).
-
-____
-
-Find the output index (or vout) under `details &gt; vout`.
-
+.Get the output index so that we have the outpoint (txid / vout).
 [source,bash]
 ----
 gettransaction TX_ID
 ----
 
-____
+TIP: Find the output index (or vout) under menu:details[vout].
+
 
 == Preparing the spending transaction
 
@@ -90,39 +65,39 @@ Now let's prepare the spending transaction by setting input and output.
 
 Alice_1 wants to send the funds to her P2WPKH address.
 
+.Prepare keypair and address.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+console.log('P2WPKH address')
+console.log(p2wpkhAlice1.address)
 ----
 
-Create a BitcoinJS transaction builder object.
-
+.Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
 const txb = new bitcoin.TransactionBuilder(network)
 ----
 
-Create the input by referencing the outpoint of our P2SH funding transaction.
-
+.Create the input by referencing the outpoint of our P2SH funding transaction.
 [source,javascript]
 ----
 txb.addInput('TX_ID', TX_VOUT)
 ----
 
-Create the output, leaving 100 000 satoshis as mining fees.
-
+.Create the output, leaving 100 000 satoshis as mining fees.
 [source,javascript]
 ----
 txb.addOutput(p2wpkhAlice1.address, 999e5)
 ----
 
-Prepare the transaction.
-
+.Prepare the transaction.
 [source,javascript]
 ----
 const tx = txb.buildIncomplete()
 ----
+
 
 == Creating the unlocking script
 
@@ -138,54 +113,44 @@ tx.setInputScript(0, InputScriptP2SH)
 
 We don't need to sign this transaction since the redeem script doesn't ask for a signature.
 
-Get the raw hex serialization.
-
-____
-
 No `build` step here as we have already called `buildIncomplete`
 
+.Get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
 console.log(tx.toHex())
 ----
 
-____
-
-Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
+.Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 [source,bash]
 ----
 decoderawtransaction TX_HEX
 ----
 
+
 == Broadcasting the transaction
 
-It's time to broadcast the transaction via Bitcoin Core CLI.
-
+.It's time to broadcast the transaction via Bitcoin Core CLI.
 [source,bash]
 ----
 sendrawtransaction TX_HEX
 ----
 
-Inspect the transaction.
-
+.Inspect the transaction.
 [source,bash]
 ----
 getrawtransaction TX_ID true
 ----
 
+
 == Observations
 
 We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`. You will notice that it is the concatenation of the corresponding hex value of the specified opcodes, `OP_2`, `OP_3` and the redeem script `OP_ADD OP_5 OP_EQUAL`.
-
-Be aware that the hex script is the serialized version, which includes a before the redeem script. In order to decode the script we need to remove this pushbyte.
 
 [source,bash]
 ----
 decodescript 5253935587
 ----
 
-== What's Next?
-
-Continue "Part Three: Pay To Script Hash" with link:algebra_puzzle_p2wsh.md[Algebra Puzzle - Native Segwit P2WSH].
+CAUTION: Be aware that the hex script is the serialized version, which includes a before the redeem script. In order to decode the script we need to remove this pushbyte.

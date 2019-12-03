@@ -98,7 +98,7 @@
   --admonition-label-font-weight: var(--body-font-weight-bold);
   --caption-font-color: var(--color-gray-70);
   --caption-font-weight: var(--body-font-weight-bold);
-  --code-background: var(--panel-background);
+  --code-background: var(--color-smoke-70);
   --code-font-color: var(--body-font-color);
   --example-background: var(--color-white);
   --example-border-color: var(--color-gray-70);

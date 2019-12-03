@@ -46,15 +46,24 @@ console.log(p2ms.output.toString('hex'))
 ----
 
 .Check the locking script.
- decodescript SCRIPT
+[source,bash]
+----
+decodescript SCRIPT
+----
 
-`&quot;2 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d 027efbabf425077cdbceb73f6681c7ebe2ade74a65ea57ebcf0c42364d3822c590 023a11cfcedb993ff2e7523f92e359c4454072a66d42e8b74b4b27a8a1258abddd 02e9d617f38f8c3ab9a6bde36ce991bafb295d7adba457699f8620c8160ec9e87a 4 OP_CHECKMULTISIG&quot;`
+....
+02 03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d 027efbabf425077cdbceb73f6681c7ebe2ade74a65ea57ebcf0c42364d3822c590
+023a11cfcedb993ff2e7523f92e359c4454072a66d42e8b74b4b27a8a1258abddd 02e9d617f38f8c3ab9a6bde36ce991bafb295d7adba457699f8620c8160ec9e87a 04
+OP_CHECKMULTISIG
+....
 
 .Feed the `p2sh` method with the `p2wsh` object.
 [source,javascript]
 ----
 const p2wsh = bitcoin.payments.p2wsh({redeem: p2ms, network})
 const p2sh = bitcoin.payments.p2sh({redeem: p2wsh, network})
+console.log('P2SH address:')
+console.log(p2sh.address)
 ----
 
 .Send 1 BTC to this P2SH address.
@@ -69,7 +78,7 @@ sendtoaddress 2N4LnN5rp8JAmqE3LBVQhYEQg83piAF15sX 1
 gettransaction TX_ID
 ----
 
-NOTE: Find the output index (or vout) under `details &gt; vout`.
+TIP: Find the output index (or vout) under menu:details[vout].
 
 
 == Preparing the spending transaction
@@ -113,16 +122,25 @@ console.log(tx.toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
- decoderawtransaction TX_HEX
+[source,bash]
+----
+decoderawtransaction TX_HEX
+----
 
 
 == Broadcasting the transaction
 
 .It's time to broadcast the transaction via Bitcoin Core CLI.
- sendrawtransaction TX_HEX
+[source,bash]
+----
+sendrawtransaction TX_HEX
+----
 
 .Inspect the transaction.
- getrawtransaction TX_ID true
+[source,bash]
+----
+getrawtransaction TX_ID true
+----
 
 
 == Observations
@@ -130,8 +148,11 @@ console.log(tx.toHex())
 We can see that the scriptSig is a special unlocking script that contains the version byte `00` followed by a 32-bytes witness program. This script (asm) has to match the HASH160 contained in the P2SH UTXO script we are spending.
 
 .Verify the unlocking script HASH160.
- $ bx bitcoin160 '00205b07dcc35fc2b29db80be059e495c88f5b7609c1e3d888c14240678f00217b3d'
- 79b67d4c7bff512939e90e170ee9b969eb1203a8
+[source,bash]
+----
+$ bx bitcoin160 '00205b07dcc35fc2b29db80be059e495c88f5b7609c1e3d888c14240678f00217b3d'
+79b67d4c7bff512939e90e170ee9b969eb1203a8
+----
 
 or
 

@@ -22,7 +22,7 @@ const glob = {
     'gulp.d/**/*.js',
     `${srcDir}/{helpers,js}/**/*.js`,
     `!${srcDir}/{helpers,js}/**/*.min.js`,
-    `!${srcDir}/js/vendor/lunr.js`,
+    `!${srcDir}/js/vendor/lunr.bundle.js`,
   ],
 }
 

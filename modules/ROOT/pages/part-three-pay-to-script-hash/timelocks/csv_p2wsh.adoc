@@ -1,28 +1,18 @@
 = Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH
 
-____
+include::../../includes/basic-help.adoc[]
 
-To follow along this tutorial
+Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The
+script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2wsh.adoc[Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH] but with a relative timelock of 5 blocks.
 
-* Execute all the transaction code in one go by typing `node code/filename.js`
-* Or enter the commands step-by-step by `cd` into `./code` then type `node` in a terminal to open the Node.js REPL
-* Open the Bitcoin Core GUI console or use `bitcoin-cli` for the Bitcoin Core commands
-* Use `bx` aka `Libbitcoin-explorer` as a handy complement
+To read more about OP_CHECKSEQUENCEVERIFY:
 
-____
+* https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki[BIP112 - CHECKSEQUENCEVERIFY^]
+* https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki[BIP68 - Relative lock-time using consensus-enforced sequence numbers^]
 
-Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The script is almost the same as https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/tree/64d6ce54da567802508ffdc79e00a21060d8450d/part-three-pay-to-script-hash/timelocks/09_2_p2wsh_cltv.md[_*9.2: Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH*_] but with a relative timelock of 5 blocks.
+Learn more about P2WSH:
 
-____
-
-To read more about OP_CHECKSEQUENCEVERIFY
-
-* https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki[BIP112 - CHECKSEQUENCEVERIFY]
-* https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki[BIP68 - Relative lock-time using consensus-enforced sequence numbers]
-
-Read more about P2WSH in https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness]
-
-____
+* https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness^]
 
 Either alice_1 can spend the P2WSH UTXO but only when 5 blocks have been mined after the funding transaction is first confirmed, or bob_1 and alice_1 can redeem the funds at any time.
 
@@ -44,37 +34,31 @@ function csvCheckSigOutput(aQ, bQ, timelock) {
     bitcoin.opcodes.OP_CHECKSIG,
   ])
 }
-
 ----
+
 
 == Creating and Funding the P2WSH
 
-Import libraries, test wallets and set the network and hashType.
-
+.Import libraries, test wallets and set the network and sighash type.
 [source,javascript]
 ----
 const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 const hashType = bitcoin.Transaction.SIGHASH_ALL
-
 ----
 
-We also need an additional library to help us with BIP68 relative timelock encoding.
-
+.We also need an additional library to help us with BIP68 relative timelock encoding.
 [source,javascript]
 ----
 const bip68 = require('bip68')
-
 ----
 
-Alice_1 and bob_1 are the signers.
-
+.Alice_1 and bob_1 are the signers.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-
 ----
 
 In both scenarios alice_1 P2WPKH address will get back the funds.
@@ -82,28 +66,18 @@ In both scenarios alice_1 P2WPKH address will get back the funds.
 [source,javascript]
 ----
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-
+console.log('P2WPKH address')
+console.log(p2wpkhAlice1.address)
 ----
 
-Set the relative timelock to 5 blocks (to be mined on top of the funding transaction confirmation).
-
-____
-
-We encode the sequence value according to BIP68 specification.
-
+.Set the relative timelock to 5 blocks (to be mined on top of the funding transaction confirmation).
 [source,javascript]
 ----
-const timelock = bip68.encode({blocks: 5})
+const timelock = bip68.encode({blocks: 5}) // <1>
 ----
+<1> We encode the sequence value according to BIP68 specification.
 
-____
-
-Generate the witnessScript with CSV 5 blocks from now.
-
-____
-
-In a P2WSH conshell, a redeem script is called a witness script.
-
+.Generate the witness script with CSV 5 blocks from now.
 [source,javascript]
 ----
 const witnessScript = csvCheckSigOutput(keyPairAlice1, keyPairBob1, timelock)
@@ -111,12 +85,11 @@ console.log('Witness script:')
 console.log(witnessScript.toString('hex'))
 ----
 
-____
+NOTE: In a P2WSH context, a redeem script is called a witness script.
 
-You can decode the script in Bitcoin Core CLI with `decodescript`.
+We can decode the script in Bitcoin Core CLI with `decodescript`.
 
-Generate the P2WSH address.
-
+.Generate the P2WSH address.
 [source,javascript]
 ----
 const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, network})
@@ -124,27 +97,22 @@ console.log('P2WSH address:')
 console.log(p2wsh.address)
 ----
 
-Send 1 BTC to this P2WSH address.
-
-____
-
-Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
-
+.Send 1 BTC to this P2WSH address.
 [source,bash]
 ----
 sendtoaddress bcrt1qjnc0eeslkedv2le9q4t4gak98ygtfx69dlfchlurkyw9rauhuy0qgmazhq 1
 ----
 
-____
+NOTE: Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
 
-Get the output index so that we have the outpoint (txid / vout).
-
+.Get the output index so that we have the outpoint (txid / vout).
 [source,bash]
 ----
 getrawtransaction TX_ID true
 ----
 
-The output script of our funding transaction is a versioned witness program. It is composed as follow: + . +
+The output script of our funding transaction is a versioned witness program.
+It is composed as follow: `&lt;00 version byte&gt;` + `&lt;32-byte hash witness program&gt;`. +
 The SHA256 hash of the witness script (in the witness of the spending tx) must match the 32-byte witness program (in prevTxOut).
 
 [source,javascript]
@@ -159,61 +127,54 @@ or
 bx sha256 WITNESS_SCRIPT
 ----
 
+
 == Preparing the spending transaction
 
 Now let's prepare the spending transaction by setting input and output, as well as the nSequence value for the first scenario.
 
-Create a BitcoinJS transaction builder object.
-
+.Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
 const txb = new bitcoin.TransactionBuilder(network)
 ----
 
-Create the input by referencing the outpoint of our P2WSH funding transaction. We add the sequence number only if we want to run the first scenario.
-
+.Create the input by referencing the outpoint of our P2WSH funding transaction.
 [source,javascript]
 ----
 // txb.addInput(prevTx, vout, sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, [sequence])
+txb.addInput('TX_ID', TX_VOUT, timelock) // <1>
 ----
+<1> We set the sequence field as the timelock value only if we want to run the first scenario.
 
-Alice_1 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
-
+.Alice_1 will redeem the fund to her P2WPKH address, leaving 100 000 satoshis for the mining fees.
 [source,javascript]
 ----
 txb.addOutput(p2wpkhAlice1.address, 999e5)
 ----
 
-Prepare the transaction.
-
+.Prepare the transaction.
 [source,javascript]
 ----
 const tx = txb.buildIncomplete()
 ----
 
+
 == Adding the witness stack
 
 Now we can update the transaction with the witness stack (`txinwitness` field), providing a solution to the locking script.
 
-We generate the hash that will be used to produce the signatures.
-
-____
-
-Note that we use a special method `hashForWitnessV0` for Segwit transactions.
-
+.We generate the hash that will be used to produce the signatures.
 [source,javascript]
 ----
 // hashForWitnessV0(inIndex, prevOutScript, value, hashType)
 const signatureHash = tx.hashForWitnessV0(0, witnessScript, 1e8, hashType)
 ----
 
-____
+NOTE: Note that we use a special method `hashForWitnessV0` for Segwit transactions.
 
 There are two ways to redeem the funds, either alice_1 after the timelock expiry or alice_1 and bob_1 at any time. We control which branch of the script we want to run by ending our unlocking script with a boolean value.
 
-First branch: {Alice's signature} OP_TRUE
-
+.First branch: {Alice's signature} OP_TRUE
 [source,javascript]
 ----
 const witnessStackFirstBranch = bitcoin.payments.p2wsh({
@@ -230,8 +191,7 @@ console.log('First branch witness stack:')
 console.log(witnessStackFirstBranch.map(x => x.toString('hex')))
 ----
 
-Second branch: {Alice's signature} {Bob's signature} OP_FALSE
-
+.Second branch: {Alice's signature} {Bob's signature} OP_FALSE
 [source,javascript]
 ----
 const witnessStackSecondBranch = bitcoin.payments.p2wsh({
@@ -249,33 +209,28 @@ console.log('Second branch witness stack:')
 console.log(witnessStackSecondBranch.map(x => x.toString('hex')))
 ----
 
-We provide the witness stack that BitcoinJS prepared for us.
-
+.We provide the witness stack.
 [source,javascript]
 ----
-tx.setWitness(0, witnessStackFirstBranch || witnessStackSecondBranch)
+tx.setWitness(0, witnessStackFirstBranch)
+//tx.setWitness(0, witnessStackSecondBranch)
 ----
-
-Get the raw hex serialization.
-
-____
 
 No `build` step here as we have already called `buildIncomplete`
 
+.Get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
 console.log(tx.toHex())
 ----
 
-____
-
-Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
-
+.Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
 [source,bash]
 ----
 decoderawtransaction TX_HEX
 ----
+
 
 == Broadcasting the transaction
 
@@ -286,31 +241,30 @@ If we run the first scenario we need 5 blocks to be mined so that the timelock w
 generatetoaddress 5 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
 ----
 
-It's time to broadcast the transaction via Bitcoin Core CLI.
-
+.It's time to broadcast the transaction via Bitcoin Core CLI.
 [source,bash]
 ----
 sendrawtransaction TX_HEX
 ----
 
-Inspect the transaction.
-
+.Inspect the transaction.
 [source,bash]
 ----
 getrawtransaction TX_ID true
 ----
 
+
 == Observations
 
 For both scenarios we note that our scriptSig is empty.
 
-For the first scenario, we note that our witness stack contains
+For the first scenario, we note that our witness stack contains:
 
 * Alice_1 signature
 * 01, which is equivalent to OP_TRUE
 * the witness script, that we can decode with `decodescript`
 
-For the second scenario, we note that our witness stack contains
+For the second scenario, we note that our witness stack contains:
 
 * Alice_1 signature
 * Bob_1 signature

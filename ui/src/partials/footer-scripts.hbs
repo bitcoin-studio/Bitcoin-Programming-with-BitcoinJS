@@ -5,13 +5,13 @@
 </script>
 
 <script src="{{uiRootPath}}/js/vendor/lunr.js"></script>
-
-<script src="{{uiRootPath}}/js/site.js"></script>
 <script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+<script async src="{{uiRootPath}}/js/vendor/clipboard.js"></script>
+<script src="{{uiRootPath}}/js/site.js"></script>
 
+{{!-- Lunr Index --}}
 <script async src="{{uiRootPath}}/../search-index.js"></script>
 
-{{!-- <script>hljs.initHighlighting()</script> --}}
 
 {{#if env.ALGOLIA_API_KEY}}
   <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>

@@ -23,6 +23,64 @@ Lorem `expetenda` pertinacia et nec, [.underline]#wisi# illud [.line-through]#so
 Eum an doctus <<liber-recusabo,maiestatis efficiantur>>.
 Eu mea inani iriure.
 
+.Prepare keypairs
+ npm install keypairs
+
+.Prepare keypairs
+[listing]
+npm install keypairs
+
+.Prepare keypairs
+[source,bash]
+npm install keypairs
+
+.Prepare keypairs
+[source,shell]
+----
+npm install keypairs
+----
+
+.title
+[source,javascript]
+----
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+
+const txb = new bitcoin.TransactionBuilder(network)
+
+txb.addInput('TX_ID', TX_VOUT)
+
+txb.addOutput(p2wpkhAlice1.address, 999e5)
+
+const tx = txb.buildIncomplete()
+
+const scriptSig = bitcoin.script.compile([p2wsh.output])
+tx.setInputScript(0, scriptSig)
+
+const witness = [Buffer.from('02','hex'), Buffer.from('03','hex'), p2wsh.redeem.output]
+tx.setWitness(0, witness)
+
+console.log('Transaction hexadecimal:')
+console.log(tx.toHex())
+
+const swapContractGenerator = function(claimPublicKey, refundPublicKey, preimageHash, cltv) {
+  return bitcoin.script.compile([
+    bitcoin.opcodes.OP_HASH160,
+    bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')),
+    bitcoin.opcodes.OP_EQUAL,
+    bitcoin.opcodes.OP_IF,
+    claimPublicKey,
+    bitcoin.opcodes.OP_ELSE,
+    bitcoin.script.number.encode(cltv),
+    bitcoin.opcodes.OP_CHECKLOCKTIMEVERIFY,
+    bitcoin.opcodes.OP_DROP,
+    refundPublicKey,
+    bitcoin.opcodes.OP_ENDIF,
+    bitcoin.opcodes.OP_CHECKSIG,
+  ])
+}
+----
+
 [source,json]
 ----
 {
