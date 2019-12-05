@@ -8,7 +8,7 @@ An output using an OP_RETURN is provably unspendable, so we don't need to lock a
 
 For more information about OP_RETURN check out:
 
-* https://bitcoin.org/en/developer-guide#null-data[Bitcoin Developer Guide - Nulldata Output Type]
+* https://bitcoin.org/en/transactions-guide#null-data[Bitcoin Developer Guide - Nulldata Output Type]
 * https://arxiv.org/pdf/1702.01024.pdf[An analysis of Bitcoin OP RETURN metadata]
 
 
