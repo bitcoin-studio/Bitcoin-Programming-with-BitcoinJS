@@ -205,4 +205,4 @@ window.antoraLunr = (function (lunr) {
   return {
     init: init,
   }
-})(window.lunr)
+})(require('lunr/lunr'))

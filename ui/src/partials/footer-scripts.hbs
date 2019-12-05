@@ -3,16 +3,35 @@
   window.antora.basePath = '{{or siteRootPath (or site.url siteRootUrl)}}'
   window.antora.pagePath = '{{@root.page.url}}'
 </script>
+<script type="text/javascript" src="{{uiRootPath}}/js/site.js"></script>
 
-<script src="{{uiRootPath}}/js/vendor/lunr.js"></script>
-<script async src="{{uiRootPath}}/js/vendor/highlight.js"></script>
-<script async src="{{uiRootPath}}/js/vendor/clipboard.js"></script>
-<script src="{{uiRootPath}}/js/site.js"></script>
+{{!-- Tooltip --}}
+<script src="https://unpkg.com/popper.js@1"></script>
+<script src="https://unpkg.com/tippy.js@5"></script>
+{{!-- End Tooltip --}}
 
-{{!-- Lunr Index --}}
-<script async src="{{uiRootPath}}/../search-index.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/js/vendor/search-lunr.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/../search-index.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/js/vendor/highlight.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/js/vendor/clipboard.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/js/vendor/tippy.js"></script>
+<script type="text/javascript" src="{{uiRootPath}}/js/vendor/tocbot.js"></script>
+<script>
+  tocbot.init( {
+    tocSelector: '#article-toc',
+    contentSelector: 'article',
+    headingSelector: 'h2, h3, h4, h5, h6',
+    collapseDepth: 6,
+    positionFixedSelector: '#article-toc',
+    scrollSmooth: false
+  } );
+  var tocList = document.getElementById( 'article-toc' ).getElementsByClassName( 'toc-list' );
+  if ( tocList && tocList.length > 0 && tocList[0].childNodes.length > 0 ) {
+    document.getElementById( 'article-toc' ).parentNode.classList.remove( 'hidden' );
+  }
+</script>
 
-
+{{!--
 {{#if env.ALGOLIA_API_KEY}}
   <script src="https://cdn.jsdelivr.net/npm/docsearch.js@2/dist/cdn/docsearch.min.js"></script>
   <script>
@@ -48,19 +67,4 @@
     */
   </script>
 {{/if}}
-
-<script src="{{uiRootPath}}/js/vendor/tocbot.min.js"></script>
-<script>
-  tocbot.init( {
-    tocSelector: '#article-toc',
-    contentSelector: 'article',
-    headingSelector: 'h2, h3, h4, h5, h6',
-    collapseDepth: 6,
-    positionFixedSelector: '#article-toc',
-    scrollSmooth: false
-  } );
-  var tocList = document.getElementById( 'article-toc' ).getElementsByClassName( 'toc-list' );
-  if ( tocList && tocList.length > 0 && tocList[0].childNodes.length > 0 ) {
-    document.getElementById( 'article-toc' ).parentNode.classList.remove( 'hidden' );
-  }
-</script>
+--}}

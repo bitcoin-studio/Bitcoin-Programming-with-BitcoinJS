@@ -6,6 +6,9 @@ const network = bitcoin.networks.regtest
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 
+console.log('Witness script:')
+console.log(p2wpkhAlice1.output.toString('hex'))
+
 // Recipient
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})

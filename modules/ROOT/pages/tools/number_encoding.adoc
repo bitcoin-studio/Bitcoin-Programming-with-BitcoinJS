@@ -5,13 +5,23 @@ BitcoinJS takes care of that, but in case you need it there is a bash script for
 
 Instructions:
 
- $ cd code/tools
- $ int2lehex.sh 42
- Integer: 42
- LE Hex: 2a
- Length: 1 bytes
- Hexcode: 012a
+[source,bash]
+----
+$ cd code/tools
+$ int2lehex.sh 42
 
+Integer: 42
+LE Hex: 2a
+Length: 1 bytes
+Hexcode: 012a
+----
+
+[CAUTION]
+====
 If you have a `permission denied` error, run:
 
- chmod 755 int2lehex.sh
+[source,bash]
+----
+chmod 755 int2lehex.sh
+----
+====

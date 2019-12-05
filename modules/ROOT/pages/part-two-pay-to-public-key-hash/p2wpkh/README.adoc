@@ -1,32 +1,24 @@
 = Native Segwit P2WPKH
 
-____
-
 Read more about P2WPKH in https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wpkh[BIP141]
-
-____
 
 P2WPKH is the native Segwit version of a Pay to Public Key hash.
 
 The scripts and script data are spread out as follows
 
-[source,bash]
 ----
 witness:      SIGNATURE PUBKEY
 scriptSig:    empty
-scriptPubKey: 0 20-BYTE-KEY-HASH
+Previous output scriptPubKey: 0 20-BYTE-KEY-HASH
 ----
 
 Each Bitcoin full node will parse the `scriptPubKey` and check the witness program size. If it is 20 bytes long, it is interpreted as a P2WPKH program.
 
-Then each validating node
+Then each validating node checks that:
 
-* checks that Witness is `&lt;sig&gt; &lt;pubKey&gt;`
-* HASH160 of the public key match the 20-byte witness program
-* verify the signature against the public key with CHECKSIG operation
+* the witness stack is `&lt;sig&gt;` + `&lt;pubKey&gt;`
+* the HASH160 of the public key match the 20-byte witness program
+* verify the signature against the public key with the CHECKSIG operation
 
-Comparing with a traditional P2PKH output, the P2WPKH equivalent occupies 3 less bytes in the scriptPubKey, and moves the signature and public key from scriptSig to witness.
-
-== What's Next?
-
-Continue "Part Two: Pay To Public Key Hash" with link:p2wpkh_spend_1_1.md[Spend a Native Segwit P2WPKH UTXO].
+Comparing with a traditional P2PKH output, the P2WPKH equivalent occupies 3 less bytes in the scriptPubKey, and moves the signature and
+public key from the scriptSig to the witness data stack.

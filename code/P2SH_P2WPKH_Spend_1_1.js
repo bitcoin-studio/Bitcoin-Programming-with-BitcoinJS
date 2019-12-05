@@ -4,8 +4,12 @@ const network = bitcoin.networks.regtest
 
 // Signer
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+
+// Redeem script
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 const p2shAlice1 = bitcoin.payments.p2sh({redeem: p2wpkhAlice1, network})
+console.log('Redeem script')
+console.log(p2shAlice1.redeem.output.toString('hex'))
 
 // Recipient
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)

@@ -20,10 +20,8 @@
         continue
       }
       var button = document.createElement('button')
-      button.className = 'copy-button tip'
-      button.setAttribute('data-tip', 'Copied!')
+      button.className = 'copy-button'
       button.setAttribute('aria-label', 'Copy to clipboard')
-      button.setAttribute('title', 'Copy to clipboard')
       button.innerHTML = '<svg width="20" height="20" fill="black" ' +
         'viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">' +
         '<path class="q" d="M13.3334 0.833328H3.33341C2.41675 0.833328 ' +
