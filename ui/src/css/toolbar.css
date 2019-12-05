@@ -53,17 +53,17 @@
   background-image: url(../img/home.svg);
 }
 
-.edit-this-page {
+.quicklink {
   display: none;
-  padding-right: 0.5rem;
+  padding: 0 0.5rem;
 }
 
 @media screen and (min-width: 1024px) {
-  .edit-this-page {
+  .quicklink {
     display: block;
   }
 }
 
-.toolbar .edit-this-page a {
+.toolbar .quicklink a {
   color: var(--toolbar-muted-color);
 }

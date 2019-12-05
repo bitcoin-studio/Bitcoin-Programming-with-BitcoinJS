@@ -14,4 +14,20 @@
       }, 1000)
     }
   })
+
+  tippy('.quicklink.quicklink__bug', {
+    content: 'Report issue',
+    placement: 'top-start',
+    theme: 'custom',
+    animation: 'fade',
+    duration: [300, 300],
+  })
+
+  tippy('.quicklink.quicklink__edit', {
+    content: 'Edit page',
+    placement: 'top-start',
+    theme: 'custom',
+    animation: 'fade',
+    duration: [300, 300],
+  })
 })()

@@ -1,8 +1,11 @@
 * Part One: Preparing The Work Environment
+// tag::nav1[]
 ** xref:part-one-preparing-the-work-environment/introduction_bitcoin_programming.adoc[Introduction to Bitcoin Programming]
 ** xref:part-one-preparing-the-work-environment/generating_and_importing_wallets.adoc[Generating and Importing Wallets]
 ** xref:part-one-preparing-the-work-environment/generating_blocks.adoc[Generating Blocks]
+// end::nav1[]
 * Part Two: Paying A Key
+// tag::nav2[]
 ** xref:part-two-pay-to-public-key-hash/p2pkh/README.adoc[Legacy P2PKH]
 *** xref:part-two-pay-to-public-key-hash/p2pkh/p2pkh_simple_tx_1_1.adoc[Simple Transaction (1 input, 1 output) - Legacy P2PKH]
 *** xref:part-two-pay-to-public-key-hash/p2pkh/p2pkh_typical_tx_1_2.adoc[Typical Transaction (1 input, 2 outputs) - Legacy P2PKH]
@@ -14,7 +17,9 @@
 *** xref:part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_typical_tx_1_2.adoc[Typical Transaction (1 input, 2 outputs) - Native Segwit P2WPKH]
 ** xref:part-two-pay-to-public-key-hash/p2sh_p2wpkh/README.adoc[Nested Segwit P2SH-P2WPKH]
 *** xref:part-two-pay-to-public-key-hash/p2sh_p2wpkh/p2sh_p2wpkh_spend_1_1.adoc[Spend a Nested Segwit P2SH-P2WPKH UTXO]
+// end::nav2[]
 * Part Three: Paying A Script
+// tag::nav3[]
 ** xref:part-three-pay-to-script-hash/puzzles/README.adoc[Puzzles]
 *** xref:part-three-pay-to-script-hash/puzzles/algebra_puzzle_p2sh.adoc[Algebra Puzzle - Legacy P2SH]
 *** xref:part-three-pay-to-script-hash/puzzles/algebra_puzzle_p2wsh.adoc[Algebra Puzzle - Native Segwit P2WSH]
@@ -31,9 +36,14 @@
 *** xref:part-three-pay-to-script-hash/timelocks/csv_p2wsh.adoc[Script with CHECKSEQUENCEVERIFY - Native Segwit P2WSH]
 ** xref:part-three-pay-to-script-hash/submarine_swaps/README.adoc[Submarine Swaps]
 *** xref:part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.adoc[Submarine Swap - On-chain to Off-chain]
+// end::nav3[]
 * Part Four: Data Embedding
+// tag::nav4[]
 ** xref:part-four-data-embedding/data_embedding_op_return.adoc[Data Embedding with OP_RETURN]
+// end::nav4[]
 * Tools
+// tag::nav5[]
 ** xref:tools/base58check_address_encoding.adoc[Base58Check Address Encoding]
 ** xref:tools/data_length_base_conversion.adoc[Data Length and Base Conversion]
 ** xref:tools/number_encoding.adoc[Number Encoding]
+// end::nav5[]

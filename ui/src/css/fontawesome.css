@@ -17,12 +17,20 @@
   content: "\f0fc";
 }
 
+.fa-bug::before {
+  content: "\f188";
+}
+
 .fa-btc::before {
   content: "\f15a";
 }
 
 .fa-donate::before {
   content: "\f4b9";
+}
+
+.fa-edit::before {
+  content: "\f044";
 }
 
 .fa-github::before {
