@@ -55,6 +55,7 @@
     "vinyl-fs": "~3.0"
   },
   "dependencies": {
+    "asciidoctor-extension-interactive-runner": "^1.2.3",
     "clipboard": "^2.0.4",
     "lunr": "2.3.3"
   }
