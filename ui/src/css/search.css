@@ -14,7 +14,7 @@
 }
 
 #search-input {
-  color: #999;
+  color: var(--color-jet-50);
   font-family: 'open sans', sans-serif;
   padding: 0.5rem;
   font-size: 0.95em;
