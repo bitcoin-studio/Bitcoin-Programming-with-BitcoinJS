@@ -203,6 +203,7 @@ body {
 
   .navbar-item.has-dropdown {
     align-items: stretch;
+    margin-right: 40px;
   }
 
   .navbar-item.is-hoverable:hover .navbar-dropdown {
@@ -252,10 +253,6 @@ body {
 
   .navbar-dropdown .navbar-item:last-child {
     border-radius: inherit;
-  }
-
-  .navbar-dropdown a.navbar-item {
-    padding-right: 3rem;
   }
 
   .navbar-dropdown.is-right {

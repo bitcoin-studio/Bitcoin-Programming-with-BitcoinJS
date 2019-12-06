@@ -16,7 +16,7 @@ site:
       displayVersion: '1.0'
     latestVersion: *latest_version_abc
   - &component
-    name: xyz
+    name: bitcoinjs-guide
     title: Project XYZ
     url: /xyz/6.0/index.html
     versions:
@@ -26,8 +26,8 @@ site:
       displayVersion: '6.0'
     - &component_version
       url: '#'
-      version: '5.2'
-      displayVersion: '5.2'
+      version: 'v4'
+      displayVersion: 'v4'
     - url: '#'
       version: '5.1'
       displayVersion: '5.1'
@@ -52,11 +52,11 @@ site:
     latestVersion: *latest_version_123
 page:
   title: Brand&#8217;s Hardware &amp; Software Requirements
-  url: /xyz/5.2/index.html
+  url: /bitcoinjs-guide/v4/index.html
   component: *component
   componentVersion: *component_version
-  version: '5.2'
-  displayVersion: '5.2'
+  version: 'v4'
+  displayVersion: 'v4'
   module: ROOT
   home: false
   editUrl: http://example.com/project-xyz/blob/master/index.adoc
@@ -73,14 +73,14 @@ page:
     url: '#'
     urlType: fragment
   - content: Brand&#8217;s Hardware &amp; Software Requirements
-    url: /xyz/5.2/index.html
+    url: /bitcoinjs-guide/v4/index.html
     urlType: internal
   versions:
   - version: '6.0'
     displayVersion: '6.0'
     url: '#'
-  - version: '5.2'
-    displayVersion: '5.2'
+  - version: 'v4'
+    displayVersion: 'v4'
     url: '#'
   - version: '5.1'
     displayVersion: '5.1'
@@ -100,7 +100,7 @@ page:
       urlType: fragment
       items:
       - content: Brand&#8217;s Hardware &amp; Software Requirements
-        url: /xyz/5.2/index.html
+        url: /bitcoinjs-guide/v4/index.html
         urlType: internal
       - content: IDE Integration
         url: '#'

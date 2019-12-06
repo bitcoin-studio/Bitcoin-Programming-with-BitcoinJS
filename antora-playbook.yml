@@ -1,7 +1,9 @@
 site:
   title: Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
   start_page: bitcoinjs-guide:ROOT:index.adoc
-  url: file:///Users/steph/Desktop/Bitcoin/Projects/Bitcoin-Programming-with-BitcoinJS/project/build/site
+  url: https://bitcoinjs-guide.bitcoin-studio.com/
+  #url: file:///Users/steph/Desktop/Bitcoin/Projects/Bitcoin-Programming-with-BitcoinJS/www/build/site
+  #url: http://127.0.0.1:8887/
 content:
   sources:
     - url: .

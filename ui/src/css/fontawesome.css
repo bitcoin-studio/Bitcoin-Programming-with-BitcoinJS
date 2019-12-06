@@ -55,6 +55,10 @@
   transform: rotate(180deg);
 }
 
+.fa-terminal::before {
+  content: "\f120";
+}
+
 .fa-twitter::before {
   color: #1da1f2;
   content: "\f099";
