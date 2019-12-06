@@ -37,9 +37,9 @@
 ** xref:part-three-pay-to-script-hash/submarine_swaps/README.adoc[Submarine Swaps]
 *** xref:part-three-pay-to-script-hash/submarine_swaps/swap_on2off_p2wsh.adoc[Submarine Swap - On-chain to Off-chain]
 // end::nav3[]
-* Part Four: Data Embedding
+* Part Four: Data Anchoring
 // tag::nav4[]
-** xref:part-four-data-embedding/data_embedding_op_return.adoc[Data Embedding with OP_RETURN]
+** xref:part-four-data-anchoring/data_anchoring_op_return.adoc[Data Anchoring with OP_RETURN]
 // end::nav4[]
 * Tools
 // tag::nav5[]

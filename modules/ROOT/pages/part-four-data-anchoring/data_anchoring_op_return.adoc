@@ -1,5 +1,5 @@
-= Data Embedding with OP_RETURN
-:page-codeurl: {codebaseurl}data_embedding_OP_RETURN.js
+= Data Anchoring with OP_RETURN
+:page-codeurl: {codebaseurl}data_anchoring_OP_RETURN.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
@@ -9,8 +9,8 @@ An output using an OP_RETURN is provably unspendable, so we don't need to lock a
 
 For more information about OP_RETURN check out:
 
-* https://bitcoin.org/en/transactions-guide#null-data[Bitcoin Developer Guide - Nulldata Output Type]
-* https://arxiv.org/pdf/1702.01024.pdf[An analysis of Bitcoin OP RETURN metadata]
+* https://bitcoin.org/en/transactions-guide#null-data[Bitcoin Developer Guide - Nulldata Output Type^]
+* https://arxiv.org/pdf/1702.01024.pdf[An analysis of Bitcoin OP RETURN metadata^]
 
 
 == Create a UTXO to spend from

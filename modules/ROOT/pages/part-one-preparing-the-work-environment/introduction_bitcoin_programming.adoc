@@ -2,9 +2,11 @@
 
 == How to Start
 
-Throughout this guide we will use the famous https://github.com/bitcoinjs/bitcoinjs-lib[BitcoinJS] open source library, started in 2011 and mainly written and maintained by Daniel Cousens, as well as most of its dependencies. Additional purpose-specific libraries are sometimes required. You can find all you need on the https://github.com/bitcoinjs[BitcoinJS Organization Repositories].
+Throughout this guide we will use the famous https://github.com/bitcoinjs/bitcoinjs-lib[BitcoinJS^] open source library, started in 2011 and mainly written and maintained by Daniel Cousens, as well as most of its dependencies. Additional purpose-specific libraries are sometimes required. You can find all you need on the https://github.com/bitcoinjs[BitcoinJS Organization Repositories^].
 
-We will also use the Bitcoin Core command-line interface in Regtest mode for various common tasks (decoding raw transaction, sending raw transaction, getting address information, decoding Bitcoin script, funding addresses, …). You can download the software at https://bitcoin.org/en/download[bitcoin.org - Bitcoin Core Download Page] or at https://bitcoincore.org/en/download/[bitcoincore.org - Bitcoin Core Download Page].
+We will also use the Bitcoin Core command-line interface in Regtest mode for various common tasks (decoding raw transaction, sending raw
+transaction, getting address information, decoding Bitcoin script, funding addresses, …). You can download the software at
+https://bitcoin.org/en/download[bitcoin.org - Bitcoin Core Download Page^] or at https://bitcoincore.org/en/download/[bitcoincore.org - Bitcoin Core Download Page^].
 
 You are able to use the integrated console of Bitcoin Core GUI (_Help &gt; Debug window &gt; Console_). The GUI also gives you the ability to check your wallet and transaction details. Otherwise you can type the commands into `bitcoin-cli` which connects to the `bitcoind` daemon. Check the documentation of the two websites cited above if you need more help.
 
@@ -12,7 +14,8 @@ WARNING: Bitcoin Core software is not the only implementation of the Bitcoin pro
 Bitcoin Core is by far the most used and most robust implementation. Also, beware of Bitcoin scam forks. Many websites like bitcoin.com
 are promoting other coins pretending to be a Bitcoin upgrade. Download only trusted Bitcoin software after rigorous due diligence.
 
-You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default configuration with the one in https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/master/code/bitcoin.conf[_*code/bitcoin.conf*_]. Make sure it suits your needs before running the software.
+You need to make sure that your bitcoin configuration file is set to run Bitcoin Core in Regtest mode. You can replace your default
+configuration with the one in {codebaseurl}bitcoin.conf[code/bitcoin.conf^]. Make sure it suits your needs before running the software.
 
 .Install the javascript libraries.
 [source,bash]
@@ -26,15 +29,17 @@ CAUTION: Be careful, the NPM version of BitcoinJS is not necessarily up to date 
 
 === Complementary libraries and scripts
 
-Complementary library `bx` aka https://github.com/libbitcoin/libbitcoin-explorer[Libbitcoin Explorer] is useful for some quick tasks like generating seed entropy or computing a hash. For address derivation tasks or others, make sure to configure the bx.cfg configuration file appropriately.
+Complementary library `bx` aka https://github.com/libbitcoin/libbitcoin-explorer[Libbitcoin Explorer^] is useful for some quick tasks like generating seed entropy or computing a hash. For address derivation tasks or others, make sure to configure the bx.cfg configuration file appropriately.
 
-It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. We use the https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator] library to help with wallet generation and private key importation. Check out link:generating_and_importing_wallets.md[Generating and Importing Wallets] for more information.
+It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. We use the
+https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator^] library to help with wallet generation
+and private key importation. Check out xref:generating_and_importing_wallets.adoc[Generating and Importing Wallets^] for more information.
 
 You will find additional handy scripts in the `./code/tools` directory. Read the Tools section for more information.
 
-* link:../tools/base58check_address_encoding.md[Base58Check Address Encoding]
-* link:../tools/data_length_base_conversion.md[Data Length and Base Conversion]
-* link:../tools/number_encoding.md[Number Encoding]
+* xref:tools/base58check_address_encoding.adoc[Base58Check Address Encoding^]
+* xref:tools/data_length_base_conversion.adoc[Data Length and Base Conversion^]
+* xref:tools/number_encoding.adoc[Number Encoding^]
 
 
 == Transaction Basics
