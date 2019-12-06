@@ -1,6 +1,6 @@
 = UTXO Consolidation (3 inputs, 1 output) - Legacy P2PKH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's do UTXO consolidation, also called an aggregating transaction.
 

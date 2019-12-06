@@ -1,6 +1,6 @@
 = Script with CHECKSEQUENCEVERIFY - Legacy P2SH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode.
 The script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2sh.adoc[Script with CHECKLOCKTIMEVERIFY - Legacy P2SH]

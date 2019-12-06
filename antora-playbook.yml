@@ -4,8 +4,11 @@ site:
   url: file:///Users/steph/Desktop/Bitcoin/Projects/Bitcoin-Programming-with-BitcoinJS/project/build/site
 content:
   sources:
-    - url: git@github.com:bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
-      branches: [v4-antora]
+    - url: .
+      branches: HEAD
+    #- url: git@github.com:bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
+    #- url: https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
+      #branches: v4-antora
 ui:
   bundle:
     snapshot: true
@@ -16,3 +19,5 @@ ui:
 asciidoc:
   attributes:
     experimental: true
+runtime:
+  fetch: true

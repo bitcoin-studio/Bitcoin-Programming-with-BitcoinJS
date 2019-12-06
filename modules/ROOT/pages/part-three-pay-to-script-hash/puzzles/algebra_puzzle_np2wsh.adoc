@@ -1,6 +1,6 @@
 = Algebra Puzzle - Nested Segwit P2SH-P2WSH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Learn more:
 

@@ -1,6 +1,6 @@
 = Algebra Puzzle - Native Segwit P2WSH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 To learn more about P2WSH:
 

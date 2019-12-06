@@ -1,6 +1,6 @@
 = Algebra Puzzle - Legacy P2SH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a simple maths puzzle with a legacy P2SH transaction.
 

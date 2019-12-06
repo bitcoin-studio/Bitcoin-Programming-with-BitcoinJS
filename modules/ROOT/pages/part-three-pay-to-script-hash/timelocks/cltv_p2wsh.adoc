@@ -1,6 +1,6 @@
 = Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKLOCKTIMEVERIFY` absolute timelock opcode.
 

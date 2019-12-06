@@ -1,6 +1,6 @@
 = Typical Transaction (1 input, 2 outputs) - Legacy P2PKH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a legacy P2PKH transaction with 1 input and 2 outputs. This is a more realistic example that illustrates the notion of *change*. The second output is actually our change.
 

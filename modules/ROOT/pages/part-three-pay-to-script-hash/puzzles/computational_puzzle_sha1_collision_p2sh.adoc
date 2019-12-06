@@ -1,6 +1,6 @@
 = Computational Puzzle: SHA-1 Collision
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 
 On September 13, 2013, Peter Todd, a renowned Bitcoin Core developer, announced a bounty on BitcoinTalk forum. As he explain himself, "rewards at P2SH addresses are available for anyone able to demonstrate collision attacks against a variety of cryptographic algorithms. You collect your bounty by demonstrating two messages that are not equal in value, yet result in the same digest when hashed. These messages are used in a scriptSig, which satisfies the scriptPubKey storing the bountied funds, allowing you to move them to a scriptPubKey (Bitcoin address) of your choice".

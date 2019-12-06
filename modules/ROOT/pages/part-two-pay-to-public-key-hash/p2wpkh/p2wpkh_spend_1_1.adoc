@@ -1,6 +1,6 @@
 = Spend a Native Segwit P2WPKH UTXO
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's spend a native Segregated Witness P2WPKH output and create a new legacy P2PKH output.
 

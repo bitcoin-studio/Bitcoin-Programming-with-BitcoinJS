@@ -1,6 +1,6 @@
 = Typical Transaction (1 input, 2 outputs) - Native Segwit P2WPKH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a typical P2WPKH transaction, spending 1 P2WPKH UTXO and creating 2 new P2WPKH UTXOs, one for the actual payment and one for the change.
 

@@ -1,6 +1,6 @@
 = Coinjoin Transaction (4 inputs, 4 outputs) - Legacy P2PKH
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 == What is a Coinjoin
 

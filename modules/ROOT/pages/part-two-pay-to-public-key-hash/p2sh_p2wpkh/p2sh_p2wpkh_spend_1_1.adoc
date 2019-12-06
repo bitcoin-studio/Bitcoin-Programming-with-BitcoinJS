@@ -1,6 +1,6 @@
 = Spend a Nested Segwit P2SH-P2WPKH UTXO
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Learn more about P2SH here
 

@@ -1,6 +1,6 @@
 = Data Embedding with OP_RETURN
 
-include::../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's store for eternity some data on the Bitcoin blockchain using the special OP_RETURN opcode. It will create a special `nulldata` output type.
 

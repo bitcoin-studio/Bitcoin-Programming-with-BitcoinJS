@@ -1,6 +1,6 @@
 = Multi-signature Native Segwit 2 of 4
 
-include::../../includes/basic-help.adoc[]
+include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a 2 of 4 multi-signature with a native Segwit P2WSH transaction.
 
