@@ -4,7 +4,7 @@
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a native Segwit P2WSH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode. The
-script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2wsh.adoc[Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH] but with a relative timelock of 5 blocks.
+script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2wsh.adoc[Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH, window=_blank] but with a relative timelock of 5 blocks.
 
 To read more about OP_CHECKSEQUENCEVERIFY:
 

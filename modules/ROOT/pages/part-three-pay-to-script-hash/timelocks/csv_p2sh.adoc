@@ -4,13 +4,13 @@
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode.
-The script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2sh.adoc[Script with CHECKLOCKTIMEVERIFY - Legacy P2SH]
+The script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2sh.adoc[Script with CHECKLOCKTIMEVERIFY - Legacy P2SH, window=_blank]
 but with a relative timelock of 5 blocks.
 
 Learn more about OP_CHECKSEQUENCEVERIFY:
 
-* https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki[BIP112 - CHECKSEQUENCEVERIFY]
-* https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki[BIP68 - Relative lock-time using consensus-enforced sequence numbers]
+* https://github.com/bitcoin/bips/blob/master/bip-0112.mediawiki[BIP112 - CHECKSEQUENCEVERIFY^]
+* https://github.com/bitcoin/bips/blob/master/bip-0068.mediawiki[BIP68 - Relative lock-time using consensus-enforced sequence numbers^]
 
 Either alice_1 can spend the P2SH UTXO but only when 5 blocks have been mined after the funding transaction is first confirmed, or bob_1 and alice_1 can redeem the funds at any time.
 

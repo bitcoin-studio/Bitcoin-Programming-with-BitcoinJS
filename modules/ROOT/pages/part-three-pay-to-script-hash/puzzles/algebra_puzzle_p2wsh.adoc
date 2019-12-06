@@ -5,7 +5,7 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 To learn more about P2WSH:
 
-* https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness]
+* https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wsh[BIP141 - Segregated Witness^]
 
 Let's create a simple maths puzzle with a native Segwit P2WSH transaction.
 

@@ -6,12 +6,13 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 On September 13, 2013, Peter Todd, a renowned Bitcoin Core developer, announced a bounty on BitcoinTalk forum. As he explain himself, "rewards at P2SH addresses are available for anyone able to demonstrate collision attacks against a variety of cryptographic algorithms. You collect your bounty by demonstrating two messages that are not equal in value, yet result in the same digest when hashed. These messages are used in a scriptSig, which satisfies the scriptPubKey storing the bountied funds, allowing you to move them to a scriptPubKey (Bitcoin address) of your choice".
 
-On the February 23, 2017, someone successfully claimed the SHA-1 hash collision bounty of 2.48 BTC, with this transaction https://blockstream.info/tx/8d31992805518fd62daa3bdd2a5c4fd2cd3054c9b3dca1d78055e9528cff6adc[8d31992805518fd62daa3bdd2a5c4fd2cd3054c9b3dca1d78055e9528cff6adc]
+On the February 23, 2017, someone successfully claimed the SHA-1 hash collision bounty of 2.48 BTC, with this transaction
+https://blockstream.info/tx/8d31992805518fd62daa3bdd2a5c4fd2cd3054c9b3dca1d78055e9528cff6adc[8d31992805518fd62daa3bdd2a5c4fd2cd3054c9b3dca1d78055e9528cff6adc^]
 
 To read more about Bitcoin computational puzzles and Peter Todd bounties
 
-* https://bitcointalk.org/index.php?topic=293382.0["REWARD offered for hash collisions for SHA1, SHA256, RIPEMD160 and other"]
-* https://github.com/ChristopherA/Learning-Bitcoin-from-the-Command-Line/blob/master/11_1_Writing_Puzzle_Scripts.md[Christopher Allen Guide - Writing Puzzle Scripts]
+* https://bitcointalk.org/index.php?topic=293382.0[REWARD offered for hash collisions for SHA1, SHA256, RIPEMD160 and other^]
+* https://github.com/ChristopherA/Learning-Bitcoin-from-the-Command-Line/blob/master/11_1_Writing_Puzzle_Scripts.md[Christopher Allen Guide - Writing Puzzle Scripts^]
 
 Let's recreate the Peter Todd bounty for SHA-1 hash collision.
 

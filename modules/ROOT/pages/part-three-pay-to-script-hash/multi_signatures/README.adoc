@@ -2,9 +2,9 @@
 
 To learn more
 
-* https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki[BIP11 - M-of-N Standard Transactions]
-* https://en.bitcoinwiki.org/wiki/Multisignature[bitcoinwiki.org - Multisignature]
-* P2P trading exchange based on Bitcoin multi-signature https://hodlhodl.com/[hodlhodl.com]
+* https://github.com/bitcoin/bips/blob/master/bip-0011.mediawiki[BIP11 - M-of-N Standard Transactions^]
+* https://en.bitcoinwiki.org/wiki/Multisignature[bitcoinwiki.org - Multisignature^]
+* P2P trading exchange based on Bitcoin multi-signature https://hodlhodl.com/[hodlhodl.com^]
 
 Multi-signature (multisig) refers to requiring more than one key to authorize a Bitcoin transaction. It is generally used to divide up responsibility for possession of bitcoins.
 

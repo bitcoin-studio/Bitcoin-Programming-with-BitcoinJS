@@ -33,13 +33,13 @@ Complementary library `bx` aka https://github.com/libbitcoin/libbitcoin-explorer
 
 It will be much easier to follow along this guide if you always use the same addresses, in NodeJS and in Bitcoin Core. We use the
 https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator^] library to help with wallet generation
-and private key importation. Check out xref:generating_and_importing_wallets.adoc[Generating and Importing Wallets^] for more information.
+and private key importation. Check out xref:part-one-preparing-the-work-environment/generating_and_importing_wallets.adoc[Generating and Importing Wallets, window=_blank] for more information.
 
 You will find additional handy scripts in the `./code/tools` directory. Read the Tools section for more information.
 
-* xref:tools/base58check_address_encoding.adoc[Base58Check Address Encoding^]
-* xref:tools/data_length_base_conversion.adoc[Data Length and Base Conversion^]
-* xref:tools/number_encoding.adoc[Number Encoding^]
+* xref:tools/base58check_address_encoding.adoc[Base58Check Address Encoding, window=_blank]
+* xref:tools/data_length_base_conversion.adoc[Data Length and Base Conversion, window=_blank]
+* xref:tools/number_encoding.adoc[Number Encoding, window=_blank]
 
 
 == Transaction Basics

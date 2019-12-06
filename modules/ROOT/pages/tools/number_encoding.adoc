@@ -2,7 +2,7 @@
 :page-codeurl: {codebaseurl}tools/int2lehex.sh
 
 Numbers in Bitcoin script require to be encoded in little endian hexadecimal.
-BitcoinJS takes care of that, but in case you need it there is a bash script for that, link:../code/tools/int2lehex.sh[int2lehex.sh].
+BitcoinJS takes care of that, but in case you need it there is a bash script for that, {page-codeurl}[int2lehex.sh^].
 
 Instructions:
 
