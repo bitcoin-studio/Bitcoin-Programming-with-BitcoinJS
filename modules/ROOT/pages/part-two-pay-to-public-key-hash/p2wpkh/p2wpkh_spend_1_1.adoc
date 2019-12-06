@@ -1,4 +1,5 @@
 = Spend a Native Segwit P2WPKH UTXO
+:page-codeurl: {codebaseurl}p2wpkh_spend_1_1.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

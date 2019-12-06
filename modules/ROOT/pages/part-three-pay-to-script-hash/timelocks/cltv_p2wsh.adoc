@@ -1,4 +1,5 @@
 = Script with CHECKLOCKTIMEVERIFY - Native Segwit P2WSH
+:page-codeurl: {codebaseurl}cltv_p2wsh.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

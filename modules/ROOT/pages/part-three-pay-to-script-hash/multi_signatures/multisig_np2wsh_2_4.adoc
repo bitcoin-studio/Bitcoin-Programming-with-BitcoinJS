@@ -1,4 +1,5 @@
 = Multi-signature Nested Segwit 2 of 4
+:page-codeurl: {codebaseurl}multisig_np2wsh_2_4.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

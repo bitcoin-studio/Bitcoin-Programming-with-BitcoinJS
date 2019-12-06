@@ -1,4 +1,5 @@
 = UTXO Consolidation (3 inputs, 1 output) - Legacy P2PKH
+:page-codeurl: {codebaseurl}p2pkh_utxo_consolidation_3_1.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

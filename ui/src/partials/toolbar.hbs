@@ -6,6 +6,22 @@
   {{> breadcrumbs}}
   {{> page-versions}}
 
+  {{#if page.attributes.codeurl}}
+    <div class="quicklink quicklink__code">
+      <a href="{{page.attributes.codeurl}}" target="_blank">
+        <i class="fas fa-code"></i>
+      </a>
+    </div>
+  {{/if}}
+
+  {{#if page.attributes.codeurl2}}
+    <div class="quicklink quicklink__code">
+      <a href="{{page.attributes.codeurl2}}" target="_blank">
+        <i class="fas fa-code"></i>
+      </a>
+    </div>
+  {{/if}}
+
   <div class="quicklink quicklink__bug">
     <a href="https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/issues" target="_blank">
       <i class="fas fa-bug"></i>

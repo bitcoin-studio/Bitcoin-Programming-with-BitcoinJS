@@ -1,4 +1,5 @@
 = Batching Transaction (1 input, 5 outputs) - Legacy P2PKH
+:page-codeurl: {codebaseurl}p2pkh_batching_1_5.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

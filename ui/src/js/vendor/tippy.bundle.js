@@ -30,4 +30,12 @@
     animation: 'fade',
     duration: [300, 300],
   })
+
+  tippy('.quicklink.quicklink__code', {
+    content: 'Show me the code',
+    placement: 'top-start',
+    theme: 'custom',
+    animation: 'fade',
+    duration: [300, 300],
+  })
 })()

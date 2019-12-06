@@ -1,4 +1,5 @@
 = Spend a Nested Segwit P2SH-P2WPKH UTXO
+:page-codeurl: {codebaseurl}np2wpkh_spend_1_1.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
@@ -21,7 +22,8 @@ const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 ----
 
-.Send 1 BTC to alice_1 embedded Segwit P2SH-P2WPKH address in order to create a P2SH-P2WPKH UTXO (which is in fact a regular P2SH UTXO).
+.Send 1 BTC to alice_1 embedded Segwit P2SH-P2WPKH address in order to create a NP2WPKH (or P2SH-P2WPKH) UTXO (which is in fact a regular
+P2SH UTXO).
 [source,bash]
 ----
 sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1

@@ -1,10 +1,9 @@
-= Typical Transaction (1 input, 2 outputs) - Legacy P2PKH
+= Simple Transaction (1 input, 1 output) - Legacy P2PKH
+:page-codeurl: {codebaseurl}p2pkh_simple_1_1.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
-Let's create a legacy P2PKH transaction with 1 input and 2 outputs. This is a more realistic example that illustrates the notion of *change*. The second output is actually our change.
-
-NOTE: Spending a UTXO is like spending a bank note or a coin, you can't split it. You spend it and you get back the change.
+Let's create a legacy P2PKH transaction with 1 input and 1 output.
 
 
 == Create UTXO to spend from
@@ -33,49 +32,48 @@ We have now an UTXO locked with alice_1 public key hash. In order to spend it, w
 gettransaction TX_ID
 ----
 
-TIP: Find the output index (or vout) under menu:details[vout].
+TIP: Find the output index (or vout) under menu:details[vout]
 
 
-== Creating the typical transaction
+== Creating the simple transaction
 
 Now let's spend the UTXO with BitcoinJS.
 
-.Create a BitcoinJS key pair object for alice_1, the spender of our new UTXO, and the only one capable of spending it.
+.Create a bitcoinJS key pair object for alice_1, the spender of our new UTXO, and the only one capable of spending it.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 ----
 
-.Create an other address the Alice's change.
-[source,javascript]
-----
-const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
-const p2pkhAlice2 = bitcoin.payments.p2pkh({pubkey: keyPairAlice2.publicKey, network})
-----
-
-.Create a keypair object and a P2PKH address for the recipient, bob_1.
+.Create a key pair object and a P2PKH address for the recipient bob_1.
 [source,javascript]
 ----
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
 ----
 
-Create a BitcoinJS transaction builder object. Add the input by providing the outpoint. Add the output #1 with the bob_1 P2PKH recipient address and the amount of 0.5 BTC. Add the output #2 with alice's change address (here alice_2) and the amount of 0.499 BTC.
-
+.Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
 const txb = new bitcoin.TransactionBuilder(network)
-txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2pkhBob1.address, 5e7) // <1>
-txb.addOutput(p2pkhAlice2.address, 499e5) // <2>
 ----
-<1> the actual "spend"
-<2> Alice's change
+
+.Add the input by filling it with the outpoint (previous values txId and vout).
+[source,javascript]
+----
+txb.addInput('TX_ID', TX_VOUT)
+----
+
+.Add the output with the bob_1 P2PKH recipient address and the amount of 0.999 btc.
+[source,javascript]
+----
+txb.addOutput(p2pkhBob1.address, 999e5)
+----
 
 [NOTE]
 ====
 The miner fee is calculated by subtracting the outputs from the inputs. +
-100 000 000 - (50 000 000 + 49 900 000) = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
+100 000 000 - 99 900 000 = 100 000 100 000 satoshis equals 0,001 BTC, this is the miner fee.
 ====
 
 The UTXO is locked with alice_1's public key hash. If she wants to spend it, she needs to prove her ownership of the private key that is linked to the public key, which hash is written in the UTXO.

@@ -1,4 +1,5 @@
 = Coinjoin Transaction (4 inputs, 4 outputs) - Legacy P2PKH
+:page-codeurl: {codebaseurl}p2pkh_coinjoin_4_4.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

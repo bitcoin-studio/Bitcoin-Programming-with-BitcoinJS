@@ -1,4 +1,6 @@
 = Submarine Swap - On-chain to Off-chain
+:page-codeurl: {codebaseurl}swap_on2off_p2wsh_funding.js
+:page-codeurl2: {codebaseurl}swap_on2off_p2wsh_redeem.js
 
 [TIP]
 ====

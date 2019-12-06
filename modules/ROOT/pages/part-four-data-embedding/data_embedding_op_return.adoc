@@ -1,4 +1,5 @@
 = Data Embedding with OP_RETURN
+:page-codeurl: {codebaseurl}data_embedding_OP_RETURN.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

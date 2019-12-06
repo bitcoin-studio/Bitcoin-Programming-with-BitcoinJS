@@ -1,4 +1,5 @@
 = Typical Transaction (1 input, 2 outputs) - Native Segwit P2WPKH
+:page-codeurl: {codebaseurl}p2wpkh_typical_1_2.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

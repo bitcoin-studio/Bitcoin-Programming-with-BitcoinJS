@@ -1,4 +1,5 @@
 = Computational Puzzle: SHA-1 Collision
+:page-codeurl: {codebaseurl}computational_puzzle_SHA1_collision_p2sh.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

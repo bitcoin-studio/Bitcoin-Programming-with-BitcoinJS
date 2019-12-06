@@ -1,4 +1,5 @@
 = Algebra Puzzle - Legacy P2SH
+:page-codeurl: {codebaseurl}algebra_puzzle_p2sh.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 

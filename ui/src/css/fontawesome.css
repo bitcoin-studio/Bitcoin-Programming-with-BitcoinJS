@@ -25,6 +25,10 @@
   content: "\f15a";
 }
 
+.fa-code::before {
+  content: "\f121";
+}
+
 .fa-donate::before {
   content: "\f4b9";
 }

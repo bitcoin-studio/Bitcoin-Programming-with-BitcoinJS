@@ -19,5 +19,9 @@ ui:
 asciidoc:
   attributes:
     experimental: true
+    #author: Stéphane Roche <bitcoin-studio@protonmail.com>
+    description: 'Non-official Bitcoin Programming with BitcoinJS, Bitcoin Core and LND extensive guide'
+    keywords: 'bitcoin, bitcoin core, lnd, lightning network, programming'
+    codebaseurl: 'https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/v4-antora/code/'
 runtime:
   fetch: true
