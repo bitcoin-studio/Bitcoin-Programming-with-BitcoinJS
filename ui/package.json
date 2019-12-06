@@ -1,6 +1,6 @@
 {
   "name": "antora-ui",
-  "description": "Antora UI",
+  "description": "Antora UI For BitcoinJS Guide",
   "homepage": "https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS",
   "license": "MPL-2.0",
   "repository": {
@@ -55,6 +55,7 @@
     "vinyl-fs": "~3.0"
   },
   "dependencies": {
+    "asciidoctor-extension-interactive-runner": "^1.2.3",
     "clipboard": "^2.0.4",
     "lunr": "2.3.3"
   }
