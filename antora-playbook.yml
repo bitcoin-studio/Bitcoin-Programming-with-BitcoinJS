@@ -6,11 +6,10 @@ site:
   #url: http://127.0.0.1:8887/
 content:
   sources:
-    - url: .
-      branches: HEAD
-    #- url: git@github.com:bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
-    #- url: https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
-      #branches: v4-antora
+    #- url: .
+    #  branches: HEAD
+    - url: git@github.com:bitcoin-studio/Bitcoin-Programming-with-BitcoinJS.git
+      branches: master
 ui:
   bundle:
     snapshot: true
