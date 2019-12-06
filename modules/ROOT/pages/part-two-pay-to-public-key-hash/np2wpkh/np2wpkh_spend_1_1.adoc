@@ -5,9 +5,9 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Learn more about P2SH here
 
-* https://bitcoin.org/en/developer-guide#p2sh-scripts
-* https://en.bitcoin.it/wiki/Pay_to_script_hash
-* https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki
+* https://bitcoin.org/en/developer-guide#p2sh-scripts[^]
+* https://en.bitcoin.it/wiki/Pay_to_script_hash[^]
+* https://github.com/bitcoin/bips/blob/master/bip-0016.mediawiki[^]
 
 Let's spend a P2SH-P2WPKH output (embedded Segwit) and create a new P2WPKH output.
 

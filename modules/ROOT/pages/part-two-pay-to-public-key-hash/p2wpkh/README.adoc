@@ -1,6 +1,6 @@
 = Native Segwit P2WPKH
 
-Read more about P2WPKH in https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wpkh[BIP141]
+Read more about P2WPKH in https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki#p2wpkh[BIP141^]
 
 P2WPKH is the native Segwit version of a Pay to Public Key hash.
 
