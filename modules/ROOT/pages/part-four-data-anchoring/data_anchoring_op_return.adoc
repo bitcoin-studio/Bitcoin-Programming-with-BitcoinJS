@@ -1,5 +1,5 @@
 = Data Anchoring with OP_RETURN
-:page-codeurl: {codebaseurl}data_anchoring_OP_RETURN.js
+:page-codeurl: {codebaseurl}data_anchoring_op_return.js
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
