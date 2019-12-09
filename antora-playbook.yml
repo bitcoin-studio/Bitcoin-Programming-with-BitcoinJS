@@ -4,6 +4,7 @@ site:
   url: https://bitcoinjs-guide.bitcoin-studio.com
   #url: file:///Users/steph/Desktop/Bitcoin/Projects/Bitcoin-Programming-with-BitcoinJS/www/build/site
   #url: http://127.0.0.1:8887/
+  robots: allow
 content:
   sources:
     #- url: .
