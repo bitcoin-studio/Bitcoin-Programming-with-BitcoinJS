@@ -121,6 +121,15 @@ window.antoraLunr = (function (lunr) {
     searchResultItem.classList.add('search-result-item')
     searchResultItem.appendChild(documentTitle)
     searchResultItem.appendChild(documentHit)
+
+    /***
+     * mousedown event is triggered before blur event
+     * We leverage that to prevent blur attached to searchInput if mousedown on searchResultItem
+     * So the search click works
+     */
+    searchResultItem.addEventListener('mousedown', function (e) {
+      e.preventDefault()
+    })
     return searchResultItem
   }
 
@@ -194,6 +203,8 @@ window.antoraLunr = (function (lunr) {
     }, 100)
     // TODO listen to blur, focus and input events
     searchInput.addEventListener('keydown', search)
+
+    // this is prevented in case of mousedown attached to SearchResultItem
     searchInput.addEventListener('blur', function (e) {
       e.target.value = ''
       while (searchResult.firstChild) {
