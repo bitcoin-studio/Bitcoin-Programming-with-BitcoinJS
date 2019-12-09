@@ -8,8 +8,20 @@ Throughout this guide, we want to provide you with sufficient explanation to eac
 
 At the moment, Bitcoin Javascript tutorials are still very scarce, but we believe it doesn't have to be this way. The following guide intends to address this problem.
 
-This guide is maintained on https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS[GitHub^] and available at
-https://bitcoinjs-guide.bitcoin-studio.com
+This guide is maintained on https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS[GitHub^] and available as a
+https://bitcoinjs-guide.bitcoin-studio.com[web book^]. It is written in awesome AsciiDoc and generated using the kickass https://antora.org/[Antora^] site generator.
+
+{nbsp} +
+
+****
+Do you like this content? +
+Do you want me to maintain it and update it to the latest BitcoinJS version? +
+Then please consider making a donation on https://tippin.me/@janakaSteph[Tippin.me^] +
+If you are broke, just send me 1 satoshi to show me some ❤️, it's more important than you may think. +
+Have a wonderful journey to Bitcoin mastery!
+****
+
+{nbsp} +
 
 
 == Requirements
@@ -60,7 +72,3 @@ include::../nav.adoc[tag=nav4]
 === Tools
 
 include::../nav.adoc[tag=nav5]
-
-
-Please consider making a donation on my https://tippin.me/@janakaSteph[Tippin.me^] so that I can continue producing free educational
-content. ❤️
