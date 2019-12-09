@@ -30,8 +30,17 @@
     }
   })
 
-  nav.querySelector('.context').addEventListener('click', function () {
-    console.log('click')
+  document.addEventListener('click', function (e) {
+    var currentPanel = nav.querySelector('.is-active[data-panel]')
+    var activatePanel = currentPanel.dataset.panel === 'menu' ? 'explore' : 'menu'
+
+    if (activatePanel === 'menu') {
+      currentPanel.classList.toggle('is-active')
+      nav.querySelector('[data-panel=' + activatePanel + ']').classList.toggle('is-active')
+    }
+  })
+
+  nav.querySelector('.context').addEventListener('click', function (e) {
     var currentPanel = nav.querySelector('.is-active[data-panel]')
     var activatePanel = currentPanel.dataset.panel === 'menu' ? 'explore' : 'menu'
     currentPanel.classList.toggle('is-active')
