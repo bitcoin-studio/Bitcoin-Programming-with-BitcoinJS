@@ -1,0 +1,12 @@
+= Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
+
+Welcome to the non-official _Bitcoin Programming with BitcoinJS_ extensive guide! You will learn how to create various types of Bitcoin transactions using the https://github.com/bitcoinjs/bitcoinjs-lib[BitcoinJS^] library.
+
+We will use the Bitcoin Core command-line interface in Regtest mode for various common tasks, as well as some complementary libraries like `bx` aka https://github.com/libbitcoin/libbitcoin-explorer[Libbitcoin Explorer^].
+
+Throughout this guide, we want to provide you with sufficient explanation to each command to understand it without drowning in information. You can refer to additional resources to better understand the Bitcoin protocol. For example, check out our https://www.bitcoin-studio.com/resources[Bitcoin Studio presentations^].
+
+At the moment, Bitcoin Javascript tutorials are still very scarce, but we believe it doesn't have to be this way. The following guide intends to address this problem.
+
+This guide is maintained on https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS[GitHub^] and available as a
+https://bitcoinjs-guide.bitcoin-studio.com[web book^]. It is written in awesome AsciiDoc and generated using the kickass https://antora.org/[Antora^] site generator.
