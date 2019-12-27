@@ -6,7 +6,7 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 Let's create a 2 of 4 multi-signature with a native Segwit P2WSH transaction.
 
 
-== Creating and Funding the P2SH
+== Creating and Funding the P2WSH
 
 .Import libraries, test wallets and set the network
 [source,javascript]
@@ -93,7 +93,7 @@ Now let's prepare the spending transaction by setting input and output and havin
 const txb = new bitcoin.TransactionBuilder(network)
 ----
 
-.Create the input by referencing the outpoint of our P2SH funding transaction.
+.Create the input by referencing the outpoint of our P2WSH funding transaction.
 [source,javascript]
 ----
 txb.addInput('TX_ID', TX_VOUT)
