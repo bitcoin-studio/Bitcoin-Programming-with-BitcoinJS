@@ -1,6 +1,6 @@
 = Bitcoin Programming with BitcoinJS, Bitcoin Core and LND
 
-Welcome to the non-official _Bitcoin Programming with BitcoinJS_ extensive guide! You will learn how to create various types of Bitcoin transactions using the version 4 of https://github.com/bitcoinjs/bitcoinjs-lib[BitcoinJS^] library.
+Welcome to the non-official _Bitcoin Programming with BitcoinJS_ extensive guide! You will learn how to create various types of Bitcoin transactions using the version 5 of https://github.com/bitcoinjs/bitcoinjs-lib[BitcoinJS^] library.
 
 We will use the Bitcoin Core command-line interface in Regtest mode for various common tasks, as well as some complementary libraries like `bx` aka https://github.com/libbitcoin/libbitcoin-explorer[Libbitcoin Explorer^].
 
@@ -30,9 +30,9 @@ Having prior theoretical knowledge of the Bitcoin protocol will surely help, but
 
 Technical requirements
 
-* Node v10 recommended
-* BitcoinJS v4
-* Bitcoin Core v18
+* Node >= v10 recommended
+* BitcoinJS v5
+* Bitcoin Core >= v18
 * Bash or a Bash interpreter like Cygwin or Windows Subsystem for Linux (WSL)
 * JQ (json parser)
 * Libbitcoin Explorer v3 (optional)
