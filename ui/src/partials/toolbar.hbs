@@ -8,7 +8,7 @@
 
   {{#if page.attributes.codeurl}}
     <div class="quicklink quicklink__code">
-      <a href="{{page.attributes.codeurl}}" target="_blank">
+      <a href="{{replace page.attributes.codeurl '{page-origin-branch}' page.origin.branch}}" target="_blank">
         <i class="fas fa-code"></i>
       </a>
     </div>
@@ -16,7 +16,7 @@
 
   {{#if page.attributes.codeurl2}}
     <div class="quicklink quicklink__code">
-      <a href="{{page.attributes.codeurl2}}" target="_blank">
+      <a href="{{replace page.attributes.codeurl2 '{page-origin-branch}' page.origin.branch}}" target="_blank">
         <i class="fas fa-code"></i>
       </a>
     </div>
