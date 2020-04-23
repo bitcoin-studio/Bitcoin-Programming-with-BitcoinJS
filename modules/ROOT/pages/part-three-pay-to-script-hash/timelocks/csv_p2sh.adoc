@@ -4,8 +4,8 @@
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
 Let's create a legacy P2SH transaction with a script that contains the `OP_CHECKSEQUENCEVERIFY` relative timelock opcode.
-The script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2sh.adoc[Script with CHECKLOCKTIMEVERIFY - Legacy P2SH, window=_blank]
-but with a relative timelock of 5 blocks.
+The script is almost the same as xref:part-three-pay-to-script-hash/timelocks/cltv_p2sh.adoc[Script with CHECKLOCKTIMEVERIFY - Legacy
+P2SH, window=_blank] but with a relative timelock of 5 blocks.
 
 Learn more about OP_CHECKSEQUENCEVERIFY:
 
@@ -16,21 +16,23 @@ Either alice_1 can spend the P2SH UTXO but only when 5 blocks have been mined af
 
 [source,javascript]
 ----
-function csvCheckSigOutput(aQ, bQ, timelock) {
-  return bitcoin.script.compile([
-    bitcoin.opcodes.OP_IF,
-    bitcoin.script.number.encode(timelock),
-    bitcoin.opcodes.OP_CHECKSEQUENCEVERIFY,
-    bitcoin.opcodes.OP_DROP,
-
-    bitcoin.opcodes.OP_ELSE,
-    bQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIGVERIFY,
-    bitcoin.opcodes.OP_ENDIF,
-
-    aQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIG,
-  ])
+function csvCheckSigOutput(aQ, bQ, lockTime) {
+  return bitcoin.script.fromASM(
+    `
+      OP_IF
+          ${bitcoin.script.number.encode(lockTime).toString('hex')}
+          OP_CHECKSEQUENCEVERIFY
+          OP_DROP
+      OP_ELSE
+          ${bQ.publicKey.toString('hex')}
+          OP_CHECKSIGVERIFY
+      OP_ENDIF
+      ${aQ.publicKey.toString('hex')}
+      OP_CHECKSIG
+    `
+      .trim()
+      .replace(/\s+/g, ' '),
+  );
 }
 ----
 
@@ -43,7 +45,6 @@ function csvCheckSigOutput(aQ, bQ, timelock) {
 const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
-const hashType = bitcoin.Transaction.SIGHASH_ALL
 ----
 
 .We also need an additional library to help us with BIP68 relative timelock encoding.
@@ -59,21 +60,14 @@ const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 ----
 
-In both scenarios alice_1 P2WPKH address will get back the funds.
-
-[source,javascript]
-----
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-console.log('P2WPKH address')
-console.log(p2wpkhAlice1.address)
-----
-
 .Set the relative timelock to 5 blocks (to be mined on top of the funding transaction confirmation).
 [source,javascript]
 ----
-const timelock = bip68.encode({blocks: 5}) // <1>
+const lockTime = bip68.encode({blocks: 5}) // <1>
+console.log('Timelock in blocks:')
+console.log(lockTime)
 ----
-<1> We encode the sequence value according to BIP68 specification.
+<1> We encode the timelock value according to BIP68 specification.
 
 .Generate the redeem script.
 [source,javascript]
@@ -97,7 +91,7 @@ console.log(p2sh.address)
 sendtoaddress 2Mw8mn5xQWk8Pz2KNXLnjSvS6TemKVELLyy 1
 ----
 
-NOTE: Note that our redeem script doesn't contain any variable data so the P2WSH will always be the same.
+NOTE: Note that our redeem script doesn't contain any changing data, so the P2SH address will always be the same.
 
 .Get the output index so that we have the outpoint (txid / vout).
 [source,bash]
@@ -115,83 +109,97 @@ Now let's prepare the spending transaction by setting input and output, as well 
 .Create a BitcoinJS transaction builder object.
 [source,javascript]
 ----
-const txb = new bitcoin.TransactionBuilder(network)
+const psbt = new bitcoin.Psbt({network})
 ----
 
-.Create the input by referencing the outpoint of our P2SH funding transaction.
+.Create the input by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-// txb.addInput(prevTx, vout, sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, timelock) // <1>
+psbt.addInput({
+  hash: 'TX_ID',
+  index: TX_VOUT,
+  sequence: lockTime, // <1>
+  nonWitnessUtxo: Buffer.from('TX_HEX','hex'),
+  redeemScript: Buffer.from(redeemScript, 'hex')
+})
 ----
-<1> Only in case we want to run the first scenario we set the sequence field as the timelock value.
+<1> Only in case we want to run the first scenario we have to set the sequence field as the timelock value.
 
-.Alice_1 will redeem the fund to her P2WPKH address, leaving 100 000 sats for the mining fees.
+.The funds will be redeemed to Alice_1 P2WPKH address, leaving 100 000 satoshis for the mining fees.
 [source,javascript]
 ----
-txb.addOutput(p2wpkhAlice1.address, 999e5)
-----
-
-.Prepare the transaction.
-[source,javascript]
-----
-const tx = txb.buildIncomplete()
+psbt.addOutput({
+  address: alice[1].p2wpkh,
+  value: 999e5,
+})
 ----
 
 
 == Creating the unlocking script
 
-.We generate the hash that will be used to produce the signatures.
-[source,javascript]
-----
-const signatureHash = tx.hashForSignature(0, redeemScript, hashType)
-----
-
 There are two ways the redeem the funds, alice_1 after the timelock expiry or alice_1 and bob_1 at any time. We control which branch of the script we want to run by ending our unlocking script with a boolean value.
 
-.First branch: {Alice's signature} OP_TRUE
+.Alice_1 signs the transaction that we just built with her private key.
 [source,javascript]
 ----
-const inputScriptFirstBranch = bitcoin.payments.p2sh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_TRUE,
-    ]),
-    output: redeemScript
-  },
-}).input
+psbt.signInput(0, keyPairAlice1)
 ----
 
-.Second branch: {Alice's signature} {Bob's signature} OP_FALSE
+.Only in scenario 2 Bob_1 signs the transaction.
 [source,javascript]
 ----
-const inputScriptSecondBranch = bitcoin.payments.p2sh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.script.signature.encode(keyPairBob1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_FALSE
-    ]),
-    output: redeemScript
+psbt.signInput(0, keyPairBob1)
+----
+
+.Finalize the PSBT.
+[source,javascript]
+----
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_IF) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
   }
-}).input
+
+  // Step 2: Create final scripts
+  // Scenario 1
+  const paymentFirstBranch = bitcoin.payments.p2sh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        bitcoin.opcodes.OP_TRUE,
+      ]),
+      output: redeemScript
+    }
+  })
+
+  // Scenario 2
+  /*
+  const paymentSecondBranch = bitcoin.payments.p2sh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        input.partialSig[1].signature,
+        bitcoin.opcodes.OP_FALSE
+      ]),
+      output: redeemScript
+    }
+  })
+  */
+
+  return {
+    finalScriptSig: paymentFirstBranch.input
+  }
+}
+
+psbt.finalizeInput(0, getFinalScripts)
 ----
 
-.Update the transaction with the unlocking script.
-[source,javascript]
-----
-tx.setInputScript(0, inputScriptFirstBranch)
-//tx.setInputScript(0, inputScriptSecondBranch)
-----
-
-No `build` step here as we have already called `buildIncomplete`.
-
-.Get the raw hex serialization.
+.Extract the transaction and get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.

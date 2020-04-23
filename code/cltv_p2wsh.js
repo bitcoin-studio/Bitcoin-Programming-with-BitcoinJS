@@ -1,46 +1,44 @@
 /**
- * You have to run this script twice!
- * After first run: take note the lockTime value and send coins to the P2SH address
- * Before second run: replace TX_ID, TX_VOUT and locktime
+ * You have to run this script twice.
+ * First run is to get a lockTime, and send coins to the P2WSH address that depends on this locktime
+ * Before second run: replace TX_ID, TX_VOUT, TX_HEX and locktime
+ * Second run
  * Generate 20 blocks
  * Send transaction
  * */
 
-//
 const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
+const witnessStackToScriptWitness = require('./tools/witnessStackToScriptWitness')
 const network = bitcoin.networks.regtest
-const hashType = bitcoin.Transaction.SIGHASH_ALL
 const bip65 = require('bip65')
 
 // Witness script
-function cltvCheckSigOutput (aQ, bQ, lockTime) {
-  return bitcoin.script.compile([
-    bitcoin.opcodes.OP_IF,
-    bitcoin.script.number.encode(lockTime),
-    bitcoin.opcodes.OP_CHECKLOCKTIMEVERIFY,
-    bitcoin.opcodes.OP_DROP,
-
-    bitcoin.opcodes.OP_ELSE,
-    bQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIGVERIFY,
-    bitcoin.opcodes.OP_ENDIF,
-
-    aQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIG
-  ])
+function cltvCheckSigOutput(aQ, bQ, lockTime) {
+  return bitcoin.script.fromASM(
+    `
+      OP_IF
+          ${bitcoin.script.number.encode(lockTime).toString('hex')}
+          OP_CHECKLOCKTIMEVERIFY
+          OP_DROP
+      OP_ELSE
+          ${bQ.publicKey.toString('hex')}
+          OP_CHECKSIGVERIFY
+      OP_ENDIF
+      ${aQ.publicKey.toString('hex')}
+      OP_CHECKSIG
+    `
+      .trim()
+      .replace(/\s+/g, ' '),
+  );
 }
 
 // Signers
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 
-// Recipient
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-
-
 // Replace the lockTime value on second run here!
-//const lockTime = 1570266984
+//const lockTime = 1587620416
 const lockTime = bip65.encode({utc: Math.floor(Date.now() / 1000) - (3600 * 6)})
 console.log('Timelock in UNIX timestamp:')
 console.log(lockTime)
@@ -54,56 +52,82 @@ const p2wsh = bitcoin.payments.p2wsh({redeem: {output: witnessScript, network}, 
 console.log('P2WSH address:')
 console.log(p2wsh.address)
 
-// Build transaction
-const txb = new bitcoin.TransactionBuilder(network)
+// Create PSBT
+const psbt = new bitcoin.Psbt({network})
 
-txb.setLockTime(lockTime)
+// Only necessary for scenario 1
+psbt.setLocktime(lockTime)
 
-// txb.addInput(prevTx, input.vout, input.sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, 0xfffffffe)
+psbt
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    sequence: 0xfffffffe,
+    witnessUtxo: {
+      script: Buffer.from('0020' +
+        bitcoin.crypto.sha256(witnessScript).toString('hex'),
+        'hex'),
+      value: 1e8,
+    },
+    witnessScript: witnessScript
+  })
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+  })
 
-txb.addOutput(p2wpkhAlice1.address, 999e5)
+psbt.signInput(0, keyPairAlice1)
 
-const tx = txb.buildIncomplete()
+// Only necessary for scenario 2
+//psbt.signInput(0, keyPairBob1)
 
-// hashForWitnessV0(inIndex, prevOutScript, value, hashType)
-const signatureHash = tx.hashForWitnessV0(0, witnessScript, 1e8, hashType)
-console.log('signature hash: ', signatureHash.toString('hex'))
-
-// Scenario 1
-const witnessStackFirstBranch = bitcoin.payments.p2wsh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_TRUE,
-    ]),
-    output: witnessScript
+// Finalizing
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_IF) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
   }
-}).witness
 
-console.log('First branch witness stack:')
-console.log(witnessStackFirstBranch.map(x => x.toString('hex')))
+  // Step 2: Create final scripts
+  // Scenario 1
+  const paymentFirstBranch = bitcoin.payments.p2wsh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        bitcoin.opcodes.OP_TRUE,
+      ]),
+      output: witnessScript
+    }
+  })
 
-// Scenario 2
-const witnessStackSecondBranch = bitcoin.payments.p2wsh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.script.signature.encode(keyPairBob1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_FALSE
-    ]),
-    output: witnessScript
+  console.log('First branch witness stack:')
+  console.log(paymentFirstBranch.witness.map(x => x.toString('hex')))
+
+
+  // Scenario 2
+  /*
+  const paymentSecondBranch = bitcoin.payments.p2wsh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        input.partialSig[1].signature,
+        bitcoin.opcodes.OP_FALSE
+      ]),
+      output: witnessScript
+    }
+  })
+
+  console.log('Second branch witness stack:')
+  console.log(paymentSecondBranch.witness.map(x => x.toString('hex')))
+  */
+
+  return {
+    finalScriptWitness: witnessStackToScriptWitness(paymentFirstBranch.witness)
   }
-}).witness
+}
 
-console.log('Second branch witness stack:')
-console.log(witnessStackSecondBranch.map(x => x.toString('hex')))
+psbt.finalizeInput(0, getFinalScripts)
 
-// Choose a scenario and set the witness stack
-tx.setWitness(0, witnessStackFirstBranch)
-//tx.setWitness(0, witnessStackSecondBranch)
-
-
-// Print
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())

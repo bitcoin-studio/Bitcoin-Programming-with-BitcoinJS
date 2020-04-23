@@ -6,25 +6,18 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 Let's create a legacy P2PKH transaction with 1 input and 1 output.
 
 
-== Create UTXO to spend from
+== Creating UTXO to spend
 
-First we need to create a previous transaction in order to have a UTXO at our disposal.
+We first need to create a transaction in order to have a UTXO at our disposal that we can spend.
 
-.Import libraries, test wallets and set the network.
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
-
-.Send 1 BTC to alice_1 P2PKH address with Bitcoin Core CLI.
+.In the Bitcoin console, send 1 BTC to alice_1 P2PKH address.
 [source,bash]
 ----
 sendtoaddress n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq 1
 ----
 
-We have now an UTXO locked with alice_1 public key hash. In order to spend it, we refer to it with the transaction id (txid) and the output index (vout), also called *outpoint*. Fortunately, `sendtoaddress` returns the id of the transaction.
+We now have an UTXO locked with alice_1 public key hash. In order to spend it, we will refer to it with the transaction id (txid) and the
+output index (vout), also called *outpoint*. Fortunately, `sendtoaddress` returns the id of the transaction.
 
 .Get the output index so that we have the outpoint (txid / vout).
 [source,bash]
@@ -35,40 +28,41 @@ gettransaction TX_ID
 TIP: Find the output index (or vout) under menu:details[vout]
 
 
-== Creating the simple transaction
+== Creating a simple transaction
 
 Now let's spend the UTXO with BitcoinJS.
 
-.Create a bitcoinJS key pair object for alice_1, the spender of our new UTXO, and the only one capable of spending it.
+.Import libraries, test wallets and set the network.
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
+
+.Create a bitcoinJS key pair object for alice_1, the owner of our new UTXO, and the only one capable of spending it.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 ----
 
-.Create a key pair object and a P2PKH address for the recipient bob_1.
+.Create a PSBT by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
+const psbt = new bitcoin.Psbt({network})
+.addInput({
+hash: 'TX_ID',
+index: TX_OUT,
+nonWitnessUtxo: Buffer.from('TX_HEX', 'hex')
+}) // <1>
+.addOutput({
+address: bob[1].p2pkh,
+value: 999e5,
+}) // <2>
 ----
-
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
-----
-
-.Add the input by filling it with the outpoint (previous values txId and vout).
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Add the output with the bob_1 P2PKH recipient address and the amount of 0.999 btc.
-[source,javascript]
-----
-txb.addOutput(p2pkhBob1.address, 999e5)
-----
+<1> Add the input by filling it with the outpoint (TxId and output index of the funding transaction) and, since it is a non segwit input,
+we must also pass the full previous transaction buffer. We can get the transaction hexadecimal with the `getrawtransaction` command.
+<2> Add the output with the bob_1 P2PKH recipient address and the amount of 0.999 btc.
 
 [NOTE]
 ====
@@ -80,17 +74,24 @@ The UTXO is locked with alice_1's public key hash. If she wants to spend it, she
 
 To do so, alice_1 will sign this transaction that we just built with her private key. BitcoinJS will automatically place the signature into the `scriptSig` field of the input 0.
 
+.Sign the input and validate signature
 [source,javascript]
 ----
-txb.sign(0, keyPairAlice1)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
 ----
 
-.Finally we can build the transaction and get the raw hex serialization.
+.Finalize the PSBT.
 [source,javascript]
 ----
-const tx = txb.build()
+psbt.finalizeAllInputs()
+----
+
+.Finally we can extract the transaction and get the raw hex serialization.
+[source,javascript]
+----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.

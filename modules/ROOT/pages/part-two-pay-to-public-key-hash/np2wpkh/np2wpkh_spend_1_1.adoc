@@ -12,18 +12,9 @@ Learn more about P2SH here
 Let's spend a P2SH-P2WPKH output (embedded Segwit) and create a new P2WPKH output.
 
 
-== Create a UTXO to spend from
+== Creating a UTXO to spend
 
-.Import libraries, test wallets and set the network
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
-
-.Send 1 BTC to alice_1 embedded Segwit P2SH-P2WPKH address in order to create a NP2WPKH (or P2SH-P2WPKH) UTXO (which is in fact a regular
-P2SH UTXO).
+.Send 1 BTC to alice_1 embedded Segwit P2SH-P2WPKH address in order to create a NP2WPKH (or P2SH-P2WPKH) UTXO.
 [source,bash]
 ----
 sendtoaddress 2MzFvFvnhFskGnVQpUr1ZPr4wYWLwf211s6 1
@@ -44,63 +35,71 @@ You can note that the UTXO is of type `scripthash`, which means that it is a P2S
 
 Now let's spend the P2SH-P2WPKH UTXO with BitcoinJS.
 
+.Import libraries, test wallets and set the network
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
+
 .Prepare the redeem script.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network) // <1>
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network}) // <2>
 const p2shAlice1 = bitcoin.payments.p2sh({redeem: p2wpkhAlice1, network}) // <3>
-console.log('Redeem script')
-console.log(p2shAlice1.redeem.output.toString('hex'))
+const redeemScript = p2shAlice1.redeem.output.toString('hex')
+console.log('Redeem script:')
+console.log(redeemScript)
 ----
 <1> Create a bitcoinJS keypair object for the spender alice_1
 <2> Create a P2WPKH payment object
 <3> Pass it to the P2SH payment method
 
-The redeem script is composed of a `00` version byte and a 20 bytes witness program, HASH160 of alice_1 public key.
-It is the same as the previous output script `p2wpkhAlice1.output` that we pass to `txb.addInput()` in
-xref:part-two-pay-to-public-key-hash/p2wpkh/p2wpkh_spend_1_1.adoc[Spend a Native Segwit P2WPKH UTXO].
+The redeem script is composed of a `00` version byte and a 20 bytes witness program, which is the HASH160 of alice_1 public key.
 
-.Create a keypair and a P2WPKH address for the recipient bob_1.
+.Create a PSBT by filling TX_ID and TX_OUT.
 [source,javascript]
 ----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2wpkhBob1 = bitcoin.payments.p2wpkh({pubkey: keyPairBob1.publicKey, network})
-console.log('P2WPKH address')
-console.log(p2wpkhBob1.address)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    witnessUtxo: {
+      script: Buffer.from('a914' +
+        bitcoin.crypto.hash160(Buffer.from('0014' + alice[1].pubKeyHash, 'hex')).toString('hex') +
+        '87', 'hex'), // <1>
+      value: 1e8,
+    },
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  })
+  .addOutput({
+    address: bob[1].p2wpkh,
+    value: 999e5,
+  }) // <2>
 ----
+<1> The scriptPubKey is the Hash160 of the _redeem script_, inside a standard P2SH template
+<2> Lock 0.999btc to bob_1 P2WPKH
 
-.Create a BitcoinJS transaction builder object.
+.Alice_1 signs the input and validates the signature
 [source,javascript]
 ----
-const txb = new bitcoin.TransactionBuilder(network)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
 ----
 
-.Create the input.
+.Finalize the PSBT.
 [source,javascript]
 ----
-txb.addInput('TX_ID', TX_VOUT)
+psbt.finalizeAllInputs()
 ----
 
-.Create the output, locking 0.999btc to bob_1 P2WPKH.
+.Finally we can extract the transaction and get the raw hex serialization.
 [source,javascript]
 ----
-txb.addOutput(p2wpkhBob1.address, 999e5)
-----
-
-.Alice_1 signs.
-[source,javascript]
-----
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, p2shAlice1.redeem.output, null, 1e8, null)
-----
-
-.Finally we can build the transaction and get the raw hex serialization.
-[source,javascript]
-----
-const tx = txb.build()
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.

@@ -8,22 +8,31 @@ const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 // Redeem script
 const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 const p2shAlice1 = bitcoin.payments.p2sh({redeem: p2wpkhAlice1, network})
-console.log('Redeem script')
-console.log(p2shAlice1.redeem.output.toString('hex'))
+const redeemScript = p2shAlice1.redeem.output.toString('hex')
+console.log('Redeem script:')
+console.log(redeemScript)
 
-// Recipient
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2wpkhBob1 = bitcoin.payments.p2wpkh({pubkey: keyPairBob1.publicKey, network})
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    witnessUtxo: {
+      script: Buffer.from('a914' +
+        bitcoin.crypto.hash160(Buffer.from('0014' + alice[1].pubKeyHash, 'hex')).toString('hex') +
+        '87', 'hex'),
+      value: 1e8,
+    },
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  })
+  .addOutput({
+    address: bob[1].p2wpkh,
+    value: 999e5,
+  })
 
-// Build
-const txb = new bitcoin.TransactionBuilder(network)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
 
-txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2wpkhBob1.address, 999e5)
+psbt.finalizeAllInputs()
 
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, p2shAlice1.redeem.output, null, 1e8, null)
-
-const tx = txb.build()
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())

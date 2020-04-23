@@ -2,24 +2,37 @@ const bitcoin = require('bitcoinjs-lib')
 const { alice } = require('./wallets.json')
 const network = bitcoin.networks.regtest
 
-// Signer
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
 
-// Build
-const txb = new bitcoin.TransactionBuilder(network)
+const psbt = new bitcoin.Psbt({network})
 
-// txb.addInput(prevTx, vout, sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
+psbt
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    witnessUtxo: {
+      script: Buffer.from('0014' + alice[1].pubKeyHash, 'hex'),
+      value: 1e8,
+    },
+  })
 
-const data = Buffer.from('Programmable money FTW!', 'utf8')
+const data = Buffer.from('Programmable money FTW', 'utf8')
 const embed = bitcoin.payments.embed({data: [data]})
-txb.addOutput(embed.output, 0)
-txb.addOutput(p2wpkhAlice1.address, 99900000)
 
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, null, null, 1e8, null)
+psbt
+  .addOutput({
+    script: embed.output,
+    value: 0,
+  })
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+})
 
-const tx = txb.build()
+psbt.signInput(0, keyPairAlice1)
+
+psbt.validateSignaturesOfInput(0)
+psbt.finalizeAllInputs()
+
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())

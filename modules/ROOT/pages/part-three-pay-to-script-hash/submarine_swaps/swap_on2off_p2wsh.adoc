@@ -37,7 +37,7 @@ $ lncli-merchant addinvoice 1000
 PAYMENT_REQUEST and PAYMENT_HASH
 ----
 
-This payment hash is the SHA256 hash of the _*payment preimage*_, the secret revealed when the invoice is paid.
+This payment hash is the SHA256 hash of the _payment preimage_, the secret revealed when the invoice is paid.
 
 `addinvoice` returns the payment hash, but we can also get it by decoding the payment request.
 
@@ -59,6 +59,7 @@ The goal now is for the swap provider to create the swap P2WSH smart contract, g
 ----
 const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
+const witnessStackToScriptWitness = require('./tools/witnessStackToScriptWitness')
 const network = bitcoin.networks.regtest
 const bip65 = require('bip65')
 ----
@@ -67,21 +68,25 @@ Here is the swap smart contract that we will use. This is technically a witness 
 
 [source,javascript]
 ----
-const swapContractGenerator = function(claimPublicKey, refundPublicKey, preimageHash, cltv) {
-  return bitcoin.script.compile([
-    bitcoin.opcodes.OP_HASH160,
-    bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')),
-    bitcoin.opcodes.OP_EQUAL,
-    bitcoin.opcodes.OP_IF,
-    claimPublicKey,
-    bitcoin.opcodes.OP_ELSE,
-    bitcoin.script.number.encode(cltv),
-    bitcoin.opcodes.OP_CHECKLOCKTIMEVERIFY,
-    bitcoin.opcodes.OP_DROP,
-    refundPublicKey,
-    bitcoin.opcodes.OP_ENDIF,
-    bitcoin.opcodes.OP_CHECKSIG,
-  ])
+const swapContractGenerator = function(swapProviderClaimPublicKey, userRefundPublicKey, PAYMENT_HASH, timelock) {
+  return bitcoin.script.fromASM(
+    `
+      OP_HASH160
+      ${bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')).toString('hex')}
+      OP_EQUAL
+      OP_IF
+        ${swapProviderClaimPublicKey.toString('hex')}
+      OP_ELSE
+        ${bitcoin.script.number.encode(timelock).toString('hex')}
+        OP_CHECKLOCKTIMEVERIFY
+        OP_DROP
+        ${userRefundPublicKey.toString('hex')}
+      OP_ENDIF
+      OP_CHECKSIG
+    `
+      .trim()
+      .replace(/\s+/g, ' '),
+  );
 }
 ----
 
@@ -98,12 +103,13 @@ Check the current block height and add 10 blocks to it. It means that the refund
 
 [source,bash]
 ----
-getblockchaininfo
+getblockchaininfo # <1>
 ----
+<1> "blocks" property
 
 [source,javascript]
 ----
-const timelock = bip65.encode({ blocks: TIMELOCK })
+const timelock = bip65.encode({blocks: TIMELOCK})
 console.log('Timelock expressed in block height:')
 console.log(timelock)
 ----
@@ -195,10 +201,10 @@ console.log('Swap provider redeem address:')
 console.log(p2wpkhUser.address)
 ----
 
-.Create an instance of BitcoinJS TransactionBuilder.
+.Create the PSBT.
 [source,javascript]
 ----
-const txb = new bitcoin.TransactionBuilder(network)
+const psbt = new bitcoin.Psbt({network})
 ----
 
 For the refund case we need to set the transaction-level locktime in our redeem transaction in order to spend a CLTV timelock. You can use the same value as before.
@@ -211,24 +217,51 @@ nLocktime must be &lt;= present time and &gt;= CLTV timelock
 
 [source,javascript]
 ----
-txb.setLockTime(timelock)
+if (IS_REFUND) {
+  const timelock = bip65.encode({blocks: TIMELOCK})
+  psbt.setLocktime(timelock)
+  console.log('Timelock expressed in block height:')
+  console.log(timelock)
+  console.log()
+}
 ----
 
 .Set the transaction input by pointing to the swap contract UTXO we are spending.
 [source,javascript]
 ----
-// txb.addInput(prevTx, prevOut, sequence, prevTxScript)
-txb.addInput(TX_ID, TX_VOUT, 0xfffffffe)
+psbt
+  .addInput({
+    hash: TX_ID,
+    index: TX_VOUT,
+    sequence: 0xfffffffe,
+    witnessUtxo: {
+      script: Buffer.from('0020' +
+        bitcoin.crypto.sha256(Buffer.from(WITNESS_SCRIPT, 'hex')).toString('hex'),
+        'hex'),
+      value: 12e2
+    },
+    witnessScript: Buffer.from(WITNESS_SCRIPT, 'hex')
+  })
 ----
 
 .Set the transaction output.
 [source,javascript]
 ----
-// Happy case: swap provider redeems the funds to his address.
-txb.addOutput(p2wpkhSwapProvider.address, 1e3)
-
-// Refund case: the user redeems the funds to his address
-txb.addOutput(p2wpkhUser.address, 1e3)
+if (!IS_REFUND) {
+  // Happy case: swap provider redeems the funds to his address.
+  psbt
+    .addOutput({
+      address: p2wpkhSwapProvider.address,
+      value: 1e3,
+    })
+} else {
+  // Refund case: the user redeems the funds to his address
+  psbt
+    .addOutput({
+      address: p2wpkhUser.address,
+      value: 1e3,
+    })
+}
 ----
 
 [NOTE]
@@ -237,78 +270,89 @@ The bitcoin user alice_1 has paid the swap contract 1200 satoshis and the redeem
 We leave 200 satoshis in mining fees.
 ====
 
-.Prepare the transaction.
-[source,javascript]
-----
-const tx = txb.buildIncomplete()
-----
-
-Generate the _signature hash_, the actual message that we will sign. +
-Amongst other things, it commits to the witness script, the bitcoin amount of the UTXO we are spending and the sighash type.
-
-[source,javascript]
-----
-const sigHash = bitcoin.Transaction.SIGHASH_ALL
-signatureHash = tx.hashForWitnessV0(0, buffer.from(WITNESS_SCRIPT, 'hex'), 12e2, sigHash)
-console.log('Signature hash:')
-console.log(signatureHash.toString('hex'))
-----
-
 
 === Adding the witness data
 
 Our redeem transaction is almost ready, we just need to add the witness data that will unlock the swap contract output script.
 
-Happy case: Swap Provider is able to spend the P2WSH. +
-The swap provider provides a valid signature and the _payment preimage_.
-
+.Signing
 [source,javascript]
 ----
-const witnessStackClaimBranch = bitcoin.payments.p2wsh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairSwapProvider.sign(signatureHash), sigHash),
-      buffer.from(PREIMAGE, 'hex')
-    ]),
-    output: buffer.from(WITNESS_SCRIPT, 'hex')
+if (!IS_REFUND) {
+// Only in happy case
+  psbt.signInput(0, keyPairSwapProvider)
+} else {
+  // Only in refund case
+  psbt.signInput(0, keyPairUser)
+}
+----
+
+.Finalize the PSBT.
+[source,javascript]
+----
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_HASH160) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
   }
-}).witness
 
-console.log('Happy case witness stack:')
-console.log(witnessStackClaimBranch.map(x => x.toString('hex')))
-----
+  // Step 2: Create final scripts
+  if (!IS_REFUND) {
+    // Happy case: Swap Provider is able to spend the P2WSH
+    // The swap provider provides a valid signature and the _payment preimage_
+    const witnessStackClaimBranch = bitcoin.payments.p2wsh({
+      redeem: {
+        input: bitcoin.script.compile([
+          input.partialSig[0].signature,
+          Buffer.from(PREIMAGE, 'hex'),
+        ]),
+        output: Buffer.from(WITNESS_SCRIPT, 'hex')
+      }
+    })
+    console.log('First branch witness stack:')
+    console.log(witnessStackClaimBranch.witness.map(x => x.toString('hex')))
 
-Failure case: User ask a refund after the timelock has expired. +
-The user provides a valid signature and any invalid preimage in order to trigger the _else_ branch of the swap contract.
+    return {
+      finalScriptWitness: witnessStackToScriptWitness(witnessStackClaimBranch.witness)
+    }
+  } else {
+    // Failure case: User ask a refund after the timelock has expired
+    // The user provides a valid signature and any invalid preimage in order to trigger the _else_ branch of the swap contract.
+    const witnessStackRefundBranch = bitcoin.payments.p2wsh({
+      redeem: {
+        input: bitcoin.script.compile([
+          input.partialSig[0].signature,
+          Buffer.from('', 'hex'),
+        ]),
+        output: Buffer.from(WITNESS_SCRIPT, 'hex')
+      }
+    })
+    console.log('Second branch witness stack:')
+    console.log(witnessStackRefundBranch.witness.map(x => x.toString('hex')))
 
-[source,javascript]
-----
-const witnessStackRefundBranch = bitcoin.payments.p2wsh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairUser.sign(signatureHash), sigHash),
-      Buffer.from('', 'hex')
-    ]),
-    output: buffer.from(WITNESS_SCRIPT, 'hex')
+    return {
+      finalScriptWitness: witnessStackToScriptWitness(witnessStackRefundBranch.witness)
+    }
   }
-}).witness
+}
 
-console.log('Refund case witness stack:')
-console.log(witnessStackRefundBranch.map(x => x.toString('hex')))
+psbt.finalizeInput(0, getFinalScripts)
 ----
 
-.Choose your scenario by setting the witness stack.
+.Preimage's HASH160
 [source,javascript]
 ----
-tx.setWitness(0, witnessStackClaimBranch)
-// tx.setWitness(0, witnessStackRefundBranch)
+console.log('Preimage\'s HASH160')
+console.log(bitcoin.crypto.hash160(Buffer.from(PREIMAGE, 'hex')).toString('hex'))
+console.log()
 ----
 
 .Print the redeem transaction.
 [source,javascript]
 ----
-console.log('Redeem transaction:')
-console.log(tx.toHex())
+console.log('Transaction hexadecimal:')
+console.log(psbt.extractTransaction().toHex())
 ----
 
 

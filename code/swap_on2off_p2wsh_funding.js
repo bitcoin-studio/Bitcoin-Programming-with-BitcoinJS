@@ -8,21 +8,25 @@ const TIMELOCK = 0
 const PAYMENT_HASH = ''
 
 // Swap contract
-const swapContractGenerator = function(claimPublicKey, refundPublicKey, preimageHash, cltv) {
-  return bitcoin.script.compile([
-    bitcoin.opcodes.OP_HASH160,
-    bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')),
-    bitcoin.opcodes.OP_EQUAL,
-    bitcoin.opcodes.OP_IF,
-    claimPublicKey,
-    bitcoin.opcodes.OP_ELSE,
-    bitcoin.script.number.encode(cltv),
-    bitcoin.opcodes.OP_CHECKLOCKTIMEVERIFY,
-    bitcoin.opcodes.OP_DROP,
-    refundPublicKey,
-    bitcoin.opcodes.OP_ENDIF,
-    bitcoin.opcodes.OP_CHECKSIG,
-  ])
+const swapContractGenerator = function(swapProviderClaimPublicKey, userRefundPublicKey, PAYMENT_HASH, timelock) {
+  return bitcoin.script.fromASM(
+    `
+      OP_HASH160
+      ${bitcoin.crypto.ripemd160(Buffer.from(PAYMENT_HASH, 'hex')).toString('hex')}
+      OP_EQUAL
+      OP_IF
+        ${swapProviderClaimPublicKey.toString('hex')}
+      OP_ELSE    
+        ${bitcoin.script.number.encode(timelock).toString('hex')}
+        OP_CHECKLOCKTIMEVERIFY
+        OP_DROP
+        ${userRefundPublicKey.toString('hex')}
+      OP_ENDIF
+      OP_CHECKSIG
+    `
+      .trim()
+      .replace(/\s+/g, ' '),
+  );
 }
 
 // Signers
@@ -30,7 +34,7 @@ const keyPairUser = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairSwapProvider = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 
 // Timelock
-const timelock = bip65.encode({ blocks: TIMELOCK })
+const timelock = bip65.encode({blocks: TIMELOCK})
 console.log('Timelock expressed in block height:')
 console.log(timelock)
 console.log()

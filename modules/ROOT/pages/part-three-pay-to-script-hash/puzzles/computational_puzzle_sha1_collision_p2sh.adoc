@@ -79,38 +79,25 @@ TIP: Find the output index (or vout) under menu:details[vout].
 
 Now let's prepare the spending transaction by setting input and output.
 
-.Alice_1 wants to send the funds to her P2WPKH address.
-[source,javascript]
-----
-const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-console.log('P2WPKH address')
-console.log(p2wpkhAlice1.address)
-----
+Alice_1 wants to send the funds to her P2WPKH address.
 
-.Create a BitcoinJS transaction builder object.
+.Create the PSBT by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-const txb = new bitcoin.TransactionBuilder(network)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    nonWitnessUtxo: Buffer.from('TX_HEX', 'hex'),
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  }) // <1>
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+  }) // <2>
 ----
-
-.Create the input by referencing the outpoint of our P2SH funding transaction.
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Create the output, leaving 100 000 satoshis as mining fees.
-[source,javascript]
-----
-txb.addOutput(p2wpkhAlice1.address, 999e5)
-----
-
-.Prepare the transaction.
-[source,javascript]
-----
-const tx = txb.buildIncomplete()
-----
+<1> Input referencing the outpoint of our P2SH funding transaction, the previous tx, and the redeem script
+<2> Output, leaving 100 000 satoshis as mining fees
 
 
 == Creating the unlocking script
@@ -125,33 +112,44 @@ const value_1 = '255044462d312e330a25e2e3cfd30a0a0a312030206f626a0a3c3c2f5769647
 const value_2 = '255044462d312e330a25e2e3cfd30a0a0a312030206f626a0a3c3c2f57696474682032203020522f4865696768742033203020522f547970652034203020522f537562747970652035203020522f46696c7465722036203020522f436f6c6f7253706163652037203020522f4c656e6774682038203020522f42697473506572436f6d706f6e656e7420383e3e0a73747265616d0affd8fffe00245348412d3120697320646561642121212121852fec092339759c39b1a1c63c4c97e1fffe017346dc9166b67e118f029ab621b2560ff9ca67cca8c7f85ba84c79030c2b3de218f86db3a90901d5df45c14f26fedfb3dc38e96ac22fe7bd728f0e45bce046d23c570feb141398bb552ef5a0a82be331fea48037b8b5d71f0e332edf93ac3500eb4ddc0decc1a864790c782c76215660dd309791d06bd0af3f98cda4bc4629b1'
 ----
 
-.We provide the two values above as the answer, plus the redeem script.
+.Finalize the PSBT.
 [source,javascript]
 ----
-const InputScriptP2SH = bitcoin.script.compile([
-  Buffer.from(value_1, 'hex'),
-  Buffer.from(value_2, 'hex'),
-  p2sh.redeem.output
-])
-tx.setInputScript(0, InputScriptP2SH)
-----
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_2DUP) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
+  }
 
-In order to push data we should use OP_PUSHDATA. Here, regarding the length of the values, we should use OP_PUSHDATA2, followed by two
-bytes that contain the number of bytes to be pushed onto the stack in little endian order. Fortunately, BitcoinJS is taking care of that
-for us. +
-If you inspect `InputScriptP2SH`, you will see that the values are preceded by `4d4001`. +
-`4d` is the OP_PUSHDATA2 opcode, which states that the next two bytes contain the number of bytes to be pushed onto the stack in little endian order. +
-`0140` is 320 in decimal, which is the length of the values.
+  // Step 2: Create final scripts
+  const payment = bitcoin.payments.p2sh({
+    redeem: {
+      output: script,
+      input: bitcoin.script.compile([
+        Buffer.from(value_1, 'hex'),
+        Buffer.from(value_2, 'hex'),
+      ]), // <1>
+    },
+  })
+
+  return {
+    finalScriptSig: payment.input
+  }
+}
+
+psbt.finalizeInput(0, getFinalScripts)
+----
+<1> The two pre-images values preceded by `4d4001`. `4d` is the OP_PUSHDATA2 opcode, which states that the next two bytes contain the number
+of bytes to be pushed onto the stack in little endian order. `0140` is 320 in decimal, which is the length of the values.
 
 We don't need to sign this transaction since the redeem script doesn't ask for a signature.
 
-No `build` step here as we have already called `buildIncomplete`
-
-.Get the raw hex serialization.
+.Extract the transaction and get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
@@ -187,4 +185,5 @@ bitcoin.crypto.sha1(Buffer.from(value_2, 'hex')).toString('hex')
 
 Both returns the same hash, `f92d74e3874587aaf443d1db961d4e26dde13e9c`.
 
-Peter Todd's other bounties (SHA256, RIPEMD160, RIPEMD160-SHA256, SHA256-SHA256) remain unclaimed at the time of this writing. They're all written in the same manner as the SHA-1 example above.
+Peter Todd's other bounties (SHA256, RIPEMD160, RIPEMD160-SHA256, SHA256-SHA256) remain unclaimed at the time of this writing. They're
+all written in the same manner as this SHA-1 tutorial.

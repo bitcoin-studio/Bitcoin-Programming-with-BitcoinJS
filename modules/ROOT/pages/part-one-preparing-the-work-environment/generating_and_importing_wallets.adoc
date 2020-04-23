@@ -19,7 +19,7 @@ It will generate for you six test wallets, create a `wallets.json` file and impo
 ----
 cd code
 npm install
-npx bitcointestwallets
+npx bitcointestwalletsgenerator
 ----
 
 By default the test wallets used in this guide are the same as the default ones in the https://github.com/bitcoin-studio/Bitcoin-Test-Wallets-Generator[Bitcoin Test Wallets Generator^] library. Check the library's repository if you want to use different wallets.

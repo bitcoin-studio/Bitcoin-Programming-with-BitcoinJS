@@ -1,31 +1,22 @@
 const bitcoin = require('bitcoinjs-lib')
-const { alice, bob, carol, dave } = require('./wallets.json')
+const {alice, bob, carol, dave} = require('./wallets.json')
 const network = bitcoin.networks.regtest
 
-// Participants
-const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const keyPairCarol1 = bitcoin.ECPair.fromWIF(carol[1].wif, network)
-const keyPairDave1 = bitcoin.ECPair.fromWIF(dave[1].wif, network)
-
-// Recipient
-const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
-const p2wpkhAlice2 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice2.publicKey, network})
-
-// Build transaction
+// Redeem script and address
 const p2ms = bitcoin.payments.p2ms({
   m: 2, pubkeys: [
-    keyPairAlice1.publicKey,
-    keyPairBob1.publicKey,
-    keyPairCarol1.publicKey,
-    keyPairDave1.publicKey], network})
+    Buffer.from(alice[1].pubKey, 'hex'),
+    Buffer.from(bob[1].pubKey, 'hex'),
+    Buffer.from(carol[1].pubKey, 'hex'),
+    Buffer.from(dave[1].pubKey, 'hex'),
+  ], network})
 
 console.log('Redeem script:')
 console.log(p2ms.output.toString('hex'))
 console.log()
 
 console.log('Redeem script Hash160:')
-console.log(bitcoin.crypto.hash160(Buffer.from(p2ms.output.toString('hex'), 'hex')).toString('hex'))
+console.log(bitcoin.crypto.hash160(p2ms.output).toString('hex'))
 console.log()
 
 const p2sh = bitcoin.payments.p2sh({redeem: p2ms, network})
@@ -33,18 +24,33 @@ console.log('P2SH address:')
 console.log(p2sh.address)
 console.log()
 
-const txb = new bitcoin.TransactionBuilder(network)
-
-txb.addInput('TX_ID', TX_VOUT)
-txb.addOutput(p2wpkhAlice2.address, 999e5)
-
+// Build transaction
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    redeemScript: p2sh.redeem.output,
+    nonWitnessUtxo:  Buffer.from('TX_HEX', 'hex')
+  })
+  .addOutput({
+    address: alice[2].p2wpkh,
+    value: 999e5,
+  })
 
 // Signing
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, p2sh.redeem.output)
-txb.sign(0, keyPairBob1, p2sh.redeem.output)
+const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
+const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 
+psbt
+  .signInput(0, keyPairAlice1)
+  .signInput(0, keyPairBob1)
 
-const tx = txb.build()
+// Finalizing
+psbt.validateSignaturesOfInput(0, Buffer.from(alice[1].pubKey, 'hex'))
+psbt.validateSignaturesOfInput(0, Buffer.from(bob[1].pubKey, 'hex'))
+
+psbt.finalizeAllInputs()
+
+// Extracting and printing
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())

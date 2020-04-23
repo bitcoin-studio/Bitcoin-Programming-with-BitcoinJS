@@ -16,17 +16,9 @@ Finally, consolidation gives an opportunity to update the addresses you use for 
 For this example we will consolidate three P2PKH UTXOs (referencing each of them with three inputs) to one Segwit P2WPKH UTXO.
 
 
-== Create UTXOs to spend from
+== Creating UTXOs to spend
 
 First we need to create three UTXOs.
-
-.Import libraries, test wallets and set the network
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
 
 UTXO consolidation makes sense if we have multiple payments on a single address, or multiple payments on different addresses controlled by a single person or entity.
 
@@ -52,7 +44,15 @@ You may think that the indexes will be 0, 1 and 2. If so you are forgetting that
 The command `gettransaction` doesn't display the change UTXO, but a `decoderawtransaction` does.
 
 
-== Creating the aggregating transaction
+== Creating the UTXO consolidation transaction
+
+.Import libraries, test wallets and set the network
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
 
 Now let's spend the UTXOs with BitcoinJS, consolidating them into a single P2WPKH UTXO.
 
@@ -64,33 +64,39 @@ const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
 const keyPairAlice3 = bitcoin.ECPair.fromWIF(alice[3].wif, network)
 ----
 
-.Get the recipient address.
+.Get the previous transaction as buffer from TX_HEX
 [source,javascript]
 ----
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-console.log('P2WPKH address')
-console.log(p2wpkhAlice1.address)
+const nonWitnessUtxo =  Buffer.from('TX_HEX', 'hex') // <1>
 ----
+<1> Get TX_HEX with "getrawtransaction TX_ID"
 
-.Create a BitcoinJS transaction builder object.
+.Create the PSBT by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-const txb = new bitcoin.TransactionBuilder(network)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  })
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  })
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  }) // <1>
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 989e5,
+  }) // <2>
 ----
-
-.Add the three inputs by providing the outpoints.
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-txb.addInput('TX_ID', TX_VOUT)
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Add the P2WPKH output with an amount of 0.99 BTC.
-[source,javascript]
-----
-txb.addOutput(p2wpkhAlice1.address, 989e5)
-----
+<1> Three inputs referencing the 0.33BTC UTXOs just created
+<2> P2WPKH output with an amount of 0.99 BTC
 
 [NOTE]
 ====
@@ -102,24 +108,35 @@ Alice adds the correct signature to each input.
 
 For each input, we have to select the right keypair to produce signatures that satisfy the locking scripts of the three UTXOs we are spending. +
 We have this information by calling `gettransaction`. +
+This is tricky because the order of the UTXOs in a transaction varies. +
 For example +
 txb.sign(0, keyPairAlice1) +
 txb.sign(1, keyPairAlice3) +
 txb.sign(2, keyPairAlice2) +
 
+.Sign the inputs and validate signatures
 [source,javascript]
 ----
-txb.sign(0, keyPairAlice)
-txb.sign(1, keyPairAlice)
-txb.sign(2, keyPairAlice)
+psbt.signInput(0, keyPairAlice1)
+psbt.signInput(1, keyPairAlice2)
+psbt.signInput(2, keyPairAlice3)
+
+psbt.validateSignaturesOfInput(0)
+psbt.validateSignaturesOfInput(1)
+psbt.validateSignaturesOfInput(2)
 ----
 
-.Finally we can build the transaction and get the raw hex serialization.
+.Finalize the PSBT.
 [source,javascript]
 ----
-const tx = txb.build()
+psbt.finalizeAllInputs()
+----
+
+.Finally we can extract the transaction and get the raw hex serialization.
+[source,javascript]
+----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.

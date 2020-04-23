@@ -1,5 +1,5 @@
 const bitcoin = require('bitcoinjs-lib')
-const { alice } = require('./wallets.json')
+const {alice} = require('./wallets.json')
 const network = bitcoin.networks.regtest
 
 const redeemScript = bitcoin.script.compile([
@@ -16,19 +16,41 @@ console.log('P2SH address:')
 console.log(p2sh.address)
 console.log()
 
-const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
+// Create PSBT
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    nonWitnessUtxo: Buffer.from('TX_HEX', 'hex'),
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  })
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+  })
 
-const txb = new bitcoin.TransactionBuilder(network)
+// Finalizing
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_ADD) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
+  }
 
-txb.addInput('TX_ID', TX_VOUT)
+  // Step 2: Create final scripts
+  const payment = bitcoin.payments.p2sh({
+    redeem: {
+      output: script,
+      input: bitcoin.script.compile([bitcoin.opcodes.OP_2, bitcoin.opcodes.OP_3]),
+    },
+  })
 
-txb.addOutput(p2wpkhAlice1.address, 999e5)
+  return {
+    finalScriptSig: payment.input
+  }
+}
 
-const tx = txb.buildIncomplete()
-
-const InputScriptP2SH = bitcoin.script.compile([bitcoin.opcodes.OP_2, bitcoin.opcodes.OP_3, p2sh.redeem.output])
-tx.setInputScript(0, InputScriptP2SH)
+psbt.finalizeInput(0, getFinalScripts)
 
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())

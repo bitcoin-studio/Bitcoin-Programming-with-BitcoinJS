@@ -3,7 +3,7 @@
 
 include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 
-Let's create a simple maths puzzle with a legacy P2SH transaction.
+Let's create a simple math puzzle with a legacy P2SH transaction.
 
 
 == Creating and Funding the P2SH
@@ -62,65 +62,68 @@ TIP: Find the output index (or vout) under menu:details[vout].
 
 == Preparing the spending transaction
 
-Now let's prepare the spending transaction by setting input and output.
+Let's now prepare the spending transaction by setting input and output.
 
 Alice_1 wants to send the funds to her P2WPKH address.
 
-.Prepare keypair and address.
+.Create the PSBT by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-console.log('P2WPKH address')
-console.log(p2wpkhAlice1.address)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    nonWitnessUtxo: Buffer.from('TX_HEX', 'hex'),
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  }) // <1>
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+  }) // <2>
 ----
-
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
-----
-
-.Create the input by referencing the outpoint of our P2SH funding transaction.
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Create the output, leaving 100 000 satoshis as mining fees.
-[source,javascript]
-----
-txb.addOutput(p2wpkhAlice1.address, 999e5)
-----
-
-.Prepare the transaction.
-[source,javascript]
-----
-const tx = txb.buildIncomplete()
-----
-
+<1> Input referencing the outpoint of our P2SH funding transaction, the previous tx, and the redeem script
+<2> Output, leaving 100 000 satoshis as mining fees
 
 == Creating the unlocking script
 
-Now we can update the transaction with the unlocking script, providing a solution to the maths problem.
+Now we can finalize the transaction with the unlocking script, providing a solution to the math problem.
 
-We provide `02` and `03` as an answer, plus the redeem script.
+We provide `02` and `03` as an answer satisfying the redeem script.
 
+.Finalize the PSBT.
 [source,javascript]
 ----
-const InputScriptP2SH = bitcoin.script.compile([bitcoin.opcodes.OP_2, bitcoin.opcodes.OP_3, p2sh.redeem.output])
-tx.setInputScript(0, InputScriptP2SH)
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_ADD) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
+  }
+
+  // Step 2: Create final scripts
+  const payment = bitcoin.payments.p2sh({
+    redeem: {
+      output: script,
+      input: bitcoin.script.compile([bitcoin.opcodes.OP_2, bitcoin.opcodes.OP_3]), // <1>
+    },
+  })
+
+  return {
+    finalScriptSig: payment.input
+  }
+}
+
+psbt.finalizeInput(0, getFinalScripts)
 ----
+<1> The condition that unlocks the redeem script
 
 We don't need to sign this transaction since the redeem script doesn't ask for a signature.
 
-No `build` step here as we have already called `buildIncomplete`
-
-.Get the raw hex serialization.
+.Extract the transaction and get the raw hex serialization.
 [source,javascript]
 ----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
@@ -154,4 +157,4 @@ We can decrypt the unlocking script in Bitcoin Core CLI with `decodescript`. You
 decodescript 5253935587
 ----
 
-CAUTION: Be aware that the hex script is the serialized version, which includes a before the redeem script. In order to decode the script we need to remove this pushbyte.
+CAUTION: Be aware that the hex script is serialized and includes a <03> before the redeem script. In order to decode the script properly we need to remove this pushbyte.

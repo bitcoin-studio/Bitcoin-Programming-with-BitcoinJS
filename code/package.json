@@ -1,36 +1,35 @@
 {
   "name": "bitcoin_programming_guide_bitcoinjs",
-  "version": "1.1.0",
+  "version": "2.0.0",
   "description": "Bitcoin Programming with BitcoinJS and Bitcoin Core - tutorial",
-  "main": "",
-  "scripts": {
-    "Base58CheckEncodeP2PKH": "node -e 'require(\"./tools/addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
-    "Base58CheckDecodeP2PKH": "node -e 'require(\"./tools/addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'",
-    "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'",
-    "bitcointestwallets": "npx bitcointestwallets",
-    "bin2dec": "node -p 'require(\"./tools/baseConverter\").bin2dec(process.argv.slice(1)[0])'",
-    "bin2hex": "node -p 'require(\"./tools/baseConverter\").bin2hex(process.argv.slice(1)[0])'",
-    "dec2bin": "node -p 'require(\"./tools/baseConverter\").dec2bin(process.argv.slice(1)[0])'",
-    "dec2hex": "node -p 'require(\"./tools/baseConverter\").dec2hex(process.argv.slice(1)[0])'",
-    "hex2bin": "node -p 'require(\"./tools/baseConverter\").hex2bin(process.argv.slice(1)[0])'",
-    "hex2dec": "node -p 'require(\"./tools/baseConverter\").hex2dec(process.argv.slice(1)[0])'",
-    "lenBytesDec": "node -p 'require(\"./tools/baseConverter\").lenBytesDec(process.argv.slice(1)[0])'",
-    "lenBytesHex": "node -p 'require(\"./tools/baseConverter\").lenBytesHex(process.argv.slice(1)[0])'"
-  },
+  "license": "MIT",
   "author": {
     "name": "Stephane Roche",
     "email": "bitcoin-studio@protonmail.com",
     "url": "https://bitcoin-studio.com"
   },
-  "license": "MIT",
+  "scripts": {
+    "Base58CheckDecodeP2PKH": "node -e 'require(\"./tools/addressEncoding\").Base58CheckDecodeP2PKH(process.argv.slice(1)[0])'",
+    "Base58CheckEncodeP2PKH": "node -e 'require(\"./tools/addressEncoding\").Base58CheckEncodeP2PKH(process.argv.slice(1)[0])'",
+    "bin2dec": "node -p 'require(\"./tools/baseConverter\").bin2dec(process.argv.slice(1)[0])'",
+    "bin2hex": "node -p 'require(\"./tools/baseConverter\").bin2hex(process.argv.slice(1)[0])'",
+    "dec2bin": "node -p 'require(\"./tools/baseConverter\").dec2bin(process.argv.slice(1)[0])'",
+    "dec2hex": "node -p 'require(\"./tools/baseConverter\").dec2hex(process.argv.slice(1)[0])'",
+    "entropy": "node -p 'require(\"crypto\").randomBytes(Number(process.argv.slice(1)[0])).toString(\"hex\");'",
+    "hex2bin": "node -p 'require(\"./tools/baseConverter\").hex2bin(process.argv.slice(1)[0])'",
+    "hex2dec": "node -p 'require(\"./tools/baseConverter\").hex2dec(process.argv.slice(1)[0])'",
+    "lenBytesDec": "node -p 'require(\"./tools/baseConverter\").lenBytesDec(process.argv.slice(1)[0])'",
+    "lenBytesHex": "node -p 'require(\"./tools/baseConverter\").lenBytesHex(process.argv.slice(1)[0])'"
+  },
   "dependencies": {
-    "bip32": "^2.0.4",
+    "bip32": "^2.0.5",
     "bip39": "^3.0.2",
     "bip65": "^1.0.3",
     "bip68": "^1.0.4",
-    "bitcoinjs-lib": "^4.0.5",
-    "bitcointestwalletsgenerator": "^1.0.5",
+    "bitcoinjs-lib": "^5.1.7",
+    "bitcointestwalletsgenerator": "^2.0.1",
     "bs58": "^4.0.1",
-    "bs58check": "^2.1.2"
+    "bs58check": "^2.1.2",
+    "varuint-bitcoin": "^1.1.2"
   }
 }

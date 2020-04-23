@@ -39,15 +39,7 @@ The four signers agree on a uniform output amount of 0.2 BTC.
 We will create four UTXOs to spend from, with different amounts but with at least 0.2 BTC. If someone spend a UTXO that is more than 0.2 BTC, we will create a additional output for his change.
 
 
-== Create UTXOs to spend from
-
-.Import libraries, test wallets and set the network.
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob, carol, dave, eve, mallory } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
+== Creating UTXOs to spend
 
 .First let's create four UTXOs with a single transaction.
 [source,bash]
@@ -62,7 +54,7 @@ Here we send:
 * Send 0.25 BTC to eve_1 P2PKH address
 * Send 0.3 BTC to mallory_1 P2PKH address
 
-.Generate a block to dave_1 P2WPKH address.
+.Generate a block (mined on dave_1 P2WPKH address).
 [source,bash]
 ----
 generatetoaddress 1 bcrt1qnqud2pjfpkqrnfzxy4kp5g98r8v886wgvs9e7r
@@ -87,7 +79,15 @@ scantxoutset start '["addr(n4SvybJicv79X1Uc4o3fYXWGwXadA53FSq)", "addr(mh1HAVWhK
 
 == Creating the Coinjoin transaction
 
-Now let's spend the UTXOs and create four new ones. A facilitator, let's say alice_1, will create the transaction, sign his input, then pass the partially-signed transaction to the next participant and so on until everybody has signed and someone broadcast it.
+Now let's spend the UTXOs and create four new ones. A facilitator, here alice_1, will create the transaction, sign his input, then pass the partially-signed transaction to the next participant and so on until everybody has signed and someone broadcast it.
+
+.Import libraries, test wallets and set the network.
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob, carol, dave, eve, mallory } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
 
 .Create a keypair for each spender (alice_1, carol_1, eve_1, mallory_1), so that they can sign.
 [source,javascript]
@@ -98,59 +98,66 @@ const keyPairEve1 = bitcoin.ECPair.fromWIF(eve[1].wif, network)
 const keyPairMallory1 = bitcoin.ECPair.fromWIF(mallory[1].wif, network)
 ----
 
-.Create an address for each recipient (bob_1, dave_1, mallory_2, alice_2), so that they can receive.
+.Get the previous transaction as buffer from TX_HEX
 [source,javascript]
 ----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
-
-const keyPairDave1 = bitcoin.ECPair.fromWIF(dave[1].wif, network)
-const p2pkhDave1 = bitcoin.payments.p2pkh({pubkey: keyPairDave1.publicKey, network})
-
-const keyPairMallory2 = bitcoin.ECPair.fromWIF(mallory[2].wif, network)
-const p2pkhMallory2 = bitcoin.payments.p2pkh({pubkey: keyPairMallory2.publicKey, network})
-
-const keyPairAlice2 = bitcoin.ECPair.fromWIF(alice[2].wif, network)
-const p2pkhAlice2 = bitcoin.payments.p2pkh({pubkey: keyPairAlice2.publicKey, network})
+const nonWitnessUtxo =  Buffer.from('TX_HEX', 'hex') // <1>
 ----
+<1> Get TX_HEX with "getrawtransaction TX_ID"
 
-.We also have two more recipients that will get back their change (eve_1 and mallory_1).
+.Create the PSBT by filling TX_ID and TX_OUT.
 [source,javascript]
 ----
-const p2pkhEve1 = bitcoin.payments.p2pkh({pubkey: keyPairEve1.publicKey, network})
-const p2pkhMallory1 = bitcoin.payments.p2pkh({pubkey: keyPairMallory1.publicKey, network})
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  }) // <1>
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  })
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  })
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo
+  })
+  .addOutput({
+    address: bob[1].p2pkh,
+    value: 2e7,
+  }) // <2>
+  .addOutput({
+    address: dave[1].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: mallory[2].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: alice[2].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: eve[1].p2pkh,
+    value: 5e6 - 5e4,
+  }) // <3>
+  .addOutput({
+    address: mallory[1].p2pkh,
+    value: 1e7 - 5e4,
+  })
 ----
+<1> Inputs referencing UTXOs we have just created
+<2> 0.2 BTC payment outputs
+<3> We also have two more recipients that will get back their change (eve_1 and mallory_1)
 
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
-----
-
-.Add each inputs by providing the outpoints.
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-txb.addInput('TX_ID', TX_VOUT)
-txb.addInput('TX_ID', TX_VOUT)
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Add each 0.2 BTC payment outputs.
-[source,javascript]
-----
-txb.addOutput(p2pkhBob1.address, 2e7)
-txb.addOutput(p2pkhDave1.address, 2e7)
-txb.addOutput(p2pkhMallory2.address, 2e7)
-txb.addOutput(p2pkhAlice2.address, 2e7)
-----
-
-.Add the change outputs of eve_1 and mallory_1.
-[source,javascript]
-----
-txb.addOutput(p2pkhEve1.address, 5e6 - 5e4)
-txb.addOutput(p2pkhMallory1.address, 1e7 - 5e4)
-----
 
 [NOTE]
 ====
@@ -167,20 +174,30 @@ It equals to 0,001 BTC, this is the mining fee.
 .Each participant signs their input.
 [source,javascript]
 ----
-txb.sign(0, keyPairAlice1)
-txb.sign(1, keyPairCarol1)
-txb.sign(2, keyPairEve1)
-txb.sign(3, keyPairMallory1)
+psbt.signInput(0, keyPairAlice1)
+psbt.signInput(1, keyPairCarol1)
+psbt.signInput(2, keyPairEve1)
+psbt.signInput(3, keyPairMallory1)
+
+psbt.validateSignaturesOfInput(0)
+psbt.validateSignaturesOfInput(1)
+psbt.validateSignaturesOfInput(2)
+psbt.validateSignaturesOfInput(3)
 ----
 
 NOTE: Participants are signing with the default `SIGHASH_ALL` flag, which prevents inputs or outputs from being manipulated after the fact.
 
+.Finalize the PSBT.
+[source,javascript]
+----
+psbt.finalizeAllInputs()
+----
+
 .Finally we can build the transaction and get the raw hex serialization.
 [source,javascript]
 ----
-const tx = txb.build()
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction, check that everything is correct.

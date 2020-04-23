@@ -6,15 +6,7 @@ include::bitcoinjs-guide:ROOT:partial$start-help.adoc[]
 Let's spend a native Segregated Witness P2WPKH output and create a new legacy P2PKH output.
 
 
-== Create a UTXO to spend from
-
-.Import libraries, test wallets and set the network.
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
+== Creating a UTXO to spend
 
 .Send 1 BTC to alice_1 native Segwit P2WPKH address in order to create a P2WPKH UTXO.
 [source,bash]
@@ -35,25 +27,18 @@ TIP: Find the output index (or vout) under menu:details[vout]
 
 Now let's spend the UTXO with BitcoinJS.
 
-.Create a bitcoinJS keypair object for alice_1, the only possible spender of our new UTXO.
+.Import libraries, test wallets and set the network.
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
+
+.Create a bitcoinJS key pair object for alice_1, the owner of our new UTXO, and the only one capable of spending it.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-----
-
-.Create a P2PKH address for the recipient bob_1.
-[source,javascript]
-----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
-console.log('P2PKH address:')
-console.log(p2pkhBob1.address)
-----
-
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
 ----
 
 In order to create our input we will have to provide the previous output script.
@@ -82,38 +67,49 @@ or
 bitcoin.crypto.hash160(Buffer.from('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex')).toString('hex')
 ----
 
-.Create the input.
+.Create a PSBT by filling TX_ID and TX_OUT.
 [source,javascript]
 ----
-// txb.addInput(prevTxId, prevOutIndex, sequence, prevOutScript)
-txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    witnessUtxo: {
+      script: Buffer.from('0014' + alice[1].pubKeyHash, 'hex'),
+      value: 1e8, // <1>
+    },
+  })
+  .addOutput({
+    address: bob[1].p2pkh,
+    value: 999e5,
+  }) // <2>
 ----
-
-.Lock 0.999 BTC to bob_1 public key hash.
-[source,javascript]
-----
-txb.addOutput(p2pkhBob1.address, 999e5)
-----
+<1> In a Segwit transaction we need to pass the value of the previous transaction which will be part of the message to be signed
+<2> Lock 0.999 BTC to bob_1 public key hash
 
 Let's calculate our mining fee, subtracting the outputs from the inputs. +
 100 000 000 - 99 900 000 = 100 000 100 000 satoshis, which is equal to 0,001 BTC.
 
-.Alice_1 signs.
+.Alice_1 signs the input and validates the signature
 [source,javascript]
 ----
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, null, null, 1e8, null)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
 ----
 
-NOTE: We don't have to specify any redeem or witness scripts here, since we are spending a native segwit UTXO. But we still need to sign
-the input value.
+NOTE: We don't have to specify any redeem or witness scripts here, since we are spending a native segwit UTXO.
 
-.Finally we can build the transaction and get the raw hex serialization.
+.Finalize the PSBT.
 [source,javascript]
 ----
-const tx = txb.build()
+psbt.finalizeAllInputs()
+----
+
+.Finally we can extract the transaction and get the raw hex serialization.
+[source,javascript]
+----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.
@@ -144,5 +140,3 @@ getrawtransaction TX_ID true # <1>
 
 In the vin section we note that `scriptSig` is empty and that we have an additional `txinwitness` field which contains Alice signature and public key.
 The semantics of P2WPKH is the same as the semantics of P2PKH, except that the signature is not placed at the same location as before.
-
-In the vout section we have one `witness_v0_keyhash` output, which is the code name for native Segwit.

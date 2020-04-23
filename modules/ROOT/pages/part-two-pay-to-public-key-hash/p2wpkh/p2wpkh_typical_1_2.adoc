@@ -8,14 +8,6 @@ Let's create a typical P2WPKH transaction, spending 1 P2WPKH UTXO and creating 2
 
 == Create a UTXO to spend from
 
-.Import libraries, test wallets and set the network.
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
-
 .Send 1 BTC to alice_1 native Segwit P2WPKH address in order to create a P2WPKH UTXO.
 [source,bash]
 ----
@@ -35,26 +27,18 @@ TIP: Find the output index (or vout) under menu:details[vout]
 
 Now let's spend the UTXO with BitcoinJS.
 
-.Create a bitcoinJS key pair object for alice_1, the only possible spender of our new UTXO.
+.Import libraries, test wallets and set the network.
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
+
+.Create a bitcoinJS key pair object for alice_1, the owner of our new UTXO, and the only one capable of spending it.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-----
-
-.Create a P2PKH address for the recipient bob_1.
-[source,javascript]
-----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2wpkhBob1 = bitcoin.payments.p2wpkh({pubkey: keyPairBob1.publicKey, network})
-console.log('P2PKH address:')
-console.log(p2pkhBob1.address)
-----
-
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
 ----
 
 In order to create our input we will have to provide the previous output script.
@@ -83,42 +67,56 @@ or
 bitcoin.crypto.hash160(Buffer.from('03745c9aceb84dcdeddf2c3cdc1edb0b0b5af2f9bf85612d73fa6394758eaee35d', 'hex')).toString('hex')
 ----
 
-.Create the input.
+.Create a PSBT by filling TX_ID and TX_OUT.
 [source,javascript]
 ----
-// txb.addInput(prevTxId, prevOutIndex, sequence, prevOutScript)
-txb.addInput('TX_ID', TX_VOUT, null, p2wpkhAlice1.output)
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    witnessUtxo: {
+      script: Buffer.from('0014' + alice[1].pubKeyHash, 'hex'),
+      value: 1e8, // <1>
+    },
+  })
+  .addOutput({
+    address: bob[1].p2wpkh,
+    value: 5e7,
+  }) // <2>
+ .addOutput({
+    address: alice[1].p2wpkh,
+    value: 499e5,
+  }) // <3>
 ----
-
-Add a first output locking 0.5 btc to bob_1 P2WPKH recipient address. +
-Add a second output locking 0.499 btc to alice's change address.
-
-[source,javascript]
-----
-txb.addOutput(p2wpkhBob1.address, 5e7)
-txb.addOutput(p2wpkhAlice1.address, 499e5) // <1>
-----
-<1> Here we use the same address for simplicity but an other one would offer better privacy
+<1> In a Segwit transaction we need to pass the value of the previous transaction which will be part of the message to be signed
+<2> First output locking 0.5 btc to bob_1 P2WPKH recipient address
+<3> Second output locking 0.499 btc to alice's change address. Alice uses the same address for simplicity but an other one would offer
+better privacy
 
 Let's calculate our mining fee, subtracting the outputs from the inputs. +
 100 000 000 - (50 000 000 + 49 900 000) = 100 000 100 000 satoshis, which is equal to 0,001 BTC.
 
-.Alice_1 signs.
+.Alice_1 signs the input and validates the signature
 [source,javascript]
 ----
-// txb.sign(index, keyPair, redeemScript, sign.hashType, value, witnessScript)
-txb.sign(0, keyPairAlice1, null, null, 1e8, null)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
 ----
 
 NOTE: We don't have to specify any redeem or witness scripts here, since we are spending a native segwit UTXO. However we still need to
 sign the input value.
 
-.Finally we can build the transaction and get the raw hex serialization.
+.Finalize the PSBT.
 [source,javascript]
 ----
-const tx = txb.build()
+psbt.finalizeAllInputs()
+----
+
+.Finally we can extract the transaction and get the raw hex serialization.
+[source,javascript]
+----
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction, check that everything is correct.

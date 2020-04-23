@@ -10,15 +10,7 @@ It is a transaction that distributes one input to multiple outputs representing 
 For this example we will spend a legacy P2PKH UTXO and distribute it to five different P2PKH addresses.
 
 
-== Create a UTXO to spend from
-
-.Import libraries, test wallets and set the network
-[source,javascript]
-----
-const bitcoin = require('bitcoinjs-lib')
-const { alice, bob, carol, dave, eve, mallory } = require('./wallets.json')
-const network = bitcoin.networks.regtest
-----
+== Create a UTXO to spend
 
 First we need to create a previous transaction in order to have an UTXO at our disposal.
 
@@ -44,48 +36,52 @@ TIP: Find the output index (or vout) under menu:details[vout].
 
 Now let's spend the UTXO with BitcoinJS.
 
+.Import libraries, test wallets and set the network
+[source,javascript]
+----
+const bitcoin = require('bitcoinjs-lib')
+const { alice, bob, carol, dave, eve, mallory } = require('./wallets.json')
+const network = bitcoin.networks.regtest
+----
+
 .Create a BitcoinJS keypair for alice_1, the spender of our new UTXO.
 [source,javascript]
 ----
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 ----
 
-.Create the five P2PKH addresses.
+.Create the PSBT by filling TX_ID, TX_OUT and TX_HEX.
 [source,javascript]
 ----
-const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
-const p2pkhBob1 = bitcoin.payments.p2pkh({pubkey: keyPairBob1.publicKey, network})
-const keyPairCarol1 = bitcoin.ECPair.fromWIF(carol[1].wif, network)
-const p2pkhCarol1 = bitcoin.payments.p2pkh({pubkey: keyPairCarol1.publicKey, network})
-const keyPairDave1 = bitcoin.ECPair.fromWIF(dave[1].wif, network)
-const p2pkhDave1 = bitcoin.payments.p2pkh({pubkey: keyPairDave1.publicKey, network})
-const keyPairEve1 = bitcoin.ECPair.fromWIF(eve[1].wif, network)
-const p2pkhEve1 = bitcoin.payments.p2pkh({pubkey: keyPairEve1.publicKey, network})
-const keyPairMallory1 = bitcoin.ECPair.fromWIF(mallory[1].wif, network)
-const p2pkhMallory1 = bitcoin.payments.p2pkh({pubkey: keyPairMallory1.publicKey, network})
+const psbt = new bitcoin.Psbt({network})
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_OUT,
+    nonWitnessUtxo: Buffer.from('TX_HEX', 'hex')
+  }) // <1>
+  .addOutput({
+    address: bob[1].p2pkh,
+    value: 2e7,
+  }) // <2>
+  .addOutput({
+    address: carol[1].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: dave[1].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: eve[1].p2pkh,
+    value: 2e7,
+  })
+  .addOutput({
+    address: mallory[1].p2pkh,
+    value: 2e7,
+  })
 ----
-
-.Create a BitcoinJS transaction builder object.
-[source,javascript]
-----
-const txb = new bitcoin.TransactionBuilder(network)
-----
-
-.Add the input by providing the outpoint.
-[source,javascript]
-----
-txb.addInput('TX_ID', TX_VOUT)
-----
-
-.Add the outputs, distributing 0.2 BTC to each five addresses.
-[source,javascript]
-----
-txb.addOutput(p2pkhBob1.address, 2e7)
-txb.addOutput(p2pkhCarol1.address, 2e7)
-txb.addOutput(p2pkhDave1.address, 2e7)
-txb.addOutput(p2pkhEve1.address, 2e7)
-txb.addOutput(p2pkhMallory1.address, 2e7)
-----
+<1> Input referencing the 1.001 BTC UTXO just created
+<2> Outputs distributing 0.2 BTC to each five addresses
 
 [NOTE]
 ====
@@ -96,17 +92,23 @@ The miner fee is calculated by subtracting the outputs from the inputs. +
 .Alice_1 signs the transaction that we just built with her private key.
 [source,javascript]
 ----
-txb.sign(0, keyPairAlice1)
+psbt.signInput(0, keyPairAlice1)
+psbt.validateSignaturesOfInput(0)
+----
+
+.Finalize the PSBT.
+[source,javascript]
+----
+psbt.finalizeAllInputs()
 ----
 
 BitcoinJS will automatically place the signature into the `scriptSig` field of the input 0.
 
-.Finally we can build the transaction and get the raw hex serialization.
+.Finally we can extract the transaction and get the raw hex serialization.
 [source,javascript]
 ----
-const tx = txb.build()
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
 ----
 
 .Inspect the raw transaction with Bitcoin Core CLI, check that everything is correct.

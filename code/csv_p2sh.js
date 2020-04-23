@@ -1,41 +1,39 @@
 const bitcoin = require('bitcoinjs-lib')
 const { alice, bob } = require('./wallets.json')
 const network = bitcoin.networks.regtest
-const hashType = bitcoin.Transaction.SIGHASH_ALL
 const bip68 = require('bip68')
 
 // Redeem script
-function csvCheckSigOutput(aQ, bQ, timelock) {
-  return bitcoin.script.compile([
-    bitcoin.opcodes.OP_IF,
-    bitcoin.script.number.encode(timelock),
-    bitcoin.opcodes.OP_CHECKSEQUENCEVERIFY,
-    bitcoin.opcodes.OP_DROP,
-
-    bitcoin.opcodes.OP_ELSE,
-    bQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIGVERIFY,
-    bitcoin.opcodes.OP_ENDIF,
-
-    aQ.publicKey,
-    bitcoin.opcodes.OP_CHECKSIG,
-  ])
+function csvCheckSigOutput(aQ, bQ, lockTime) {
+  return bitcoin.script.fromASM(
+    `
+      OP_IF
+          ${bitcoin.script.number.encode(lockTime).toString('hex')}
+          OP_CHECKSEQUENCEVERIFY
+          OP_DROP
+      OP_ELSE
+          ${bQ.publicKey.toString('hex')}
+          OP_CHECKSIGVERIFY
+      OP_ENDIF
+      ${aQ.publicKey.toString('hex')}
+      OP_CHECKSIG
+    `
+      .trim()
+      .replace(/\s+/g, ' '),
+  );
 }
 
 // Signers
 const keyPairAlice1 = bitcoin.ECPair.fromWIF(alice[1].wif, network)
 const keyPairBob1 = bitcoin.ECPair.fromWIF(bob[1].wif, network)
 
-// Recipient
-const p2wpkhAlice1 = bitcoin.payments.p2wpkh({pubkey: keyPairAlice1.publicKey, network})
-
 // Set the timelock
-const timelock = bip68.encode({blocks: 5})
+const lockTime = bip68.encode({blocks: 5})
 console.log('Timelock in blocks:')
-console.log(timelock)
+console.log(lockTime)
 
 // Generate the redeem script
-const redeemScript = csvCheckSigOutput(keyPairAlice1, keyPairBob1, timelock)
+const redeemScript = csvCheckSigOutput(keyPairAlice1, keyPairBob1, lockTime)
 console.log('Redeem script:')
 console.log(redeemScript.toString('hex'))
 
@@ -45,44 +43,68 @@ const p2sh = bitcoin.payments.p2sh({redeem: {output: redeemScript, network}, net
 console.log('P2SH address:')
 console.log(p2sh.address)
 
-// Build the spending transaction
-const txb = new bitcoin.TransactionBuilder(network)
+// Create PSBT
+const psbt = new bitcoin.Psbt({network})
 
-// If we want to run the first scenario we set the timelock (sequence argument)
-// txb.addInput(prevTxId, prevOutputIndex, sequence, prevTxScript)
-txb.addInput('TX_ID', TX_VOUT, timelock)
-txb.addOutput(p2wpkhAlice1.address, 999e5)
+psbt
+  .addInput({
+    hash: 'TX_ID',
+    index: TX_VOUT,
+    sequence: lockTime,
+    nonWitnessUtxo: Buffer.from('TX_HEX','hex'),
+    redeemScript: Buffer.from(redeemScript, 'hex')
+  })
+  .addOutput({
+    address: alice[1].p2wpkh,
+    value: 999e5,
+  })
 
-const tx = txb.buildIncomplete()
+psbt.signInput(0, keyPairAlice1)
 
-// Prepare the signature hash
-const signatureHash = tx.hashForSignature(0, redeemScript, hashType)
+// Only necessary for scenario 2
+//psbt.signInput(0, keyPairBob1)
 
-// Set input script
-const inputScriptFirstBranch = bitcoin.payments.p2sh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_TRUE,
-    ]),
-    output: redeemScript
-  },
-}).input
-
-const inputScriptSecondBranch = bitcoin.payments.p2sh({
-  redeem: {
-    input: bitcoin.script.compile([
-      bitcoin.script.signature.encode(keyPairAlice1.sign(signatureHash), hashType),
-      bitcoin.script.signature.encode(keyPairBob1.sign(signatureHash), hashType),
-      bitcoin.opcodes.OP_FALSE
-    ]),
-    output: redeemScript
+// Finalizing
+const getFinalScripts = (inputIndex, input, script) => {
+  // Step 1: Check to make sure the meaningful locking script matches what you expect.
+  const decompiled = bitcoin.script.decompile(script)
+  if (!decompiled || decompiled[0] !== bitcoin.opcodes.OP_IF) {
+    throw new Error(`Can not finalize input #${inputIndex}`)
   }
-}).input
 
-// Choose a branch
-tx.setInputScript(0, inputScriptFirstBranch)
-//tx.setInputScript(0, inputScriptSecondBranch)
+  // Step 2: Create final scripts
+  // Scenario 1
+  const paymentFirstBranch = bitcoin.payments.p2sh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        bitcoin.opcodes.OP_TRUE,
+      ]),
+      output: redeemScript
+    }
+  })
+
+  // Scenario 2
+  /*
+  const paymentSecondBranch = bitcoin.payments.p2sh({
+    redeem: {
+      input: bitcoin.script.compile([
+        input.partialSig[0].signature,
+        input.partialSig[1].signature,
+        bitcoin.opcodes.OP_FALSE
+      ]),
+      output: redeemScript
+    }
+  })
+  */
+
+  return {
+    finalScriptSig: paymentFirstBranch.input
+  }
+}
+
+//
+psbt.finalizeInput(0, getFinalScripts)
 
 console.log('Transaction hexadecimal:')
-console.log(tx.toHex())
+console.log(psbt.extractTransaction().toHex())
