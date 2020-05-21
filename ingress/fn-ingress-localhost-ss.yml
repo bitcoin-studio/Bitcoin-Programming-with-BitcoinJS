@@ -1,0 +1,14 @@
+apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+  name: bitcoinjs-guide
+  namespace: openfaas
+spec:
+  domain: "localhost"
+  function: "bitcoinjs-guide"
+  ingressType: "nginx"
+  tls:
+    enabled: true
+    issuerRef:
+      name: "selfsigned-issuer"
+      kind: "Issuer"

@@ -25,3 +25,5 @@ asciidoc:
     codebaseurl: 'https://github.com/bitcoin-studio/Bitcoin-Programming-with-BitcoinJS/blob/{page-origin-branch}/code/'
 runtime:
   fetch: true
+output:
+  dir: ./dist

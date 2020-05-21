@@ -1,0 +1,11 @@
+# OpenFaaS deployment file
+version: 1.0
+provider:
+  name: openfaas
+  #gateway: http://127.0.0.1:8080
+  gateway: https://openfaas.rogue-paprika.top
+functions:
+  bitcoinjs-guide:
+    lang: dockerfile
+    handler: .
+    image: janakasteph/bitcoinjs-guide

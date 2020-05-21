@@ -1,0 +1,15 @@
+apiVersion: openfaas.com/v1alpha2
+kind: FunctionIngress
+metadata:
+  name: bitcoinjs-guide
+  namespace: openfaas
+spec:
+  domain: "bitcoinjs-guide.rogue-paprika.top"
+  function: "bitcoinjs-guide"
+  ingressType: "nginx"
+  path: "v5/(.*)"
+  tls:
+    enabled: true
+    issuerRef:
+      name: "letsencrypt-prod"
+      kind: "Issuer"

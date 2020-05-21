@@ -29,3 +29,11 @@ Antora then copies the remaining UI assets to the site output.
 
 - The Documentation Components stored in versioned branches (v4, v5, ...).
 
+
+== Hosted on OpenFaaS
+
+Build the website locally, then
+
+ faas up
+
+

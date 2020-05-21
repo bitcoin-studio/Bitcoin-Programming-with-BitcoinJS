@@ -1,0 +1,16 @@
+apiVersion: cert-manager.io/v1alpha2
+kind: Issuer
+metadata:
+  name: letsencrypt-prod
+  namespace: openfaas
+spec:
+  acme:
+    server: https://acme-v02.api.letsencrypt.org/directory
+    email: rstephane@protonmail.com
+    privateKeySecretRef:
+      name: letsencrypt-prod
+    solvers:
+      - selector: {}
+        http01:
+          ingress:
+            class: nginx
