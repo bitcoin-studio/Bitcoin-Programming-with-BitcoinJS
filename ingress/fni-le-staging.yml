@@ -4,12 +4,11 @@ metadata:
   name: bitcoinjs-guide
   namespace: openfaas
 spec:
-  domain: "bitcoinjs-guide.rogue-paprika.top"
+  domain: "bitcoinjs-guide.bitcoin-studio.com"
   function: "bitcoinjs-guide"
   ingressType: "nginx"
-  path: "v5/(.*)"
   tls:
     enabled: true
     issuerRef:
-      name: "letsencrypt-prod"
+      name: "letsencrypt-staging"
       kind: "Issuer"
