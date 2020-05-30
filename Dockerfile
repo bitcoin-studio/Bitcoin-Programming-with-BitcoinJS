@@ -13,6 +13,7 @@ WORKDIR /home/app/
 USER app
 
 # Don't forget to build locally first
+# Don't forget manual steps to generate search-index.js (https://github.com/Mogztter/antora-lunr)
 COPY ./dist /home/app/dist
 
 ENV mode="static"

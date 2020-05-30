@@ -25,7 +25,7 @@ Antora then copies the remaining UI assets to the site output.
  gulp bundle
 
 .Build the website
- antora antora-playbook.yml
+ DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr DOCSEARCH_INDEX_VERSION=latest antora antora-playbook.yml
 
 - The Documentation Components stored in versioned branches (v4, v5, ...).
 
@@ -36,4 +36,8 @@ Build the website locally, then
 
  faas up
 
+
+== Lunr Offline Search Engine
+
+In order to have Lunr working and generate the `search-index.js` file, we need to do some manual tweaking explained here https://github.com/Mogztter/antora-lunr
 
