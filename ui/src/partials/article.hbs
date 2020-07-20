@@ -12,7 +12,7 @@
     {{#if page.title}}
       <h1 class="page">{{{page.title}}}</h1>
     {{/if}}
-    {{{page.contents}}}
+    {{{replace page.contents '{page-origin-branch}' page.origin.branch}}}
   {{/if}}
 
   {{#if (or page.previous page.next)}}
