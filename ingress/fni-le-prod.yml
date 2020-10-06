@@ -7,6 +7,7 @@ spec:
   domain: "bitcoinjs-guide.bitcoin-studio.com"
   function: "bitcoinjs-guide"
   ingressType: "nginx"
+  path: ""
   tls:
     enabled: true
     issuerRef:

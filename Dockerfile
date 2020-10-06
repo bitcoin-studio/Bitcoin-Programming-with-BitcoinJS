@@ -1,5 +1,5 @@
-FROM openfaas/of-watchdog:0.7.7 AS watchdog
-FROM alpine:3.10 AS runtime
+FROM openfaas/of-watchdog:0.8.1 AS watchdog
+FROM alpine:3.12 AS runtime
 
 COPY --from=watchdog /fwatchdog /usr/bin/fwatchdog
 RUN chmod +x /usr/bin/fwatchdog
