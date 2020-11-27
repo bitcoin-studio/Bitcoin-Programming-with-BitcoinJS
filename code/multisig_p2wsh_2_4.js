@@ -31,7 +31,7 @@ const psbt = new bitcoin.Psbt({network})
     index: TX_VOUT,
     witnessScript: p2wsh.redeem.output,
     witnessUtxo: {
-      script: Buffer.from('0020' + bitcoin.crypto.sha256(p2ms.output).toString('hex'), 'hex'),
+      script: p2wsh.output,
       value: 1e8,
     }
   })
