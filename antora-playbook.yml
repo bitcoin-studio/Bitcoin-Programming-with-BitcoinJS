@@ -14,7 +14,7 @@ content:
 ui:
   bundle:
     snapshot: true
-    url: ./ui/build/ui-bundle.zip
+    url: ./build/ui-bundle.zip
 asciidoc:
   attributes:
     experimental: true
@@ -27,3 +27,6 @@ runtime:
   fetch: true
 output:
   dir: ./dist
+antora:
+  extensions:
+    - '@antora/lunr-extension'

@@ -20,24 +20,10 @@ completion by weaving the Antora’s content model into the Handlebars templates
 Antora then copies the remaining UI assets to the site output.
 
 .Generates the UI bundle
- cd ui
  npm install
  gulp bundle
 
 .Build the website
- DOCSEARCH_ENABLED=true DOCSEARCH_ENGINE=lunr DOCSEARCH_INDEX_VERSION=latest antora antora-playbook.yml
+ antora antora-playbook.yml
 
 - The Documentation Components stored in versioned branches (v4, v5, ...).
-
-
-== Hosted on OpenFaaS
-
-Build the website locally, then
-
- faas up
-
-
-== Lunr Offline Search Engine
-
-In order to have Lunr working and generate the `search-index.js` file, we need to do some manual tweaking explained here https://github.com/Mogztter/antora-lunr
-
