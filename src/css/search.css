@@ -28,7 +28,7 @@
   z-index: 100;
   display: block;
   right: 0;
-  left: 20px;
+  left: 20px !important;
   top: 100%;
   border-radius: 4px;
   margin: 6px 0 0;
