@@ -11,8 +11,8 @@
     "last 2 versions"
   ],
   "dependencies": {
-    "clipboard": "^2.0.6",
-    "lunr": "^2.3.8"
+    "@antora/lunr-extension": "^1.0.0-alpha.8",
+    "clipboard": "^2.0.6"
   },
   "devDependencies": {
     "asciidoctor.js": "^1.5.9",
@@ -56,6 +56,6 @@
     "vinyl-fs": "^3.0"
   },
   "engines": {
-    "node": "14"
+    "node": "16"
   }
 }
